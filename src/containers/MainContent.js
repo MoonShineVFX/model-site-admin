@@ -1,28 +1,21 @@
-import { useContext } from 'react';
-
-// Reducer
+import { useContext, useEffect } from 'react';
+import Cookie from 'js-cookie';
 import { GlobalContext } from '../context/global.state';
-// import { UserProvider } from '../context/users/users.state';
 
-const Content = ({ Component, pageProps }) => {
+const MainContent = ({ children }) => {
 
     // Context
-    const {
-        page,
-    } = useContext(GlobalContext);
+    const { newsTags, getGlobalData } = useContext(GlobalContext);
 
-    switch (page) {
-        case 'users':
-            return (
-                // <UserProvider>
-                    <Component {...pageProps} />
-                // </UserProvider>
-            );
+    useEffect(() => {
 
-        default:
-            return <Component {...pageProps} />;
-    }
+        if (!Cookie.get('token')) return;
+        if (!newsTags.length) getGlobalData();
+
+    }, []);
+
+    return <section className="section">{children}</section>;
 
 };
 
-export default Content;
+export default MainContent;

@@ -2,7 +2,13 @@
 const globalReducer = (state, { type, payload }) => {
 
     switch (type) {
-        case 'PAGE':
+        case 'global_data':
+            return {
+                ...state,
+                user: payload.user,
+            };
+
+        case 'page':
             return {
                 ...state,
                 page: payload,
@@ -52,8 +58,4 @@ const lightboxReducer = (state, { type, currEvent }) => {
 
 };
 
-export {
-    globalReducer,
-    formStorageReducer,
-    lightboxReducer,
-};
+export { globalReducer, formStorageReducer, lightboxReducer };

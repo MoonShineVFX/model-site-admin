@@ -1,5 +1,5 @@
 import React, { createContext, useReducer } from 'react';
-import Service from '../utils/admin.service';
+import Service from '../utils/util.service';
 
 import {
     globalReducer,
@@ -10,8 +10,7 @@ import {
 // Global
 const globalInitState = {
     page: '',
-
-    // 全域資料
+    user: {},
 };
 
 // Form values
@@ -36,8 +35,7 @@ const GlobalProvider = ({ children }) => {
     const [lightboxState, lightboxDispatch] = useReducer(lightboxReducer, lightboxInitState);
     const {
         page,
-
-        // 全域資料
+        user,
     } = globalState;
 
     const { formStorageData } = formStorageState;
@@ -47,8 +45,15 @@ const GlobalProvider = ({ children }) => {
     // 取得全域資料
     const getGlobalData = () => {
 
-        Service.global()
-            .then((resData) => globalDispatch({ type: 'global_data', payload: resData }));
+        Service.common()
+            .then((resData) => {
+
+                globalDispatch({
+                    type: 'global_data',
+                    payload: resData,
+                });
+
+            });
 
     };
 
@@ -57,6 +62,11 @@ const GlobalProvider = ({ children }) => {
         <Provider value={{
             // 全域資料
             page,
+            user,
+            getGlobalData,
+
+            // Form 表單暫存
+            formStorageData,
 
             // Lightbox
             visible,
@@ -74,7 +84,4 @@ const GlobalProvider = ({ children }) => {
 
 };
 
-export {
-    GlobalContext,
-    GlobalProvider,
-};
+export { GlobalContext, GlobalProvider };

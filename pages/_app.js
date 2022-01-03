@@ -1,115 +1,69 @@
-import { Fragment, useEffect } from 'react';
-import Head from 'next/head';
-import { useRouter } from 'next/router';
-import { createGlobalStyle, ThemeProvider, styled } from 'styled-components';
+import { Fragment } from 'react';
 import { Layout } from 'antd';
+import 'antd/dist/antd.css';
+import styled, { ThemeProvider } from 'styled-components';
+
+import HeadTag from '../src/containers/HeadTag';
+import GlobalStyle from '../src/containers/GlobalStyle';
+import theme from '../src/utils/theme';
+import MainHeader from '../src/containers/MainHeader';
+import Navbar from '../src/containers/Navbar';
+import MainContent from '../src/containers/MainContent';
 
 // Context
 import { GlobalProvider } from '../src/context/global.state';
 
-// import Header from '../src/containers/Header';
-// import Navbar from '../src/containers/Navbar';
-import MainContent from '../src/containers/MainContent';
+const { Content, Footer } = Layout;
+const navbarWidth = 240;
 
-const { Header, Content, Footer, Sider } = Layout;
+const ContentLayout = styled(Content)({
+    minHeight: 'calc(100vh - 50px - 54px - 30px)', // header: 50px, footer: 54px, main margin bottom: 30px
+    marginBottom: '30px',
+    padding: '30px 30px 20px',
+});
 
-const GlobalStyle = createGlobalStyle`
-    body {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-`;
-
-const theme = {
-    // main: 'mediumseagreen',
-};
-
-// const SiderWrap = styled(Sider)`
-
-// `;
-
-// const MainWrap = styled(Layout)`
-
-// `;
+const FooterLayout = styled(Footer)(({ theme}) => ({
+    textAlign: 'center',
+    backgroundColor: theme.palette.container,
+    paddingTop: '16px',
+    paddingBottom: '16px',
+}));
 
 //
-const AdminSite = ({ Component, pageProps }) => {
+const AdminSite = ({ Component, pageProps }) => (
 
-    const router = useRouter();
+    <Fragment>
+        <HeadTag />
 
-    // useEffect(() => {
+        <ThemeProvider theme={theme}>
+            <GlobalStyle />
 
-    //     const handleRouteChange = (url, { shallow }) => {
+            <GlobalProvider>
+                <Layout className="appContainer">
+                    <Navbar width={navbarWidth} />
 
-    //         console.log(
-    //             `App is changing to ${url} ${
-    //             shallow ? 'with' : 'without'
-    //             } shallow routing`
-    //         );
+                    <Layout
+                        className="appContent"
+                        style={{
+                            marginLeft: navbarWidth,
+                            backgroundColor: '#FFF',
+                        }}
+                    >
+                        <MainHeader />
 
-    //     };
+                        <ContentLayout>
+                            <MainContent>
+                                <Component {...pageProps} />
+                            </MainContent>
+                        </ContentLayout>
 
-    //     router.events.on('routeChangeStart', handleRouteChange);
-
-    //     return () => {
-
-    //         router.events.off('routeChangeStart', handleRouteChange);
-
-    //     };
-
-    // }, []);
-
-    return (
-
-        <Fragment>
-            <Head>
-                <title>模型後台</title>
-                <meta name="viewport" content="initial-scale=1, width=device-width" />
-            </Head>
-
-            <ThemeProvider theme={theme}>
-                <GlobalStyle />
-
-                <GlobalProvider>
-                    <Layout>
-                        <Sider
-                            style={{
-                                overflow: 'auto',
-                                height: '100vh',
-                                position: 'fixed',
-                                left: 0,
-                            }}
-                        >
-                            Menus
-                        </Sider>
-
-                        <Layout
-                            style={{ marginLeft: 200 }}
-                        >
-                            <Header style={{ padding: 0 }} />
-
-                            <Content
-                                style={{
-                                    margin: '24px 16px 0',
-                                    overflow: 'initial'
-                                }}
-                            >
-                                <MainContent
-                                    Component={Component}
-                                    pageProps={pageProps}
-                                />
-                            </Content>
-
-                            <Footer style={{ textAlign: 'center' }}>模型後台 ©2021 Created by MoonShine</Footer>
-                        </Layout>
+                        <FooterLayout>Copyright © 高雄市政府經濟發展局 All rights reserved.</FooterLayout>
                     </Layout>
-                </GlobalProvider>
-            </ThemeProvider>
-        </Fragment>
+                </Layout>
+            </GlobalProvider>
+        </ThemeProvider>
+    </Fragment>
 
-    );
-
-};
+);
 
 export default AdminSite;

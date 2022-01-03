@@ -1,62 +1,51 @@
-import React, { Fragment, useContext, useEffect } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
+import ProductBase from '../src/components/product/ProductBase';
+import { ProductProvider } from '../src/context/product/product.state';
+import util from '../src/utils/util';
 
-// export async function getStaticProps () {
+const Home = ({ pageData }) => (
 
-//     const res = await util.serviceServer('api/user/userList');
-//     const { data } = res;
+    <ProductProvider>
+        <ProductBase pageData={pageData} />
+    </ProductProvider>
 
-//     if (!data.result) {
-
-//         return {
-//             redirect: {
-//                 destination: '/',
-//                 permanent: false,
-//             },
-//         };
-
-//     }
-
-//     return {
-//         props: { data: data.data }, // will be passed to the page component as props
-//     };
-
-// };
-
-const Home = ({ pageData }) => {
-
-    // console.log('pageData:', pageData);
-
-    // Context
-    // const { globalDispatch } = useContext(GlobalContext);
-    // const { pathname } = useRouter();
-
-    // useEffect(() => {
-
-    //     globalDispatch({
-    //         type: 'PAGE',
-    //         payload: util.pathnameKey(pathname),
-    //     });
-
-    // }, [globalDispatch, pathname]);
-
-    return (
-
-        <Fragment>
-            <h3>This is Home~</h3>
-            <Link href="/login">
-                <a>Login page</a>
-            </Link>
-        </Fragment>
-
-    );
-
-};
+);
 
 export default Home;
 
-/**
- * antd with styled-component
- * https://codesandbox.io/s/8x1r670rxj?file=/src/index.js
- */
+export async function getServerSideProps ({ req }) {
+
+    // 沒有 cookie(token) 導登入頁
+    // if (!req.cookies.token) {
+
+    //     return {
+    //         redirect: {
+    //             destination: '/login',
+    //             permanent: false,
+    //         },
+    //     };
+
+    // }
+
+    // const resData = await util.serviceServer({
+    //     url: '/products',
+    //     cookie: req.cookies.token,
+    // });
+
+    // const { data } = resData;
+
+    const resData = await fetch('http://localhost:1007/admin/json/products.json');
+    const data = await resData.json();
+
+    // console.log('data:', data)
+
+    return {
+        props: {
+            pageData: {
+                title: '模型管理',
+                imageSize: '321x186',
+                data: data.data,
+            },
+        },
+    };
+
+}

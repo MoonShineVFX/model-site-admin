@@ -1,0 +1,70 @@
+{
+    "result": 1,
+    "message": "",
+    "errors": [],
+    "data": {
+        "list": [
+            {
+                "id": 515480,
+                "title": "標題",
+                "imgUrl": "//fakeimg.pl/321x186",
+                "price": 3000,
+                "status": "inactive",
+                "tags": [
+                    {
+                        "id": 11111,
+                        "name": "標籤01"
+                    }
+                ],
+                "activeTime": "2021-10-01T09:19:00",
+                "inactiveTime": "2021-10-01T09:19:00",
+                "createTime": "2021-09-01T09:19:00",
+                "updateTime": "2021-10-01T09:19:00",
+                "creator": "新增者",
+                "updater": "編輯者"
+            },
+            {
+                "id": 515481,
+                "title": "標題",
+                "imgUrl": "//fakeimg.pl/321x186",
+                "price": 1000,
+                "status": "inactive",
+                "tags": [
+                    {
+                        "id": 11111,
+                        "name": "標籤01"
+                    },
+                    {
+                        "id": 21222,
+                        "name": "標籤02"
+                    }
+                ],
+                "activeTime": "2021-10-01T09:19:00",
+                "inactiveTime": "2021-10-01T09:19:00",
+                "createTime": "2021-09-01T09:19:00",
+                "updateTime": "2021-10-01T09:19:00",
+                "creator": "新增者",
+                "updater": "編輯者"
+            },
+            {
+                "id": 515482,
+                "title": "標題",
+                "imgUrl": "//fakeimg.pl/321x186",
+                "price": 450,
+                "status": "active",
+                "tags": [
+                    {
+                        "id": 21222,
+                        "name": "標籤02"
+                    }
+                ],
+                "activeTime": "2021-10-01T09:19:00",
+                "inactiveTime": "2021-10-01T09:19:00",
+                "createTime": "2021-09-01T09:19:00",
+                "updateTime": "2021-10-01T09:19:00",
+                "creator": "新增者",
+                "updater": "編輯者"
+            }
+        ]
+    }
+}

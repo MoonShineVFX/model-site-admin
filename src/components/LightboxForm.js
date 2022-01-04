@@ -61,6 +61,7 @@ const FormRow = ({
     className,
     notes,
     noBorder,
+    readonly,
 }) => (
 
     <label className={`row ${error ? 'hasError' : ''} ${className && className}`}>
@@ -70,7 +71,8 @@ const FormRow = ({
                     (typeof labelTitle === 'string') ? `${labelTitle}${required ? ' (必填)' : ''}` : labelTitle
                 }
             </div>
-            <div className={`field ${noBorder ? 'noBorder' : ''}`}>{children}</div>
+
+            <div className={`field ${noBorder ? 'noBorder' : ''} ${readonly ? 'readonly' : ''}`}>{children}</div>
 
             {
                 notes &&
@@ -121,6 +123,7 @@ FormRow.defaultProps = {
     error: false,
     errorMesg: errorText,
     className: '',
+    readonly: false,
 };
 
 FormRow.propTypes = {
@@ -133,6 +136,7 @@ FormRow.propTypes = {
     noBorder: PropTypes.bool,
     error: PropTypes.bool,
     errorMesg: PropTypes.string,
+    readonly: PropTypes.bool,
     children: PropTypes.any.isRequired,
     notes: PropTypes.string,
 };

@@ -7,7 +7,7 @@ const Service = {
     }),
 
     // common
-    common: (reqData) => util.serviceProxy('/common', reqData),
+    common: (reqData) => util.serviceProxy('/common.json', reqData),
 
     // Banner
     productActive: (reqData) => util.serviceProxy('/???', reqData),
@@ -29,7 +29,7 @@ const Service = {
     tagDelete: (reqData) => util.serviceProxy('/tag_delete', reqData),
 
     // 上傳檔案 (圖片 > 編輯器用)
-    fileUploadEditor: (reqData) => util.serviceProxy('/image_upload', reqData, {
+    imageUpload: (reqData) => util.serviceProxy('/image_upload', reqData, {
         headers: {
             'Content-Type': 'multipart/form-data',
         },

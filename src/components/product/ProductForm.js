@@ -1,12 +1,20 @@
-import { useContext } from 'react';
-import { message } from 'antd';
+import { Fragment, useContext, useState } from 'react';
+import { message, Row, Col } from 'antd';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
+
+import LightboxFormStyle from '../LightboxFormStyle';
 import Buttons from '../Buttons';
 import UploadSingle from '../Upload';
+import UploadFiles from '../UploadFiles';
 import { FormRow, ErrorMesg } from '../LightboxForm';
+import { FormWrap } from './ProductFormLayout';
+
 import { GlobalContext } from '../../context/global.state';
-import { BannerContext } from '../../context/product/product.state';
+import { ProductContext } from '../../context/product/product.state';
+import utilConst from '../../utils/util.const';
+
+const { productActiveStatus } = utilConst;
 
 const RowUpload = styled.div.attrs(() => ({
     className: 'row row-upload',
@@ -15,7 +23,9 @@ const RowUpload = styled.div.attrs(() => ({
     marginBottom: '40px',
 });
 
-const BannerForm = () => {
+const ProductForm = ({ data }) => {
+
+    // console.log('data:', data)
 
     // Context
     const {
@@ -25,11 +35,10 @@ const BannerForm = () => {
         lightboxDispatch,
     } = useContext(GlobalContext);
 
-    const {
-        imageSize,
-        bannerCreate,
-        bannerUpdate,
-    } = useContext(BannerContext);
+    // const {
+    //     productCreate,
+    //     productUpdate,
+    // } = useContext(ProductContext);
 
     // React Hook Form
     const {
@@ -37,16 +46,11 @@ const BannerForm = () => {
         register,
         formState: { errors },
     } = useForm({
-        defaultValues: { ...formStorageData },
+        defaultValues: { ...data },
     });
 
-    // 隱藏 Modal
-    const hideModal = () => {
-
-        formStorageDispatch({ type: 'CLEAR' });
-        lightboxDispatch({ type: 'HIDE' });
-
-    };
+    // State
+    const [imageLists, setImageLists] = useState(data.images);
 
     // 送資料
     const handleReqData = (reqData) => {
@@ -80,90 +84,195 @@ const BannerForm = () => {
 
         }
 
-        if (currEvent === 'updateBanner') bannerUpdate(formData);
-        else bannerCreate(formData);
+        // if (currEvent === 'updateProduct') productUpdate(formData);
+        // else productCreate(formData);
+
+    };
+
+    // 上傳圖片
+    const handleUploadData = ({ file }, type = 'image') => {
+
+        const isLt10M = file.size / 1024 / 1024 < 10;
+        const formData = new FormData();
+
+        if (!isLt10M) {
+
+            message.error('檔案不能超過 2MB，請重新上傳!!!');
+            return;
+
+        }
+
+        formData.append('demoPlaceId', data.id);
+        formData.append('file', file);
+
+        let resData = {
+            id: 84751,
+            url: 'https://fakeimg.pl/321x186',
+            key: 'thumb',
+            name: "321x186",
+            size: 20000
+        };
+
+        setImageLists([{ ...resData }, ...imageLists]);
+
+        // Service.imageUpload(formData)
+        //     .then((resData) => {
+
+        //         if (type === 'image') setImageLists([...imageLists, { ...resData }]);
+        //         else setFileLists([...fileLists, { ...resData }]);
+
+        //     });
 
     };
 
     return (
 
-        <form onSubmit={handleSubmit(handleReqData)}>
-            {(currEvent === 'updateBanner') && <p>id: {formStorageData.id}</p>}
+        <Fragment>
+            <LightboxFormStyle />
 
-            <div className="items">
-                <FormRow labelTitle="小標題">
-                    <input
-                        type="text"
-                        name="title"
-                        defaultValue={formStorageData.title}
-                        placeholder="給 SEO 用"
-                        {...register('title')}
-                    />
-                </FormRow>
+            <FormWrap onSubmit={handleSubmit(handleReqData)}>
+                {(currEvent === 'updateProduct') && <p>id: {data.id}</p>}
 
-                <div className={`row ${errors.priority ? 'hasError' : ''}`}>
-                    <div className="title isRequired">優先度 (必填)</div>
-                    <div className="field noBorder">
-                        <select
-                            name="priority"
-                            defaultValue={formStorageData.priority}
-                            {...register('priority', { required: true })}
-                        >
-                            <option value="">請選擇</option>
-                            {
-                                [...Array(10).keys()].map((val) => (
-                                    <option
-                                        key={val}
-                                        value={val + 1}
+                <Row>
+                    <Col flex={1}>
+                        <div className="items">
+                            <FormRow
+                                labelTitle="產品名稱"
+                                required={true}
+                                error={errors.title && true}
+                            >
+                                <input
+                                    type="text"
+                                    name="title"
+                                    {...register('title', { required: true })}
+                                />
+                            </FormRow>
+
+                            <div className={`row ${errors.status ? 'hasError' : ''}`}>
+                                <div className="title isRequired">產品狀態 (必填)</div>
+                                <div className="field noBorder">
+                                    <select
+                                        name="status"
+                                        defaultValue={formStorageData.status}
+                                        {...register('status', { required: true })}
                                     >
-                                        {val + 1}
-                                    </option>
-                                ))
-                            }
-                        </select>
-                    </div>
+                                        <option value="">請選擇</option>
+                                        {
+                                            Object.keys(productActiveStatus).map((key) => (
 
-                    {errors.priority && <ErrorMesg />}
+                                                <option
+                                                    key={key}
+                                                    value={key}
+                                                >
+                                                    {productActiveStatus[key]}
+                                                </option>
+
+                                            ))
+                                        }
+                                    </select>
+                                </div>
+
+                                {errors.priority && <ErrorMesg />}
+                            </div>
+
+                            <FormRow
+                                labelTitle="價格"
+                                required={true}
+                                error={errors.price && true}
+                            >
+                                <input
+                                    type="number"
+                                    name="price"
+                                    {...register('price', { required: true })}
+                                />
+                            </FormRow>
+                        </div>
+
+                        <div className="items">
+                            <FormRow
+                                labelTitle="檔案大小"
+                                readonly
+                            >
+                                <input
+                                    type="text"
+                                    name="fileSize"
+                                    readOnly
+                                    {...register('fileSize')}
+                                />
+                            </FormRow>
+
+                            <FormRow
+                                labelTitle="模型數量"
+                                required={true}
+                                error={errors.modelSum && true}
+                            >
+                                <input
+                                    type="number"
+                                    name="modelSum"
+                                    {...register('modelSum', { required: true })}
+                                />
+                            </FormRow>
+
+                            <FormRow
+                                labelTitle="貼圖尺寸"
+                                required={true}
+                                error={errors.perImgSize && true}
+                            >
+                                <input
+                                    type="text"
+                                    name="perImgSize"
+                                    placeholder="1920x768"
+                                    {...register('perImgSize', { required: true })}
+                                />
+                            </FormRow>
+                        </div>
+
+                        <FormRow
+                            labelTitle="產品介紹"
+                            className="textarea place-textarea"
+                            noBorder={true}
+                            required={true}
+                            error={errors.description && true}
+                        >
+                            <textarea
+                                name="description"
+                                {...register('description', { required: true })}
+                            />
+                        </FormRow>
+
+                        <div className="row">
+                            <h3>圖片輪播</h3>
+                            <UploadFiles
+                                fileData={imageLists}
+                                handleUploadData={handleUploadData}
+                            />
+                        </div>
+
+                        {/* <div className="row row-thumb">
+                            <h3>產品主圖</h3>
+                            <UploadSingle size="1200x396" />
+                        </div> */}
+                    </Col>
+
+                    <Col flex={1} className="right">
+                        {/* <div className="row row-thumb">
+                            <h3>縮圖(列表頁)</h3>
+                            <UploadSingle size="563x312" />
+                        </div> */}
+                    </Col>
+                </Row>
+
+                <div className="row-btns">
+                    <Buttons
+                        text="儲存"
+                        htmlType="submit"
+                    />
                 </div>
-            </div>
-
-            <FormRow
-                labelTitle="外部網址(URL)"
-                required={true}
-                error={errors.link && true}
-                {...(errors.link?.type === 'pattern') && { errorMesg: '格式錯誤' }}
-            >
-                <input
-                    type="text"
-                    name="link"
-                    defaultValue={formStorageData.link}
-                    placeholder="請輸入完整連結 (https 或 http)"
-                    {...register('link', {
-                        required: true,
-                        pattern: /^(https?|chrome):\/\/[^\s$.?#].[^\s]*$/g,
-                    })}
-                />
-            </FormRow>
-
-            <RowUpload>
-                <UploadSingle size={imageSize} />
-            </RowUpload>
-
-            <div className="row row-btns">
-                <Buttons
-                    text="取消"
-                    type="default"
-                    onClick={hideModal}
-                />
-                <Buttons
-                    text="送出"
-                    htmlType="submit"
-                />
-            </div>
-        </form>
+            </FormWrap>
+        </Fragment>
 
     );
 
 };
 
-export default BannerForm;
+export default ProductForm;

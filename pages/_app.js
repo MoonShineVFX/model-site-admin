@@ -57,7 +57,7 @@ const AdminSite = ({ Component, pageProps }) => (
                             </MainContent>
                         </ContentLayout>
 
-                        <FooterLayout>Copyright © 高雄市政府經濟發展局 All rights reserved.</FooterLayout>
+                        <FooterLayout>Copyright © Moonshine All rights reserved.</FooterLayout>
                     </Layout>
                 </Layout>
             </GlobalProvider>

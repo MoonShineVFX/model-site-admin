@@ -1,10 +1,16 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Upload, Modal } from 'antd';
 import { UploadOutlined, PlusOutlined } from '@ant-design/icons';
 import { red } from '@ant-design/colors';
 import styled from 'styled-components';
+import GlobalStyle from '../containers/GlobalStyle';
+import { GlobalContext } from '../context/global.state';
+
 import Buttons from './Buttons';
+import util from '../utils/util';
+
+const { formatBytes } = util;
 
 // Base64
 function getBase64 (file) {
@@ -30,23 +36,113 @@ const UploadFilesNoticeLayout = styled.ul.attrs(() => ({
     },
 }));
 
-//
+// 上傳圖片按鈕
 const ButtonsLayout = styled(Buttons)({
     fontSize: '14px',
-    marginRight: '12px',
+    marginBottom: '20px',
     padding: '4px 16px',
     'span': {
         letterSpacing: 0,
     },
 });
 
+// 上傳圖片列表
+const ListWrapLayout = styled.div(({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    '> *': {
+        flex: '1',
+    },
+    '.imgWrap': {
+        maxWidth: '300px',
+        border: `1px solid ${theme.palette.border}`,
+        display: 'flex',
+        alignItems: 'center',
+        marginBottom: '10px',
+        padding: '8px',
+        position: 'relative',
+        cursor: 'pointer',
+        '> *': {
+            flex: '1',
+        },
+    },
+    '.thumb': {
+        maxWidth: '60px',
+        height: '60px',
+        overflow: 'hidden',
+    },
+    '.fileInfo': {
+        paddingLeft: '8px',
+    },
+    '.size': {
+        fontSize: '0.8em',
+        color: 'grey',
+    },
+}));
+
+//
+const ListWrap = ({ file, onClick }) => {
+
+    // Context
+    const { imagePosition } = useContext(GlobalContext);
+
+    return (
+
+        <ListWrapLayout>
+            <div
+                className="imgWrap"
+                onClick={onClick}
+            >
+                <div className="thumb">
+                    <img
+                        src={file.url}
+                        alt={file.name}
+                        title={file.name}
+                        width="60"
+                        height="60"
+                    />
+                </div>
+                <div className="fileInfo">
+                    <div>{file.name}</div>
+                    <div className="size">檔案大小: {formatBytes(file.size)}</div>
+                </div>
+            </div>
+            <div>
+                <div>前台顯示位置:</div>
+                <select
+                    name="imagePosition"
+                    defaultValue={imagePosition.filter(({ name }) => name === file.key)[0]}
+                >
+                    {
+                        imagePosition.map(({ id, name }) => (
+
+                            <option
+                                key={id}
+                                value={name}
+                                data-id={id}
+                            >
+                                {name}
+                            </option>
+
+                        ))
+                    }
+                </select>
+            </div>
+        </ListWrapLayout>
+
+    );
+
+};
+
 // 整理成 Ant Design 的格式
-const handleFileList = (files, type) => files.reduce((arr, curr) => {
+const handleFileList = (files) => files.reduce((arr, { id, url, key, name, size }) => {
 
     const obj = {
-        uid: curr.id,
-        url: (type === 'image') ? curr.imgUrl : curr.url,
-        ...(type === 'file') && { name: curr.name },
+        uid: id,
+        url,
+        name,
+        key,
+        size,
     };
 
     arr.push(obj);
@@ -56,7 +152,6 @@ const handleFileList = (files, type) => files.reduce((arr, curr) => {
 
 //
 const UploadFiles = ({
-    type,
     size,
     fileData,
     handleUploadData,
@@ -85,44 +180,37 @@ const UploadFiles = ({
     return (
 
         <Fragment>
+            <GlobalStyle />
+
             <Upload
-                listType={(type === 'image') ? 'picture-card' : 'text'}
-                accept={(type === 'image') ? '.jpg,.jpeg,.png,.gif' : ''} // 限制檔案格式
-                fileList={handleFileList(fileData, type)}
+                accept=".jpg,.jpeg,.png,.gif" // 限制檔案格式
+                fileList={handleFileList(fileData)}
                 customRequest={handleUploadData}
-                onRemove={handleRemove}
-                {...(type === 'image') && { onPreview: handlePreview }}
+                onPreview={handlePreview}
+                // onRemove={handleRemove}
+                itemRender={(originNode, file, currFileList, actions) => (
+
+                    <ListWrap
+                        file={file}
+                        onClick={() => actions.preview()}
+                    />
+
+                )}
             >
-                {
-                    (type === 'image') ? (
-
-                        <div>
-                            <PlusOutlined />
-                            <div style={{ marginTop: 8 }}>上傳圖片</div>
-                        </div>
-
-                    ) : (
-
-                        <ButtonsLayout
-                            type="default"
-                            text="上傳檔案"
-                            icon={<UploadOutlined />}
-                        />
-
-                    )
-                }
+                <ButtonsLayout
+                    type="default"
+                    text="上傳檔案"
+                    icon={<UploadOutlined />}
+                />
             </Upload>
 
             <UploadFilesNoticeLayout>
                 <li className="warning-text">圖片經上傳後將取代原圖，請小心使用</li>
                 <li className="warning-text">檔名請勿重複，以免被覆寫</li>
+                <li>僅支援以下格式: jpg, png</li>
+                <li>檔案大小不得超過 2MB</li>
                 {
-                    (type === 'image') &&
-                        <Fragment>
-                            <li>僅支援以下格式: jpg, png</li>
-                            <li>檔案大小不得超過 5MB</li>
-                            <li>圖片尺寸為: {size}</li>
-                        </Fragment>
+                    size && <li>圖片尺寸為: {size}</li>
                 }
             </UploadFilesNoticeLayout>
 
@@ -144,12 +232,7 @@ const UploadFiles = ({
 
 };
 
-UploadFiles.defaultProps = {
-    type: 'image',
-};
-
 UploadFiles.propTypes = {
-    type: PropTypes.string,
     size: PropTypes.string,
     fileData: PropTypes.array.isRequired,
     handleUploadData: PropTypes.func,

@@ -5,12 +5,12 @@ import { GlobalContext } from '../context/global.state';
 const MainContent = ({ children }) => {
 
     // Context
-    const { newsTags, getGlobalData } = useContext(GlobalContext);
+    const { getGlobalData } = useContext(GlobalContext);
 
     useEffect(() => {
 
-        if (!Cookie.get('token')) return;
-        if (!newsTags.length) getGlobalData();
+        // if (!Cookie.get('token')) return;
+        getGlobalData();
 
     }, []);
 

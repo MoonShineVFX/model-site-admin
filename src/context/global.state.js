@@ -11,6 +11,7 @@ import {
 const globalInitState = {
     page: '',
     user: {},
+    imagePosition: [],
 };
 
 // Form values
@@ -36,6 +37,7 @@ const GlobalProvider = ({ children }) => {
     const {
         page,
         user,
+        imagePosition,
     } = globalState;
 
     const { formStorageData } = formStorageState;
@@ -45,6 +47,33 @@ const GlobalProvider = ({ children }) => {
     // 取得全域資料
     const getGlobalData = () => {
 
+        let resData = {
+            imagePosition: [
+                {
+                    "id": 4515,
+                    "name": "main"
+                },
+                {
+                    "id": 4516,
+                    "name": "mobileMain"
+                },
+                {
+                    "id": 4517,
+                    "name": "thumb"
+                },
+                {
+                    "id": 4518,
+                    "name": "extend"
+                }
+            ]
+        };
+
+        globalDispatch({
+            type: 'global_data',
+            payload: resData,
+        });
+
+        return;
         Service.common()
             .then((resData) => {
 
@@ -63,6 +92,7 @@ const GlobalProvider = ({ children }) => {
             // 全域資料
             page,
             user,
+            imagePosition,
             getGlobalData,
 
             // Form 表單暫存

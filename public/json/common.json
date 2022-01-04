@@ -1,0 +1,37 @@
+{
+    "result": 1,
+    "message": "",
+    "errors": [],
+    "data": {
+        "userId": 123456,
+        "userName": "AAA",
+        "tag": [
+            {
+                "id": 11111,
+                "name": "標籤01"
+            },
+            {
+                "id": 22222,
+                "name": "標籤02"
+            }
+        ],
+        "imagePosition": [
+            {
+                "id": 4515,
+                "name": "main"
+            },
+            {
+                "id": 4516,
+                "name": "mobileMain"
+            },
+            {
+                "id": 4517,
+                "name": "thumb"
+            },
+            {
+                "id": 4518,
+                "name": "extend"
+            }
+        ]
+    }
+}

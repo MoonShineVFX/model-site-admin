@@ -33,10 +33,8 @@ export async function getServerSideProps ({ req }) {
 
     // const { data } = resData;
 
-    const resData = await fetch('http://localhost:1007/admin/json/products.json');
+    const resData = await fetch('http://localhost:1007/admin/json/product/products.json');
     const data = await resData.json();
-
-    // console.log('data:', data)
 
     return {
         props: {

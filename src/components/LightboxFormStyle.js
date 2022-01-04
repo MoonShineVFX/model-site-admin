@@ -43,7 +43,10 @@ const LightboxFormStyle = createGlobalStyle`
                 }
             }
         }
-        .disabled {
+        .disabled, .readonly {
+            background-color: ${({ theme }) => theme.palette.disabled};
+            border-color: ${({ theme }) => theme.palette.border};
+            cursor: not-allowed;
             &:hover,
             &:focus {
                 border-color: ${({ theme }) => theme.palette.border};

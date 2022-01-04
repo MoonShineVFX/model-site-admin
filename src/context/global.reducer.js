@@ -6,6 +6,7 @@ const globalReducer = (state, { type, payload }) => {
             return {
                 ...state,
                 user: payload.user,
+                imagePosition: payload.imagePosition,
             };
 
         case 'page':

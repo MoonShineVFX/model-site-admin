@@ -1,15 +1,12 @@
-import { Fragment, useContext, useEffect, useState } from 'react';
+import { Fragment, useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { Image, Tag } from 'antd';
-import styled from 'styled-components';
 
 import HeadTag from '../../containers/HeadTag';
 import ContentHeader from '../../containers/ContentHeader';
 import Tables from '../Tables';
 import Links from '../Links';
 import Buttons from '../Buttons';
-import LightboxForm from '../LightboxForm';
-import ProductForm from '../../../src/components/product/ProductForm';
 
 import { GlobalContext } from '../../context/global.state';
 import { ProductContext } from '../../context/product/product.state';
@@ -23,7 +20,7 @@ const {
     priceWithCommas,
 } = util;
 
-const { lightboxTitle, productActiveStatus } = utilConst;
+const { productActiveStatus } = utilConst;
 
 //
 const ProductBase = ({ pageData }) => {
@@ -35,8 +32,6 @@ const ProductBase = ({ pageData }) => {
 
     // Context
     const {
-        visible,
-        currEvent,
         globalDispatch,
         lightboxDispatch,
         formStorageDispatch,
@@ -71,6 +66,7 @@ const ProductBase = ({ pageData }) => {
         {
             title: '編號(ID)',
             dataIndex: 'id',
+            render: (id) => <Links url={`/product/${id}`}>{id}</Links>,
         },
         {
             title: `縮圖(${pageData.imageSize})`,
@@ -80,7 +76,7 @@ const ProductBase = ({ pageData }) => {
             render: (imgUrl, { title }) => imgUrl ? <Image src={imgUrl} alt={title} /> : '--',
         },
         {
-            title: '模型名稱',
+            title: '產品名稱',
             dataIndex: 'title',
             render: (title) => renderWithoutValue(title),
         },
@@ -114,7 +110,12 @@ const ProductBase = ({ pageData }) => {
                     {
                         Object.keys(productActiveStatus).map((key) => (
 
-                            <option key={key} value={key}>{productActiveStatus[key]}</option>
+                            <option
+                                key={key}
+                                value={key}
+                            >
+                                {productActiveStatus[key]}
+                            </option>
 
                         ))
                     }
@@ -140,14 +141,6 @@ const ProductBase = ({ pageData }) => {
             ),
         },
     ];
-
-    // 隱藏 Modal
-    const hideModal = () => {
-
-        lightboxDispatch({ type: 'HIDE' });
-        formStorageDispatch({ type: 'CLEAR' });
-
-    };
 
     // 上下架
     const handleChangeActive = ({ target }, id) => productActive({ id, status: target.value });
@@ -178,17 +171,6 @@ const ProductBase = ({ pageData }) => {
                 columns={columns}
                 data={action ? list : pageData.data.list}
             />
-
-            {
-                visible &&
-                    <LightboxForm
-                        title={lightboxTitle[currEvent]}
-                        visible={visible}
-                        handleCancel={hideModal}
-                    >
-                        <ProductForm />
-                    </LightboxForm>
-            }
         </Fragment>
 
     );

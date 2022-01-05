@@ -16,8 +16,8 @@
                 "name": "標籤01"
             }
         ],
-        "status": "inactive",
-        "modelImages": [
+        "isActive": false,
+        "previews": [
             {
                 "id": 48,
                 "url": "https://fakeimg.pl/560x317",
@@ -25,25 +25,25 @@
                 "size": 20000
             }
         ],
-        "images": [
+        "webImages": [
             {
                 "id": 54,
                 "url": "https://fakeimg.pl/1200x396",
-                "key": "main",
+                "positionId": 4515,
                 "name": "1200x396",
                 "size": 20000
             },
             {
                 "id": 55,
                 "url": "https://fakeimg.pl/277x336",
-                "key": "extend",
+                "positionId": 4517,
                 "name": "277x336",
                 "size": 20000
             },
             {
                 "id": 56,
                 "url": "https://fakeimg.pl/321x186",
-                "key": "thumb",
+                "positionId": 4518,
                 "name": "321x186",
                 "size": 20000
             }

@@ -9,7 +9,7 @@
                 "title": "標題",
                 "imgUrl": "//fakeimg.pl/321x186",
                 "price": 3000,
-                "status": "inactive",
+                "isActive": true,
                 "tags": [
                     {
                         "id": 11111,
@@ -28,7 +28,7 @@
                 "title": "標題",
                 "imgUrl": "//fakeimg.pl/321x186",
                 "price": 1000,
-                "status": "inactive",
+                "isActive": false,
                 "tags": [
                     {
                         "id": 11111,
@@ -51,7 +51,7 @@
                 "title": "標題",
                 "imgUrl": "//fakeimg.pl/321x186",
                 "price": 450,
-                "status": "active",
+                "isActive": false,
                 "tags": [
                     {
                         "id": 21222,

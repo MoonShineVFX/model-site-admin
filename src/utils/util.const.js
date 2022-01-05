@@ -9,7 +9,7 @@ const utilConst = {
     // 側邊攔
     navbar: [
         {
-            name: '模型管理',
+            name: '商品管理',
             pageKey: '',
         },
         {
@@ -18,7 +18,7 @@ const utilConst = {
         },
         {
             name: '訂單管理',
-            pageKey: 'orders',
+            pageKey: 'order',
         },
         {
             name: '帳號管理',
@@ -53,9 +53,22 @@ const utilConst = {
     },
 
     productActiveStatus: {
-        active: '上架',
-        inactive: '下架',
+        true: '上架',
+        false: '下架',
     },
+
+    orderStatus: {
+        unpaid: '等待付款',
+        success: '交易成功',
+        fail: '交易失敗',
+        cancel: '取消交易',
+    },
+
+    payment: {
+        webATM: '網路 ATM',
+        credit: '信用卡',
+    },
+
 };
 
 export default utilConst;

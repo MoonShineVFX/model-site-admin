@@ -1,7 +1,7 @@
 import util from './util';
 
 const Service = {
-    // login
+    // 登入
     login: ({ reqData, headers }) => util.serviceProxy('/get_token', reqData, {
         headers: { ...headers },
     }),
@@ -9,8 +9,11 @@ const Service = {
     // common
     common: (reqData) => util.serviceProxy('/common.json', reqData),
 
-    // Banner
-    productActive: (reqData) => util.serviceProxy('/???', reqData),
+    // 商品
+    productActive: (reqData) => util.serviceProxy('/admin_product_active', reqData),
+    productCreate: (reqData) => util.serviceProxy('/???_create', reqData),
+    productUpdate: (reqData) => util.serviceProxy('/???_update', reqData),
+
     bannerCreate: (reqData) => util.serviceProxy('/banner_create', reqData, {
         headers: {
             'Content-Type': 'multipart/form-data',

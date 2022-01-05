@@ -58,6 +58,17 @@ const GlobalStyle = createGlobalStyle`
         max-height: 100%;
         object-fit: cover;
     }
+    a {
+        display: inline-block;
+        text-decoration: none;
+    }
+    .admin-order-price,
+    .admin-order-status-fail {
+        color: red;
+    }
+    .admin-order-status-success {
+        color: green;
+    }
 `;
 
 export default GlobalStyle;

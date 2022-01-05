@@ -1,4 +1,5 @@
 import { useContext, useEffect } from 'react';
+import ActionWrap from '../../src/components/product/ActionWrap';
 import ProductForm from '../../src/components/product/ProductForm';
 import { GlobalContext } from '../../src/context/global.state';
 import util from '../../src/utils/util';
@@ -25,10 +26,7 @@ const ProductDetail = ({ pageData }) => {
 
     useEffect(() => {
 
-        globalDispatch({
-            type: 'page',
-            payload: '',
-        });
+        globalDispatch({ type: 'page', payload: '' });
 
         // formStorageDispatch({
         //     type: 'COLLECT',
@@ -42,7 +40,11 @@ const ProductDetail = ({ pageData }) => {
 
     return (
 
-        <ProductForm data={pageData.data} />
+        <ActionWrap
+            title={pageData.title}
+            data={pageData.data}
+            serviceKey="productUpdate"
+        />
 
     );
 
@@ -78,7 +80,7 @@ export async function getServerSideProps ({ params, req }) {
     return {
         props: {
             pageData: {
-                title: '編輯產品',
+                title: '編輯商品',
                 data: data.data,
             },
         },

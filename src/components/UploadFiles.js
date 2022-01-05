@@ -26,6 +26,23 @@ function getBase64 (file) {
 
 }
 
+// 整理成 Ant Design 的格式
+const handleFileList = (files, array) => files.reduce((arr, { id, url, name, size, positionId }) => {
+
+    let config = array.filter(({ id }) => id === positionId)[0];
+    const obj = {
+        uid: id,
+        url,
+        name,
+        size,
+        key: config?.name,
+    };
+
+    arr.push(obj);
+    return arr;
+
+}, []);
+
 //
 const UploadFilesNoticeLayout = styled.ul.attrs(() => ({
     className: 'upload-notice',
@@ -49,7 +66,6 @@ const ButtonsLayout = styled(Buttons)({
 // 上傳圖片列表
 const ListWrapLayout = styled.div(({ theme }) => ({
     display: 'flex',
-    alignItems: 'center',
     '> *': {
         flex: '1',
     },
@@ -58,6 +74,7 @@ const ListWrapLayout = styled.div(({ theme }) => ({
         border: `1px solid ${theme.palette.border}`,
         display: 'flex',
         alignItems: 'center',
+        marginRight: '20px',
         marginBottom: '10px',
         padding: '8px',
         position: 'relative',
@@ -108,18 +125,18 @@ const ListWrap = ({ file, onClick }) => {
                 </div>
             </div>
             <div>
-                <div>前台顯示位置:</div>
+                <div>前台顯示位置: {file.key}</div>
                 <select
                     name="imagePosition"
-                    defaultValue={imagePosition.filter(({ name }) => name === file.key)[0]}
+                    onChange={(e) => console.log('target', e.target.value)}
                 >
+                    <option value="">請選擇</option>
                     {
                         imagePosition.map(({ id, name }) => (
 
                             <option
                                 key={id}
-                                value={name}
-                                data-id={id}
+                                value={id}
                             >
                                 {name}
                             </option>
@@ -134,22 +151,6 @@ const ListWrap = ({ file, onClick }) => {
 
 };
 
-// 整理成 Ant Design 的格式
-const handleFileList = (files) => files.reduce((arr, { id, url, key, name, size }) => {
-
-    const obj = {
-        uid: id,
-        url,
-        name,
-        key,
-        size,
-    };
-
-    arr.push(obj);
-    return arr;
-
-}, []);
-
 //
 const UploadFiles = ({
     size,
@@ -157,6 +158,9 @@ const UploadFiles = ({
     handleUploadData,
     handleRemove,
 }) => {
+
+    // Context
+    const { imagePosition } = useContext(GlobalContext);
 
     // State
     const [previewVisible, setPreviewVisible] = useState(false);
@@ -184,7 +188,7 @@ const UploadFiles = ({
 
             <Upload
                 accept=".jpg,.jpeg,.png,.gif" // 限制檔案格式
-                fileList={handleFileList(fileData)}
+                fileList={handleFileList(fileData, imagePosition)}
                 customRequest={handleUploadData}
                 onPreview={handlePreview}
                 // onRemove={handleRemove}

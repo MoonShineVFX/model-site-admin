@@ -1,16 +1,18 @@
 import { Row } from 'antd';
 import styled from 'styled-components';
 
-/** Product Form */
-//
-const FormWrap = styled.form({
+/** Product Detail */
+const DetailWrapLayout = styled(Row)(({ theme }) => ({
     '.right': {
-        // maxWidth: '600px',
-        marginLeft: '40px',
+        borderLeft: `1px solid ${theme.palette.border}`,
     },
-    '.upload-preview': {
-        minHeight: '312px',
+    '.btn-create': {
+        float: 'none',
     },
+}));
+
+/** Product Form */
+const FormWrap = styled.form({
     '.items': {
         display: 'flex',
         '.row': {
@@ -26,7 +28,7 @@ const FormWrap = styled.form({
     '.row-btns': {
         textAlign: 'left',
         marginTop: '20px',
-        '> *': {
+        '.admin-btn': {
             width: '200px',
             marginLeft: '0',
             marginRight: '20px',
@@ -51,7 +53,6 @@ const FormWrap = styled.form({
 });
 
 /** Product Other Fields Form */
-//
 const PlaceOtherFormWrapLayout = styled(Row)(({ theme }) => ({
     borderTop: `1px solid ${theme.palette.border}`,
     marginTop: '40px',
@@ -78,6 +79,7 @@ const ImagesWrapLayout = styled.div({
 });
 
 export {
+    DetailWrapLayout,
     FormWrap,
     PlaceOtherFormWrapLayout,
     ImagesWrapLayout,

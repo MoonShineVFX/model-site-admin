@@ -15,6 +15,12 @@ const globalReducer = (state, { type, payload }) => {
                 page: payload,
             };
 
+        case 'search':
+            return {
+                ...state,
+                searchResult: payload,
+            };
+
         default:
             return {
                 ...state,

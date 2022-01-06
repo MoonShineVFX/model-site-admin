@@ -90,10 +90,10 @@ const util = {
 
     },
 
-    serviceServer: ({ method = 'post', url, cookie }, reqData = {}) => {
+    serviceServer: ({ method = 'post', url, cookie }) => {
 
         return axios({
-            url: (process.env.NODE_ENV === 'development') ? `https://${process.env.HOST}/api${url}` : `/api${url}`,
+            url: `https://${process.env.HOST}/api${url}`,
             method,
             headers: {
                 Authorization: `Bearer ${cookie}`,

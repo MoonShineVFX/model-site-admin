@@ -2,10 +2,31 @@ import { Row } from 'antd';
 import styled from 'styled-components';
 import Buttons from '../../components/Buttons';
 
-// 返回列表按鈕
-const BackToLayout = styled(Buttons)({
-    float: 'none',
-});
+// 列表搜尋
+const SearchFormLayout = styled.form(({ theme }) => ({
+    marginBottom: '30px',
+    '.input': {
+        height: '34px',
+        fontSize: '0.9em',
+        display: 'inline-block',
+        borderRadius: '2px',
+        border: `1px solid ${theme.palette.border}`,
+        marginRight: '10px',
+        padding: '4px 12px',
+        transition: 'all .3s ease-in-out',
+        ':hover, :focus': {
+            borderColor: theme.palette.blue,
+        },
+    },
+    '.ant-picker': {
+        height: '34px',
+        borderRadius: '2px',
+        marginRight: '10px',
+    },
+    '.admin-btn': {
+        marginRight: '10px',
+    },
+}));
 
 // 詳細頁 > 兩欄
 const DetailWrapLayout = styled(Row)(({ theme }) => ({
@@ -13,6 +34,11 @@ const DetailWrapLayout = styled(Row)(({ theme }) => ({
         borderRight: `1px solid ${theme.palette.border}`,
     },
 }))
+
+// 返回列表按鈕
+const BackToLayout = styled(Buttons)({
+    float: 'none',
+});
 
 // 訂單詳細資訊
 const InfoWrapLayout = styled.div(({ theme }) => ({
@@ -63,8 +89,9 @@ const ProductItemLayout = styled.div(({ theme }) => ({
 }));
 
 export {
-    BackToLayout,
+    SearchFormLayout,
     DetailWrapLayout,
+    BackToLayout,
     InfoWrapLayout,
     ProductItemLayout,
 };

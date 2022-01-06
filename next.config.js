@@ -1,6 +1,6 @@
 module.exports = {
     env: {
-        HOST: 'backend-52mayiffyq-de.a.run.app',
+        HOST: process.env.NEXT_PUBLIC_HOST || 'market.moonshine.tw',
     },
     basePath: '/admin',
     // async headers() {

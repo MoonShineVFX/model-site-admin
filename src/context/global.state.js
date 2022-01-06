@@ -12,6 +12,10 @@ const globalInitState = {
     page: '',
     user: {},
     imagePosition: [],
+    searchResult: {
+        curr: '',
+        list: [],
+    },
 };
 
 // Form values
@@ -38,6 +42,7 @@ const GlobalProvider = ({ children }) => {
         page,
         user,
         imagePosition,
+        searchResult,
     } = globalState;
 
     const { formStorageData } = formStorageState;
@@ -97,6 +102,7 @@ const GlobalProvider = ({ children }) => {
             page,
             user,
             imagePosition,
+            searchResult,
             getGlobalData,
 
             // Form 表單暫存

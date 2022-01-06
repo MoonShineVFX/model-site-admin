@@ -2,7 +2,7 @@ import util from './util';
 
 const Service = {
     // 登入
-    login: ({ reqData, headers }) => util.serviceProxy('/get_token', reqData, {
+    login: ({ reqData, headers }) => util.serviceProxy('/login', reqData, {
         headers: { ...headers },
     }),
 
@@ -37,6 +37,9 @@ const Service = {
             'Content-Type': 'multipart/form-data',
         },
     }),
+
+    // 訂單
+    orderSearch: (reqData) => util.serviceProxy('/admin_order_search', reqData),
 };
 
 export default Service;

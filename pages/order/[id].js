@@ -18,6 +18,7 @@ import utilConst from '../../src/utils/util.const';
 
 const {
     pathnameKey,
+    renderWithoutValue,
     renderDateTime,
     priceWithCommas,
 } = util;
@@ -25,8 +26,6 @@ const {
 const { orderStatus, payment } = utilConst;
 
 const OrderDetail = ({ pageData }) => {
-
-    // console.log('pageData:', pageData)
 
     // Router
     const { pathname } = useRouter();
@@ -60,7 +59,7 @@ const OrderDetail = ({ pageData }) => {
     return (
 
         <Fragment>
-            <HeadTag title={`${pageData.title} ${pageData.data.orderNumber}`} />
+            <HeadTag title={`訂單 ${pageData.data.orderNumber}`} />
 
             <ContentHeader
                 title={`${pageData.title} - ${pageData.data.orderNumber}`}
@@ -108,15 +107,15 @@ const OrderDetail = ({ pageData }) => {
                         </div>
                         <div className="info-row">
                             <h4 className="title">付款方式:</h4>
-                            <div>{payment[paidBy]}</div>
+                            <div>{renderWithoutValue(payment[paidBy])}</div>
                         </div>
                         <div className="info-row">
                             <h4 className="title">交易序號:</h4>
-                            <div>{tradeNumber}</div>
+                            <div>{renderWithoutValue(tradeNumber)}</div>
                         </div>
                         <div className="info-row">
                             <h4 className="title">發票號碼:</h4>
-                            <div>{invoice}</div>
+                            <div>{renderWithoutValue(invoice)}</div>
                         </div>
                     </InfoWrapLayout>
                 </Col>
@@ -163,27 +162,24 @@ export default OrderDetail;
 export async function getServerSideProps ({ params, req }) {
 
     // 沒有 cookie(token) 導登入頁
-    // if (!req.cookies.token) {
+    if (!req.cookies.token) {
 
-    //     return {
-    //         redirect: {
-    //             destination: '/login',
-    //             permanent: false,
-    //         },
-    //     };
+        return {
+            redirect: {
+                destination: '/login',
+                permanent: false,
+            },
+        };
 
-    // }
+    }
 
-    // const resData = await admin.serviceServer({
-    //     method: 'get',
-    //     url: `/admin_orders/${params.id}`,
-    //     cookie: req.cookies.token,
-    // });
+    const resData = await util.serviceServer({
+        method: 'get',
+        url: `/admin_orders/${params.id}`,
+        cookie: req.cookies.token,
+    });
 
-    // const { data } = resData;
-
-    const resData = await fetch('http://localhost:1007/admin/json/order/11111.json');
-    const data = await resData.json();
+    const { data } = resData;
 
     return {
         props: {

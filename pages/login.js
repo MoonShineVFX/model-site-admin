@@ -1,7 +1,6 @@
 import { Fragment, useContext, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
-import Cookie from 'js-cookie';
 import { createGlobalStyle } from 'styled-components';
 
 import theme from '../src/utils/theme';
@@ -81,7 +80,7 @@ const Login = ({ pageData }) => {
         Service.login({ headers: { Authorization: `Basic ${auth}`} })
             .then(() => {
 
-                router.push('/home/banner');
+                router.push('/');
                 getGlobalData();
 
             });
@@ -97,7 +96,7 @@ const Login = ({ pageData }) => {
 
             <form onSubmit={handleSubmit(handleReqData)}>
                 <FormRow
-                    labelTitle="帳號 (Email)"
+                    labelTitle="帳號"
                     error={errors.account && true}
                     {...(errors.account?.type === 'pattern') && { errorMesg: '格式錯誤' }}
                 >
@@ -150,7 +149,7 @@ export async function getServerSideProps ({ req }) {
 
         return {
             redirect: {
-                destination: '/home/banner',
+                destination: '/',
                 permanent: false,
             },
         };

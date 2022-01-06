@@ -8,7 +8,7 @@ const { emptyText } = utilConst;
 
 const TablesLayout = styled(Table)({
     '.ant-table': {
-        fontSize: '16px',
+        fontSize: '15px',
     },
     '.ant-table-thead .ant-table-cell': {
         fontWeight: 'bold',

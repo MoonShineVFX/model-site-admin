@@ -18,7 +18,7 @@ const ProductCreate = () => {
 
         <ActionWrap
             title="新增商品"
-            serviceKey="productCreate"
+            service="productCreate"
         />
 
     );

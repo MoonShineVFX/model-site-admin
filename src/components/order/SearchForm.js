@@ -1,12 +1,9 @@
 import { Fragment, useState, useContext } from 'react';
-import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
-
 import LightboxFormStyle from '../LightboxFormStyle';
 import Buttons from '../Buttons';
 import Rangepicker from '../Rangepicker';
 import { SearchFormLayout } from './OrderLayout';
-
 import { GlobalContext } from '../../context/global.state';
 import Service from '../../utils/util.service';
 
@@ -113,14 +110,6 @@ const SearchForm = () => {
 
     );
 
-};
-
-SearchForm.defaultProps = {
-    // newPage: false,
-};
-
-SearchForm.propTypes = {
-    children: PropTypes.any,
 };
 
 export default SearchForm;

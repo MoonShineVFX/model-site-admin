@@ -1,21 +1,20 @@
-const productReducer = (state, { type, payload }) => {
+const tagReducer = (state, { type, payload }) => {
 
     switch (type) {
-        case 'product_list':
+        case 'tag_list':
             return {
                 ...state,
-                imageSize: payload.imageSize,
-                list: payload.list,
+                list: payload,
             };
 
-        case 'product_create':
+        case 'tag_create':
             return {
                 ...state,
                 action: payload.action,
-                list: [...state.list, { ...payload.resData }],
+                list: payload.resData.tags,
             };
 
-        case 'product_update':
+        case 'tag_update':
             return {
                 ...state,
                 action: payload.action,
@@ -27,17 +26,10 @@ const productReducer = (state, { type, payload }) => {
                 }),
             };
 
-        case 'product_delete':
-            return {
-                ...state,
-                action: payload.action,
-                list: state.list.filter(({ id }) => id !== payload.id),
-            };
-
         default:
             return { ...state };
     }
 
 };
 
-export { productReducer };
+export { tagReducer };

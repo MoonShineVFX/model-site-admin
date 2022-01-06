@@ -1,0 +1,17 @@
+{
+    "result": 1,
+    "message": "",
+    "errors": [],
+    "data": {
+        "list": [
+            {
+                "id": 1111,
+                "name": "標籤01",
+                "createTime": "2021-10-01T09:19:00",
+                "updateTime": "2021-10-01T09:19:00",
+                "creator": "新增者",
+                "updater": "編輯者"
+            }
+        ]
+    }
+}

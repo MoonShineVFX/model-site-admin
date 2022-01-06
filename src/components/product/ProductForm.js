@@ -14,7 +14,7 @@ import Service from '../../utils/util.service';
 
 const { productActiveStatus } = utilConst;
 
-const ProductForm = ({ data, serviceKey }) => {
+const ProductForm = ({ data, service }) => {
 
     // console.log('ProductForm data:', data)
 
@@ -48,13 +48,13 @@ const ProductForm = ({ data, serviceKey }) => {
 
         delete reqData.fileSize;
 
-        Service[serviceKey](reqData)
+        Service[service](reqData)
             .then(() => {
 
                 Prompt('success', {
                     callback: () => {
 
-                        if (serviceKey === 'productCreate') router.push('/');
+                        if (service === 'productCreate') router.push('/');
 
                     },
                 });

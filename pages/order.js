@@ -1,5 +1,5 @@
 import { Fragment, useContext, useEffect } from 'react';
-import { useRouter } from 'next/router';
+import router, { useRouter } from 'next/router';
 
 import HeadTag from '../src/containers/HeadTag';
 import ContentHeader from '../src/containers/ContentHeader';
@@ -100,9 +100,10 @@ const OrderList = ({ pageData }) => {
             width: 120,
             render: ({ orderNumber }) => (
 
-                <Buttons>
-                    <Links url={`/order/${orderNumber}`}>編輯</Links>
-                </Buttons>
+                <Buttons
+                    text="編輯"
+                    onClick={() => router.push(`/order/${orderNumber}`)}
+                />
 
             ),
         },

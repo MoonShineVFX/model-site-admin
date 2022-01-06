@@ -7,6 +7,7 @@ import ContentHeader from '../src/containers/ContentHeader';
 import Tables from '../src/components/Tables';
 import Links from '../src/components/Links';
 import Buttons from '../src/components/Buttons';
+import SearchForm from '../src/components/product/SearchForm';
 
 import { GlobalContext } from '../src/context/global.state';
 import util from '../src/utils/util';
@@ -29,9 +30,8 @@ const ProductList = ({ pageData }) => {
 
     // Context
     const {
+        searchResult,
         globalDispatch,
-        lightboxDispatch,
-        formStorageDispatch,
     } = useContext(GlobalContext);
 
     useEffect(() => {
@@ -46,7 +46,7 @@ const ProductList = ({ pageData }) => {
     // 表格欄位
     const columns = [
         {
-            title: '編號(ID)',
+            title: '流水號(ID)',
             dataIndex: 'id',
             render: (id) => <Links url={`/product/${id}`}>{id}</Links>,
         },
@@ -112,11 +112,11 @@ const ProductList = ({ pageData }) => {
             title: '操作',
             dataIndex: '',
             width: 120,
-            render: (data) => (
+            render: ({ id }) => (
 
                 <Buttons
                     text="編輯"
-                    onClick={() => btnUpdate(data)}
+                    onClick={() => router.push(`/product/${id}`)}
                 />
             ),
         },
@@ -134,15 +134,6 @@ const ProductList = ({ pageData }) => {
 
     };
 
-    // 編輯按鈕
-    const btnUpdate = (data) => {
-
-        router.push(`/product/${data.id}`);
-        lightboxDispatch({ type: 'SHOW', currEvent: 'updateProduct' });
-        formStorageDispatch({ type: 'COLLECT', payload: data });
-
-    };
-
     return (
 
         <Fragment>
@@ -157,10 +148,12 @@ const ProductList = ({ pageData }) => {
                 </Buttons>
             </ContentHeader>
 
+            <SearchForm />
+
             <Tables
                 rowKey="id"
                 columns={columns}
-                data={pageData.data.list}
+                data={searchResult?.curr ? searchResult.list : pageData.data.list}
             />
         </Fragment>
 
@@ -173,26 +166,26 @@ export default ProductList;
 export async function getServerSideProps ({ req }) {
 
     // 沒有 cookie(token) 導登入頁
-    // if (!req.cookies.token) {
+    if (!req.cookies.token) {
 
-    //     return {
-    //         redirect: {
-    //             destination: '/login',
-    //             permanent: false,
-    //         },
-    //     };
+        return {
+            redirect: {
+                destination: '/login',
+                permanent: false,
+            },
+        };
 
-    // }
+    }
 
-    // const resData = await util.serviceServer({
-    //     url: '/products',
-    //     cookie: req.cookies.token,
-    // });
+    const resData = await util.serviceServer({
+        url: '/admin_products',
+        cookie: req.cookies.token,
+    });
 
-    // const { data } = resData;
+    const { data } = resData;
 
-    const resData = await fetch('http://localhost:1007/admin/json/product/products.json');
-    const data = await resData.json();
+    // const resData = await fetch('http://localhost:1007/admin/json/product/products.json');
+    // const data = await resData.json();
 
     return {
         props: {

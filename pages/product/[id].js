@@ -43,7 +43,7 @@ const ProductDetail = ({ pageData }) => {
         <ActionWrap
             title={pageData.title}
             data={pageData.data}
-            serviceKey="productUpdate"
+            service="productUpdate"
         />
 
     );

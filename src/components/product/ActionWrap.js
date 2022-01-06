@@ -10,7 +10,7 @@ import ImageUpload from './ImageUpload';
 import ProductForm from './ProductForm';
 // import PlaceOtherForm from './PlaceOtherForm';
 
-const ActionWrap = ({ title, data, serviceKey }) => {
+const ActionWrap = ({ title, data, service }) => {
 
     // console.log('ActionWrap data:', data)
 
@@ -28,13 +28,13 @@ const ActionWrap = ({ title, data, serviceKey }) => {
                 <Col span={14}>
                     <ProductForm
                         data={data}
-                        serviceKey={serviceKey}
+                        service={service}
                     />
                 </Col>
 
                 {
                     // 需先建立一筆商品後，才能上傳圖片區塊與模型組圖
-                    (serviceKey === 'productUpdate') &&
+                    (service === 'productUpdate') &&
                         <Col span={10} className="right">
                             <ImageUpload data={data} />
                         </Col>
@@ -43,7 +43,7 @@ const ActionWrap = ({ title, data, serviceKey }) => {
 
             {
                 // 需先建立一筆 demo place 後，才能上傳圖片輪播與與文件
-                // (serviceKey === 'demoPlaceUpdate') && <PlaceOtherForm data={data} />
+                // (service === 'demoPlaceUpdate') && <PlaceOtherForm data={data} />
             }
         </Fragment>
 
@@ -54,7 +54,7 @@ const ActionWrap = ({ title, data, serviceKey }) => {
 ActionWrap.propTypes = {
     title: PropTypes.string,
     data: PropTypes.object,
-    serviceKey: PropTypes.string.isRequired,
+    service: PropTypes.string.isRequired,
 };
 
 export default ActionWrap;

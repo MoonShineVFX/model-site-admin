@@ -14,7 +14,7 @@ const utilConst = {
         },
         {
             name: '標籤管理',
-            pageKey: 'tags',
+            pageKey: 'tag',
         },
         {
             name: '訂單管理',
@@ -27,15 +27,8 @@ const utilConst = {
     ],
 
     lightboxTitle: {
-        createBanner: '新增 Banner',
-        updateBanner: '編輯 Banner',
         createTag: '新增標籤',
         updateTag: '編輯標籤',
-        createPartner: '新增夥伴',
-        updatePartner: '編輯夥伴',
-        createPolicy: '新增政策資源',
-        updatePolicy: '編輯政策資源',
-        settingTag: '設定標籤',
     },
 
     // Prompt type

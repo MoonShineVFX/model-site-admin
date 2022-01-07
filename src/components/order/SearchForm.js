@@ -5,7 +5,10 @@ import Buttons from '../Buttons';
 import Rangepicker from '../Rangepicker';
 import { SearchFormLayout } from './OrderLayout';
 import { GlobalContext } from '../../context/global.state';
+import utilConst from '../../utils/util.const';
 import Service from '../../utils/util.service';
+
+const { today } = utilConst;
 
 const SearchForm = () => {
 
@@ -16,7 +19,7 @@ const SearchForm = () => {
     const { handleSubmit, register, reset } = useForm();
 
     // State
-    const [selectedDate, setSelectedDate] = useState([]);
+    const [selectedDate, setSelectedDate] = useState([today, today]); // 預設代今日
 
     // 選日期
     const handleChangeDate = (date, dateString) => setSelectedDate(dateString);

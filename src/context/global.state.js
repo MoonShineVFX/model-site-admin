@@ -11,6 +11,7 @@ import {
 const globalInitState = {
     page: '',
     user: {},
+    tags: [],
     imagePosition: [],
     searchResult: {
         curr: '',
@@ -41,6 +42,7 @@ const GlobalProvider = ({ children }) => {
     const {
         page,
         user,
+        tags,
         imagePosition,
         searchResult,
     } = globalState;
@@ -53,6 +55,26 @@ const GlobalProvider = ({ children }) => {
     const getGlobalData = () => {
 
         let resData = {
+            "userId": 123456,
+            "userName": "AAA",
+            "tags": [
+                {
+                    "id": 11111,
+                    "name": "標籤01"
+                },
+                {
+                    "id": 22222,
+                    "name": "標籤02"
+                },
+                {
+                    "id": 33333,
+                    "name": "標籤03"
+                },
+                {
+                    "id": 44444,
+                    "name": "標籤04"
+                }
+            ],
             imagePosition: [
                 {
                     "id": 4515,
@@ -101,6 +123,7 @@ const GlobalProvider = ({ children }) => {
             // 全域資料
             page,
             user,
+            tags,
             imagePosition,
             searchResult,
             getGlobalData,

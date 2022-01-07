@@ -111,20 +111,14 @@ const Login = ({ pageData }) => {
                 </FormRow>
 
                 <FormRow
-                    labelTitle="密碼 (允許英、數、特殊符號)"
+                    labelTitle="密碼"
                     error={errors.password && true}
                     errorMesg={errConfig[errors.password?.type]}
                 >
                     <input
                         type="password"
                         name="password"
-                        placeholder="至少 8 碼"
-                        {...register('password', {
-                            required: true,
-                            minLength: 8,
-                            maxLength: 20,
-                            pattern: /^(?=.*\d)[0-9a-zA-Z!\u0022#$%&'()*+,./:;<=>?@[\]\^_`{|}~-]{8,}$/g,
-                        })}
+                        {...register('password', { required: true })}
                     />
                 </FormRow>
 

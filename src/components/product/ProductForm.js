@@ -1,11 +1,13 @@
 import { Fragment, useContext } from 'react';
 import { useRouter } from 'next/router';
+import { message } from 'antd';
 import { useForm } from 'react-hook-form';
 
 import LightboxFormStyle from '../LightboxFormStyle';
 import Buttons from '../Buttons';
 import Prompt from '../Prompt';
 import { FormRow, ErrorMesg } from '../LightboxForm';
+import Checkbox from '../Checkbox';
 import { FormWrap } from './ProductLayout';
 
 import { GlobalContext } from '../../context/global.state';
@@ -22,7 +24,7 @@ const ProductForm = ({ data, service }) => {
     const router = useRouter();
 
     // Context
-    const { currEvent } = useContext(GlobalContext);
+    const { currEvent, tags: tagsOpt } = useContext(GlobalContext);
 
     // React Hook Form
     const {
@@ -44,9 +46,18 @@ const ProductForm = ({ data, service }) => {
             isActive: (reqData.isActive === 'false') ? !reqData.isActive : !!reqData.isActive,
             price: +reqData.price,
             modelSum: +reqData.modelSum,
+            tags: reqData.tags.filter((id) => id).map((id) => +id),
         };
 
         delete reqData.fileSize;
+
+        // 檢查標籤是否勾選
+        // if (!reqData.tags.length) {
+
+        //     message.error('標籤未勾選');
+        //     return;
+
+        // }
 
         Service[service](reqData)
             .then(() => {
@@ -125,7 +136,7 @@ const ProductForm = ({ data, service }) => {
 
                 <div className="items">
                     <FormRow
-                        labelTitle="檔案大小"
+                        labelTitle="檔案大小 (系統自動代入)"
                         readonly
                     >
                         <input
@@ -144,7 +155,7 @@ const ProductForm = ({ data, service }) => {
                         <input
                             type="number"
                             name="modelSum"
-                            placeholder="5"
+                            placeholder="Ex. 5"
                             {...register('modelSum', { required: true })}
                         />
                     </FormRow>
@@ -157,7 +168,7 @@ const ProductForm = ({ data, service }) => {
                         <input
                             type="text"
                             name="perImgSize"
-                            placeholder="1920x768"
+                            placeholder="Ex. 1920x768"
                             {...register('perImgSize', { required: true })}
                         />
                     </FormRow>
@@ -175,6 +186,31 @@ const ProductForm = ({ data, service }) => {
                         {...register('description', { required: true })}
                     />
                 </FormRow>
+
+                <div className="row">
+                    <div className="title">標籤</div>
+                    <div className="checkboxes">
+                        {
+                            tagsOpt.map(({ id, name }, idx) => (
+
+                                <div
+                                    key={idx}
+                                    className="checkbox-item"
+                                >
+                                    <Checkbox
+                                        name="tags"
+                                        value={id}
+                                        // defaultChecked={formStorageData?.tags?.some((val) => val === id)}
+                                        register={register(`tags.${idx}`)}
+                                    >
+                                        {name}-{id}
+                                    </Checkbox>
+                                </div>
+
+                            ))
+                        }
+                    </div>
+                </div>
 
                 <div className="row-btns">
                     <Buttons

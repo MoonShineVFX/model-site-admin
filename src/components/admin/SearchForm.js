@@ -28,12 +28,12 @@ const SearchForm = () => {
     // 送資料
     const handleReqData = (reqData) => {
 
-        Service.productSearch(reqData)
+        Service.adAccountSearch(reqData)
             .then(({ list }) => {
 
                 globalDispatch({
                     type: 'search',
-                    payload: { curr: 'product', list },
+                    payload: { curr: 'adAccount', list },
                 });
 
             });
@@ -52,7 +52,7 @@ const SearchForm = () => {
                     <input
                         type="text"
                         name="query"
-                        placeholder="商品名稱"
+                        placeholder="帳號"
                         {...register('query')}
                     />
                 </span>

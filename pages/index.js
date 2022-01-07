@@ -153,7 +153,7 @@ const ProductList = ({ pageData }) => {
             <Tables
                 rowKey="id"
                 columns={columns}
-                data={searchResult?.curr ? searchResult.list : pageData.data.list}
+                data={(searchResult?.curr === 'product') ? searchResult.list : pageData.data.list}
             />
         </Fragment>
 
@@ -183,6 +183,8 @@ export async function getServerSideProps ({ req }) {
     });
 
     const { data } = resData;
+
+    console.log('data:', data)
 
     return {
         props: {

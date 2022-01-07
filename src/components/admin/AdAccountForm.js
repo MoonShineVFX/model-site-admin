@@ -113,7 +113,7 @@ const AdAccountForm = () => {
                         error={errors.password && true}
                     >
                         <input
-                            type="text"
+                            type="password"
                             name="password"
                             {...register('password', { required: true })}
                         />
@@ -128,7 +128,7 @@ const AdAccountForm = () => {
                                 <Buttons
                                     className="third"
                                     text="重設密碼"
-                                    onClick={() => router.push('/reset_password')}
+                                    onClick={() => router.push(`/reset_password?uid=${formStorageData.id}`)}
                                 />
                             </span>
                         </div>

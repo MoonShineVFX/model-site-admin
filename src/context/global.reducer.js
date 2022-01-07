@@ -2,17 +2,18 @@
 const globalReducer = (state, { type, payload }) => {
 
     switch (type) {
-        case 'global_data':
-            return {
-                ...state,
-                user: payload.user,
-                imagePosition: payload.imagePosition,
-            };
-
         case 'page':
             return {
                 ...state,
                 page: payload,
+            };
+
+        case 'global_data':
+            return {
+                ...state,
+                user: payload.user,
+                tags: payload.tags,
+                imagePosition: payload.imagePosition,
             };
 
         case 'search':
@@ -22,9 +23,7 @@ const globalReducer = (state, { type, payload }) => {
             };
 
         default:
-            return {
-                ...state,
-            };
+            return { ...state };
     }
 
 };

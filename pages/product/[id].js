@@ -55,16 +55,16 @@ export default ProductDetail;
 export async function getServerSideProps ({ params, req }) {
 
     // 沒有 cookie(token) 導登入頁
-    // if (!req.cookies.token) {
+    if (!req.cookies.token) {
 
-    //     return {
-    //         redirect: {
-    //             destination: '/login',
-    //             permanent: false,
-    //         },
-    //     };
+        return {
+            redirect: {
+                destination: '/login',
+                permanent: false,
+            },
+        };
 
-    // }
+    }
 
     // const resData = await admin.serviceServer({
     //     method: 'get',

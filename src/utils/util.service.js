@@ -6,17 +6,22 @@ const Service = {
         headers: { ...headers },
     }),
 
+    // 重設密碼
+    resetPassword: ({ reqData, headers }) => util.serviceProxy('/???', reqData, {
+        headers: { ...headers },
+    }),
+
     // common
-    common: (reqData) => util.serviceProxy('/common.json', reqData),
+    common: (reqData) => util.serviceProxy('/admin_common', reqData),
 
     // 商品
     productSearch: (reqData) => util.serviceProxy('/admin_product_search', reqData),
     productActive: (reqData) => util.serviceProxy('/admin_product_active', reqData),
-    productCreate: (reqData) => util.serviceProxy('/???_create', reqData),
-    productUpdate: (reqData) => util.serviceProxy('/???_update', reqData),
+    productCreate: (reqData) => util.serviceProxy('/admin_product_create', reqData),
+    productUpdate: (reqData) => util.serviceProxy('/admin_product_update', reqData),
 
     // 上傳檔案 (圖片 > 編輯器用)
-    imageUpload: (reqData) => util.serviceProxy('/image_upload', reqData, {
+    imageUpload: (reqData) => util.serviceProxy('/admin_image_upload', reqData, {
         headers: {
             'Content-Type': 'multipart/form-data',
         },
@@ -29,6 +34,9 @@ const Service = {
 
     // 訂單
     orderSearch: (reqData) => util.serviceProxy('/admin_order_search', reqData),
+
+    // 後台帳號
+    adAccountSearch: (reqData) => util.serviceProxy('/???', reqData),
 
 };
 

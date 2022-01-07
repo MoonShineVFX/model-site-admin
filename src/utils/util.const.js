@@ -21,7 +21,7 @@ const utilConst = {
             pageKey: 'order',
         },
         {
-            name: '後台帳號管理',
+            name: '後台帳號設定',
             pageKey: 'admin_account',
         },
     ],

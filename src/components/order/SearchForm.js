@@ -22,7 +22,15 @@ const SearchForm = () => {
     const handleChangeDate = (date, dateString) => setSelectedDate(dateString);
 
     // reset
-    const targetReset = () => reset();
+    const targetReset = () => {
+
+        reset();
+        globalDispatch({
+            type: 'search',
+            payload: { curr: '', list: [] },
+        });
+
+    };
 
     // 送資料
     const handleReqData = (reqData) => {

@@ -30,7 +30,7 @@ const CheckboxLayout = styled.label(({ theme }) => ({
         border: `1px solid ${theme.palette.border}`,
         borderRadius: '2px',
         position: 'absolute',
-        top: 0,
+        top: '1px',
         left: 0,
         'span': {
             display: 'none',

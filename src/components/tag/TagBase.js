@@ -60,7 +60,7 @@ const TagBase = ({ pageData }) => {
     // 表格欄位
     const columns = [
         {
-            title: '流水號(ID)',
+            title: 'ID',
             dataIndex: 'id',
         },
         {

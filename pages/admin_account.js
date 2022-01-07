@@ -8,6 +8,7 @@ import Tables from '../src/components/Tables';
 import Links from '../src/components/Links';
 import Buttons from '../src/components/Buttons';
 import LightboxForm from '../src/components/LightboxForm';
+import SearchForm from '../src/components/admin/SearchForm';
 import AdAccountForm from '../src/components/admin/AdAccountForm';
 
 import { GlobalContext } from '../src/context/global.state';
@@ -23,7 +24,7 @@ const {
 
 const { lightboxTitle } = utilConst;
 
-const ProductList = ({ pageData }) => {
+const AdminAccount = ({ pageData }) => {
 
     // Router
     const { pathname } = useRouter();
@@ -55,7 +56,7 @@ const ProductList = ({ pageData }) => {
             render: (id) => <Links url={`/product/${id}`}>{id}</Links>,
         },
         {
-            title: '會員帳號',
+            title: '後台帳號',
             dataIndex: 'account',
             render: (account) => renderWithoutValue(account),
         },
@@ -127,10 +128,12 @@ const ProductList = ({ pageData }) => {
                 onClick={btnCreate}
             />
 
+            <SearchForm />
+
             <Tables
                 rowKey="id"
                 columns={columns}
-                data={searchResult?.curr ? searchResult.list : pageData.data.list}
+                data={(searchResult?.curr === 'adAccount') ? searchResult.list : pageData.data.list}
             />
 
             {
@@ -149,7 +152,7 @@ const ProductList = ({ pageData }) => {
 
 };
 
-export default ProductList;
+export default AdminAccount;
 
 export async function getServerSideProps ({ req }) {
 
@@ -178,7 +181,7 @@ export async function getServerSideProps ({ req }) {
     return {
         props: {
             pageData: {
-                title: '後台帳號管理',
+                title: '後台帳號設定',
                 data: data.data,
             },
         },

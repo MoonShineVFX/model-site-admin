@@ -74,7 +74,7 @@ const OrderDetail = ({ pageData }) => {
                 <Col span={12}>
                     <InfoWrapLayout>
                         <div className="info-row">
-                            <h4 className="title">流水號(ID):</h4>
+                            <h4 className="title">ID:</h4>
                             <div>{id}</div>
                         </div>
                         <div className="info-row">

@@ -2,7 +2,7 @@ import { useContext, useEffect } from 'react';
 import ActionWrap from '../../src/components/product/ActionWrap';
 import { GlobalContext } from '../../src/context/global.state';
 
-const ProductCreate = () => {
+const ProductCreate = ({ pageData }) => {
 
     // Context
     const { globalDispatch, formStorageDispatch } = useContext(GlobalContext);
@@ -17,7 +17,7 @@ const ProductCreate = () => {
     return (
 
         <ActionWrap
-            title="新增商品"
+            title={pageData.title}
             service="productCreate"
         />
 
@@ -26,3 +26,29 @@ const ProductCreate = () => {
 };
 
 export default ProductCreate;
+
+export async function getServerSideProps ({ req }) {
+
+    console.log('betty:', req.cookies)
+
+    // 沒有 cookie(token) 導登入頁
+    if (!req.cookies.token) {
+
+        return {
+            redirect: {
+                destination: '/login',
+                permanent: false,
+            },
+        };
+
+    }
+
+    return {
+        props: {
+            pageData: {
+                title: '新增商品',
+            },
+        },
+    };
+
+}

@@ -125,7 +125,7 @@ const OrderList = ({ pageData }) => {
             <Tables
                 rowKey="id"
                 columns={columns}
-                data={searchResult?.curr ? searchResult.list : pageData.data.list}
+                data={(searchResult?.curr === 'order') ? searchResult.list : pageData.data.list}
             />
         </Fragment>
 

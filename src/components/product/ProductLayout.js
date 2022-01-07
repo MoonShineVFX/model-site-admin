@@ -50,6 +50,16 @@ const FormWrap = styled.form({
     'h3': {
         fontWeight: 'bold',
     },
+    '.checkboxes': {
+        display: 'flex',
+        flexWrap: 'wrap',
+        '> *': {
+            flex: '0 0 calc(100% / 3)',
+        },
+    },
+    '.checkbox-item': {
+        marginBottom: '4px',
+    },
 });
 
 /** Product Other Fields Form */

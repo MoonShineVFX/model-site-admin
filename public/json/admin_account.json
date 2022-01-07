@@ -1,0 +1,36 @@
+{
+    "result": 1,
+    "message": "",
+    "errors": [],
+    "data": {
+        "list": [
+            {
+                "id": 11111,
+                "account": "adminstrator",
+                "handleMaterial": true,
+                "handleFinance": true,
+                "isMax": true,
+                "createTime": "2021-10-01T09:19:00",
+                "updateTime": "2021-10-01T09:19:00"
+            },
+            {
+                "id": 22222,
+                "account": "user01",
+                "handleMaterial": true,
+                "handleFinance": false,
+                "isMax": false,
+                "createTime": "2021-10-01T09:19:00",
+                "updateTime": "2021-10-01T09:19:00"
+            },
+            {
+                "id": 33333,
+                "account": "user02",
+                "handleMaterial": false,
+                "handleFinance": true,
+                "isMax": false,
+                "createTime": "2021-10-01T09:19:00",
+                "updateTime": "2021-10-01T09:19:00"
+            }
+        ]
+    }
+}

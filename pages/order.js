@@ -42,7 +42,7 @@ const OrderList = ({ pageData }) => {
     // 表格欄位
     const columns = [
         {
-            title: '流水號(ID)',
+            title: 'ID',
             dataIndex: 'id',
         },
         {
@@ -101,7 +101,8 @@ const OrderList = ({ pageData }) => {
             render: ({ orderNumber }) => (
 
                 <Buttons
-                    text="編輯"
+                    type="default"
+                    text="檢視"
                     onClick={() => router.push(`/order/${orderNumber}`)}
                 />
 

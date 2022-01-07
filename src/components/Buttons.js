@@ -11,6 +11,13 @@ const ButtonLayout = styled(Button).attrs(() => ({
     'span': {
         letterSpacing: '-2px',
     },
+    '&.third': {
+        backgroundColor: '#FF9900',
+        borderColor: '#FF9900',
+        'span': {
+            letterSpacing: '0',
+        },
+    },
 });
 
 const Buttons = ({ type, text, children, ...rest }) => (

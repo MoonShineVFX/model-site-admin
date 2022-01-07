@@ -21,7 +21,7 @@ const utilConst = {
             pageKey: 'order',
         },
         {
-            name: '帳號管理',
+            name: '後台帳號管理',
             pageKey: 'admin_account',
         },
     ],
@@ -29,6 +29,8 @@ const utilConst = {
     lightboxTitle: {
         createTag: '新增標籤',
         updateTag: '編輯標籤',
+        createAdAccount: '新增後台帳號',
+        updateAdAccount: '編輯後台帳號',
     },
 
     // Prompt type

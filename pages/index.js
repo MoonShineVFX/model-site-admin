@@ -46,7 +46,7 @@ const ProductList = ({ pageData }) => {
     // 表格欄位
     const columns = [
         {
-            title: '流水號(ID)',
+            title: 'ID',
             dataIndex: 'id',
             render: (id) => <Links url={`/product/${id}`}>{id}</Links>,
         },
@@ -183,9 +183,6 @@ export async function getServerSideProps ({ req }) {
     });
 
     const { data } = resData;
-
-    // const resData = await fetch('http://localhost:1007/admin/json/product/products.json');
-    // const data = await resData.json();
 
     return {
         props: {

@@ -1,6 +1,5 @@
 import { useContext, useEffect } from 'react';
 import ActionWrap from '../../src/components/product/ActionWrap';
-import ProductForm from '../../src/components/product/ProductForm';
 import { GlobalContext } from '../../src/context/global.state';
 import util from '../../src/utils/util';
 
@@ -66,16 +65,13 @@ export async function getServerSideProps ({ params, req }) {
 
     }
 
-    // const resData = await admin.serviceServer({
-    //     method: 'get',
-    //     url: `/news/${+params.id}`,
-    //     cookie: req.cookies.token,
-    // });
+    const resData = await util.serviceServer({
+        method: 'get',
+        url: `/admin_products/${params.id}`,
+        cookie: req.cookies.token,
+    });
 
-    // const { data } = resData;
-
-    const resData = await fetch('http://localhost:1007/admin/json/product/515480.json');
-    const data = await resData.json();
+    const { data } = resData;
 
     return {
         props: {

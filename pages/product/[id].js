@@ -3,37 +3,14 @@ import ActionWrap from '../../src/components/product/ActionWrap';
 import { GlobalContext } from '../../src/context/global.state';
 import util from '../../src/utils/util';
 
-// Mapping
-const mappingCheckbox = (data, tags) => data.reduce((acc, curr) => {
-
-    // 先找到對應的
-    let temp = tags.find((obj) => obj.id === curr);
-    acc[curr] = acc[curr] || {};
-    acc[curr].isChecked = true;
-    acc[curr].category = temp?.categoryKey;
-    return acc;
-
-}, {});
-
 const ProductDetail = ({ pageData }) => {
 
     // Context
-    const {
-        globalDispatch,
-        formStorageDispatch,
-    } = useContext(GlobalContext);
+    const { globalDispatch } = useContext(GlobalContext);
 
     useEffect(() => {
 
         globalDispatch({ type: 'page', payload: '' });
-
-        // formStorageDispatch({
-        //     type: 'COLLECT',
-        //     payload: {
-        //         selected: mappingCheckbox(pageData.data.tags, newsTags),
-        //         category: Object.keys(mappingCheckbox(pageData.data.tags, newsTags)).map((key) => mappingCheckbox(pageData.data.tags, newsTags)[key].category)[0],
-        //     },
-        // });
 
     }, []);
 

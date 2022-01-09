@@ -18,8 +18,6 @@ const { productActiveStatus } = utilConst;
 
 const ProductForm = ({ data, service }) => {
 
-    // console.log('ProductForm data:', data)
-
     // Router
     const router = useRouter();
 
@@ -33,8 +31,13 @@ const ProductForm = ({ data, service }) => {
         formState: { errors },
     } = useForm({
         defaultValues: {
-            ...data,
-            isActive: data?.isActive ? 'true' : 'false'
+            title: data.title,
+            isActive: data?.isActive ? 'true' : 'false',
+            price: data.price,
+            fileSize: data.fileSize,
+            modelSum: data.modelSum,
+            perImgSize: data.perImgSize,
+            description: data.description,
         },
     });
 
@@ -200,7 +203,7 @@ const ProductForm = ({ data, service }) => {
                                     <Checkbox
                                         name="tags"
                                         value={id}
-                                        // defaultChecked={formStorageData?.tags?.some((val) => val === id)}
+                                        defaultChecked={data?.tags?.some((val) => val === id)}
                                         register={register(`tags.${idx}`)}
                                     >
                                         {name}-{id}

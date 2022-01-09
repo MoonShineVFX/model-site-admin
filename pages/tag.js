@@ -2,7 +2,6 @@ import TagBase from '../src/components/tag/TagBase';
 import { TagProvider } from '../src/context/tag/tag.state';
 import util from '../src/utils/util';
 
-//
 const TagList = ({ pageData }) => (
 
     <TagProvider>
@@ -27,15 +26,12 @@ export async function getServerSideProps ({ req }) {
 
     }
 
-    // const resData = await util.serviceServer({
-    //     url: '/admin_orders',
-    //     cookie: req.cookies.token,
-    // });
+    const resData = await util.serviceServer({
+        url: '/admin_tags',
+        cookie: req.cookies.token,
+    });
 
-    // const { data } = resData;
-
-    const resData = await fetch('http://localhost:1007/admin/json/tag.json');
-    const data = await resData.json();
+    const { data } = resData;
 
     return {
         props: {

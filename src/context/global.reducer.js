@@ -11,9 +11,27 @@ const globalReducer = (state, { type, payload }) => {
         case 'global_data':
             return {
                 ...state,
-                user: payload.user,
+                user: {
+                    userId: payload.userId,
+                    userName: payload.userName,
+                },
                 tags: payload.tags,
                 imagePosition: payload.imagePosition,
+            };
+
+        case 'tags_update':
+            return {
+                ...state,
+                tags: (payload.event === 'create') ? payload.tags : (
+
+                    state.tags.map((obj) => {
+
+                        if (obj.id === payload.resData.id) obj = payload.resData;
+                        return obj;
+
+                    })
+
+                ),
             };
 
         case 'search':
@@ -40,6 +58,7 @@ const formStorageReducer = (state, { type, payload }) => {
         case 'CLEAR':
             return {
                 formStorageData: {},
+                file: {},
             };
 
         default:

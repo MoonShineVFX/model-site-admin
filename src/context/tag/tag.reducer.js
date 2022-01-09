@@ -11,7 +11,7 @@ const tagReducer = (state, { type, payload }) => {
             return {
                 ...state,
                 action: payload.action,
-                list: payload.resData.tags,
+                list: payload.tags,
             };
 
         case 'tag_update':

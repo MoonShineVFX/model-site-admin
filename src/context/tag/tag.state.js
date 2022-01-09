@@ -18,6 +18,7 @@ const TagProvider = ({ children }) => {
 
     // Context
     const {
+        globalDispatch,
         lightboxDispatch,
         formStorageDispatch,
     } = useContext(GlobalContext);
@@ -31,10 +32,11 @@ const TagProvider = ({ children }) => {
     const tagCreate = (reqData) => {
 
         Service.tagCreate(reqData)
-            .then((resData) => {
+            .then(({ tags }) => {
 
                 formStorageDispatch({ type: 'CLEAR' });
-                tagDispatch({ type: 'tag_create', payload: { resData, action: true } });
+                tagDispatch({ type: 'tag_create', payload: { tags, action: true } });
+                globalDispatch({ type: 'tags_update', payload: { tags, event: 'create' } });
 
             });
 
@@ -52,6 +54,7 @@ const TagProvider = ({ children }) => {
 
                         formStorageDispatch({ type: 'CLEAR' });
                         tagDispatch({ type: 'tag_update', payload: { resData, action: true } });
+                        globalDispatch({ type: 'tags_update', payload: { resData, event: 'update' } });
 
                     },
                 });

@@ -3,7 +3,6 @@ import router from 'next/router';
 import { Switch } from 'antd';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
-
 import Buttons from '../Buttons';
 import { FormRow } from '../LightboxForm';
 import { GlobalContext } from '../../context/global.state';

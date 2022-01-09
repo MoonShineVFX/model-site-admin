@@ -184,8 +184,6 @@ export async function getServerSideProps ({ req }) {
 
     const { data } = resData;
 
-    console.log('data:', data)
-
     return {
         props: {
             pageData: {

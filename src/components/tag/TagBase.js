@@ -21,7 +21,6 @@ import util from '../../utils/util';
 import utilConst from '../../utils/util.const';
 
 const { pathnameKey } = util;
-
 const { lightboxTitle } = utilConst;
 
 const TagBase = ({ pageData }) => {
@@ -52,7 +51,7 @@ const TagBase = ({ pageData }) => {
 
         tagDispatch({
             type: 'tag_list',
-            payload: pageData.data.tags,
+            payload: pageData.data.list,
         });
 
     }, []);
@@ -124,7 +123,7 @@ const TagBase = ({ pageData }) => {
                     <TablesLayout
                         rowKey="id"
                         columns={columns}
-                        data={pageData.data.list}
+                        data={action ? list : pageData.data.list}
                     />
                 </ColLayout>
             </Row>

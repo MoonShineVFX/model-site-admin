@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Upload, Modal } from 'antd';
-import { UploadOutlined, PlusOutlined } from '@ant-design/icons';
+import { UploadOutlined } from '@ant-design/icons';
 import { red } from '@ant-design/colors';
 import styled from 'styled-components';
 import GlobalStyle from '../containers/GlobalStyle';
@@ -35,7 +35,7 @@ const handleFileList = (files, array) => files.reduce((arr, { id, url, name, siz
         url,
         name,
         size,
-        key: config?.name,
+        position: config?.name,
     };
 
     arr.push(obj);
@@ -59,13 +59,14 @@ const ButtonsLayout = styled(Buttons)({
     marginBottom: '20px',
     padding: '4px 16px',
     'span': {
-        letterSpacing: 0,
+        letterSpacing: '0',
     },
 });
 
 // 上傳圖片列表
 const ListWrapLayout = styled.div(({ theme }) => ({
     display: 'flex',
+    alignItems: 'center',
     '> *': {
         flex: '1',
     },
@@ -84,8 +85,8 @@ const ListWrapLayout = styled.div(({ theme }) => ({
         },
     },
     '.thumb': {
-        maxWidth: '60px',
-        height: '60px',
+        maxWidth: '80px',
+        height: '80px',
         overflow: 'hidden',
     },
     '.fileInfo': {
@@ -98,76 +99,55 @@ const ListWrapLayout = styled.div(({ theme }) => ({
 }));
 
 //
-const ListWrap = ({ file, onClick }) => {
+const ListWrap = ({ file, onClick }) => (
 
-    // Context
-    const { imagePosition } = useContext(GlobalContext);
-
-    return (
-
-        <ListWrapLayout>
-            <div
-                className="imgWrap"
-                onClick={onClick}
-            >
-                <div className="thumb">
-                    <img
-                        src={file.url}
-                        alt={file.name}
-                        title={file.name}
-                        width="60"
-                        height="60"
-                    />
-                </div>
-                <div className="fileInfo">
-                    <div>{file.name}</div>
-                    <div className="size">檔案大小: {formatBytes(file.size)}</div>
-                </div>
+    <ListWrapLayout>
+        <div
+            className="imgWrap"
+            onClick={onClick}
+        >
+            <div className="thumb">
+                <img
+                    src={file.url}
+                    alt={file.name}
+                    title={file.name}
+                    width="80"
+                    height="80"
+                />
             </div>
-            <div>
-                <div>前台顯示位置: {file.key}</div>
-                <select
-                    name="imagePosition"
-                    onChange={(e) => console.log('target', e.target.value)}
-                >
-                    <option value="">請選擇</option>
-                    {
-                        imagePosition.map(({ id, name }) => (
-
-                            <option
-                                key={id}
-                                value={id}
-                            >
-                                {name}
-                            </option>
-
-                        ))
-                    }
-                </select>
+            <div className="fileInfo">
+                <div>{file.name}</div>
+                <div className="size">檔案大小: {formatBytes(file.size)}</div>
             </div>
-        </ListWrapLayout>
+        </div>
+        <div>
+            前台顯示位置:
+            <p>{file.position}</p>
+        </div>
+    </ListWrapLayout>
 
-    );
-
-};
+);
 
 //
 const UploadFiles = ({
     size,
     fileData,
+    showPreview,
     handleUploadData,
     handleRemove,
+    children,
 }) => {
 
     // Context
-    const { imagePosition } = useContext(GlobalContext);
+    const { imagePosition, formStorageDispatch } = useContext(GlobalContext);
 
     // State
     const [previewVisible, setPreviewVisible] = useState(false);
     const [previewImage, setPreviewImage] = useState('');
     const [previewTitle, setPreviewTitle] = useState('');
+    const [beforePreview, setBeforePreview] = useState();
 
-    // Preview
+    // 上傳後預覽
     const handlePreview = async (file) => {
 
         if (!file.url && !file.preview) file.preview = await getBase64(file.originFileObj);
@@ -181,14 +161,36 @@ const UploadFiles = ({
     // Cancel
     const handleCancel = () => setPreviewVisible(false);
 
+    // 上傳前預覽
+    const handleBeforeUpload = (file) => {
+
+        setBeforePreview(file);
+        formStorageDispatch({
+            type: 'COLLECT',
+            payload: { selectedFile: file },
+        });
+
+    };
+
     return (
 
         <Fragment>
             <GlobalStyle />
 
+            <UploadFilesNoticeLayout>
+                <li className="warning-text">圖片經上傳後將取代原圖，請小心使用</li>
+                <li className="warning-text">檔名請勿重複，以免被覆寫</li>
+                <li>僅支援以下格式: jpg, png</li>
+                <li>檔案大小不得超過 2MB</li>
+                {
+                    size && <li>圖片尺寸為: {size}</li>
+                }
+            </UploadFilesNoticeLayout>
+
             <Upload
                 accept=".jpg,.jpeg,.png,.gif" // 限制檔案格式
                 fileList={handleFileList(fileData, imagePosition)}
+                beforeUpload={handleBeforeUpload}
                 customRequest={handleUploadData}
                 onPreview={handlePreview}
                 // onRemove={handleRemove}
@@ -203,20 +205,22 @@ const UploadFiles = ({
             >
                 <ButtonsLayout
                     type="default"
-                    text="上傳檔案"
+                    text="選擇圖片"
                     icon={<UploadOutlined />}
                 />
+
+                <span className="other-fields">{children}</span>
             </Upload>
 
-            <UploadFilesNoticeLayout>
-                <li className="warning-text">圖片經上傳後將取代原圖，請小心使用</li>
-                <li className="warning-text">檔名請勿重複，以免被覆寫</li>
-                <li>僅支援以下格式: jpg, png</li>
-                <li>檔案大小不得超過 2MB</li>
-                {
-                    size && <li>圖片尺寸為: {size}</li>
-                }
-            </UploadFilesNoticeLayout>
+            {
+                (showPreview && beforePreview) &&
+                    <div>
+                        <img
+                            src={URL.createObjectURL(beforePreview)}
+                            alt="thumb"
+                        />
+                    </div>
+            }
 
             <Modal
                 visible={previewVisible}
@@ -234,6 +238,11 @@ const UploadFiles = ({
 
     );
 
+};
+
+UploadFiles.defaultProps = {
+    handleUploadData: () => { return; },
+    showPreview: false,
 };
 
 UploadFiles.propTypes = {

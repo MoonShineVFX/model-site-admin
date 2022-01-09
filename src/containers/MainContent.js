@@ -9,7 +9,7 @@ const MainContent = ({ children }) => {
 
     useEffect(() => {
 
-        // if (!Cookie.get('token')) return;
+        if (!Cookie.get('token')) return;
         getGlobalData();
 
     }, []);

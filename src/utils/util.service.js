@@ -28,9 +28,9 @@ const Service = {
     }),
 
     // 標籤管理
-    tagCreate: (reqData) => util.serviceProxy('/tag_create', reqData),
-    tagUpdate: (reqData) => util.serviceProxy('/tag_update', reqData),
-    tagDelete: (reqData) => util.serviceProxy('/tag_delete', reqData),
+    tagCreate: (reqData) => util.serviceProxy('/admin_tag_create', reqData),
+    tagUpdate: (reqData) => util.serviceProxy('/admin_tag_update', reqData),
+    tagDelete: (reqData) => util.serviceProxy('/admin_tag_delete', reqData),
 
     // 訂單
     orderSearch: (reqData) => util.serviceProxy('/admin_order_search', reqData),

@@ -66,7 +66,6 @@ const TagForm = () => {
 
         // 結構
         if (currEvent === 'updateTag') reqData = [...reqData.tags][0];
-        else reqData = reqData.tags;
 
         // Service
         if (currEvent === 'updateTag') tagUpdate(reqData);
@@ -92,7 +91,7 @@ const TagForm = () => {
                             <FormRow
                                 labelTitle="標籤名稱"
                                 required={true}
-                                error={(errors?.tags?.length && errors.tags[idx].name) && true}
+                                error={(errors?.tags?.length && errors.tags[idx]?.name) && true}
                             >
                                 <input
                                     type="text"

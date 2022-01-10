@@ -38,7 +38,7 @@ const AdAccountForm = () => {
     } = useContext(GlobalContext);
 
     // State
-    const [selected, setSelected] = useState({
+    const [selected, setSelected] = useState({ // 一開始是 undefined，需給預設值
         isAssetAdmin: !!formStorageData.isAssetAdmin,
         isFinanceAdmin: !!formStorageData.isFinanceAdmin,
         isSuperuser: !!formStorageData.isSuperuser,
@@ -69,11 +69,8 @@ const AdAccountForm = () => {
 
         reqData = {
             ...reqData,
-            // ...selected,
+            ...selected,
             ...(currEvent === 'updateAdAccount') && { id: formStorageData.id },
-            isAssetAdmin: true,
-            isFinanceAdmin: true,
-            isSuperuser: true,
         };
 
         // 編輯部允許更改帳號
@@ -95,7 +92,7 @@ const AdAccountForm = () => {
                 {
                     ...(currEvent === 'createAdAccount') ? {
                         required: true,
-                        error: errors.account && true,
+                        error: errors.email && true,
                     } : {
                         readonly: true,
                     }
@@ -103,8 +100,8 @@ const AdAccountForm = () => {
             >
                 <input
                     type="text"
-                    name="account"
-                    {...register('account', { required: !!(currEvent === 'createAdAccount') })}
+                    name="email"
+                    {...register('email', { required: !!(currEvent === 'createAdAccount') })}
                 />
             </FormRow>
 
@@ -142,14 +139,12 @@ const AdAccountForm = () => {
             }
 
             <AuthorityWrap>
-                <h4 className="title">權限設定 (若要更改請找研發)</h4>
+                <h4 className="title">權限設定</h4>
                 <label className="row">
                     <div className="title">素材</div>
                     <div className="field noBorder">
                         <Switch
-                            disabled
-                            defaultChecked
-                            // defaultChecked={formStorageData.isAssetAdmin}
+                            defaultChecked={formStorageData.isAssetAdmin}
                             onChange={(checked, event) => handleChange(checked, event, 'isAssetAdmin')}
                         />
                     </div>
@@ -158,9 +153,7 @@ const AdAccountForm = () => {
                     <div className="title">訂單</div>
                     <div className="field noBorder">
                         <Switch
-                            disabled
-                            defaultChecked
-                            // defaultChecked={formStorageData.isFinanceAdmin}
+                            defaultChecked={formStorageData.isFinanceAdmin}
                             onChange={(checked, event) => handleChange(checked, event, 'isFinanceAdmin')}
                         />
                     </div>
@@ -169,9 +162,7 @@ const AdAccountForm = () => {
                     <div className="title">帳號管理</div>
                     <div className="field noBorder">
                         <Switch
-                            disabled
-                            defaultChecked
-                            // defaultChecked={formStorageData.isSuperuser}
+                            defaultChecked={formStorageData.isSuperuser}
                             onChange={(checked, event) => handleChange(checked, event, 'isSuperuser')}
                         />
                     </div>

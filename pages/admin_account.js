@@ -5,7 +5,6 @@ import { DownOutlined } from '@ant-design/icons';
 import HeadTag from '../src/containers/HeadTag';
 import ContentHeader from '../src/containers/ContentHeader';
 import Tables from '../src/components/Tables';
-import Links from '../src/components/Links';
 import Buttons from '../src/components/Buttons';
 import LightboxForm from '../src/components/LightboxForm';
 import SearchForm from '../src/components/admin/SearchForm';
@@ -14,7 +13,6 @@ import AdAccountForm from '../src/components/admin/AdAccountForm';
 import { GlobalContext } from '../src/context/global.state';
 import util from '../src/utils/util';
 import utilConst from '../src/utils/util.const';
-import Service from '../src/utils/util.service';
 
 const {
     pathnameKey,
@@ -53,12 +51,11 @@ const AdminAccount = ({ pageData }) => {
         {
             title: 'ID',
             dataIndex: 'id',
-            render: (id) => <Links url={`/product/${id}`}>{id}</Links>,
         },
         {
             title: '後台帳號',
-            dataIndex: 'account',
-            render: (account) => renderWithoutValue(account),
+            dataIndex: 'email',
+            render: (email) => renderWithoutValue(email),
         },
         {
             title: '素材',
@@ -168,15 +165,12 @@ export async function getServerSideProps ({ req }) {
 
     }
 
-    // const resData = await util.serviceServer({
-    //     url: '/admin_products',
-    //     cookie: req.cookies.token,
-    // });
+    const resData = await util.serviceServer({
+        url: '/admin_accounts',
+        cookie: req.cookies.token,
+    });
 
-    // const { data } = resData;
-
-    const resData = await fetch('http://localhost:1007/admin/json/admin_account.json');
-    const data = await resData.json();
+    const { data } = resData;
 
     return {
         props: {

@@ -36,7 +36,7 @@ const Service = {
     orderSearch: (reqData) => util.serviceProxy('/admin_order_search', reqData),
 
     // 後台帳號
-    adAccountSearch: (reqData) => util.serviceProxy('/???', reqData),
+    adAccountSearch: (reqData) => util.serviceProxy('/admin_account_search', reqData),
 
 };
 

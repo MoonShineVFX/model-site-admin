@@ -1,6 +1,5 @@
 import { Fragment, useContext } from 'react';
 import { useRouter } from 'next/router';
-import { message } from 'antd';
 import { useForm } from 'react-hook-form';
 
 import LightboxFormStyle from '../LightboxFormStyle';
@@ -31,13 +30,13 @@ const ProductForm = ({ data, service }) => {
         formState: { errors },
     } = useForm({
         defaultValues: {
-            title: data.title,
+            title: data?.title,
             isActive: data?.isActive ? 'true' : 'false',
-            price: data.price,
-            fileSize: data.fileSize,
-            modelSum: data.modelSum,
-            perImgSize: data.perImgSize,
-            description: data.description,
+            price: data?.price,
+            fileSize: data?.fileSize,
+            modelSum: data?.modelSum,
+            perImgSize: data?.perImgSize,
+            description: data?.description,
         },
     });
 
@@ -46,6 +45,7 @@ const ProductForm = ({ data, service }) => {
 
         reqData = {
             ...reqData,
+            ...(service === 'productUpdate') && { id: data.id },
             isActive: (reqData.isActive === 'false') ? !reqData.isActive : !!reqData.isActive,
             price: +reqData.price,
             modelSum: +reqData.modelSum,
@@ -53,15 +53,6 @@ const ProductForm = ({ data, service }) => {
         };
 
         delete reqData.fileSize;
-
-        // 檢查標籤是否勾選
-        // if (!reqData.tags.length) {
-
-        //     message.error('標籤未勾選');
-        //     return;
-
-        // }
-
         Service[service](reqData)
             .then(() => {
 

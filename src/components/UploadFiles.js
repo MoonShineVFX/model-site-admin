@@ -1,30 +1,14 @@
 import React, { Fragment, useState, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { Upload, Modal } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
+import { Upload } from 'antd';
+import { UploadOutlined, PlusOutlined } from '@ant-design/icons';
 import { red } from '@ant-design/colors';
 import styled from 'styled-components';
-import GlobalStyle from '../containers/GlobalStyle';
-import { GlobalContext } from '../context/global.state';
-
 import Buttons from './Buttons';
+import { GlobalContext } from '../context/global.state';
 import util from '../utils/util';
 
-const { formatBytes } = util;
-
-// Base64
-function getBase64 (file) {
-
-    return new Promise((resolve, reject) => {
-
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
-
-    });
-
-}
+const { renderBytesConvert } = util;
 
 // 整理成 Ant Design 的格式
 const handleFileList = (files, array) => files.reduce((arr, { id, url, name, size, positionId }) => {
@@ -117,7 +101,7 @@ const ListWrap = ({ file, onClick }) => (
             </div>
             <div className="fileInfo">
                 <div>{file.name}</div>
-                <div className="size">檔案大小: {formatBytes(file.size)}</div>
+                <div className="size">檔案大小: {renderBytesConvert(file.size)}</div>
             </div>
         </div>
         <div>
@@ -130,7 +114,7 @@ const ListWrap = ({ file, onClick }) => (
 
 //
 const UploadFiles = ({
-    size,
+    listType,
     fileData,
     showPreview,
     handleUploadData,
@@ -142,24 +126,10 @@ const UploadFiles = ({
     const { imagePosition, formStorageDispatch } = useContext(GlobalContext);
 
     // State
-    const [previewVisible, setPreviewVisible] = useState(false);
-    const [previewImage, setPreviewImage] = useState('');
-    const [previewTitle, setPreviewTitle] = useState('');
     const [beforePreview, setBeforePreview] = useState();
 
     // 上傳後預覽
-    const handlePreview = async (file) => {
-
-        if (!file.url && !file.preview) file.preview = await getBase64(file.originFileObj);
-
-        setPreviewVisible(true);
-        setPreviewImage(file.url || file.preview);
-        setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
-
-    };
-
-    // Cancel
-    const handleCancel = () => setPreviewVisible(false);
+    const handlePreview = async (file) => window.open(file.url);
 
     // 上傳前預覽
     const handleBeforeUpload = (file) => {
@@ -175,39 +145,49 @@ const UploadFiles = ({
     return (
 
         <Fragment>
-            <GlobalStyle />
-
             <UploadFilesNoticeLayout>
                 <li className="warning-text">圖片經上傳後將取代原圖，請小心使用</li>
                 <li className="warning-text">檔名請勿重複，以免被覆寫</li>
                 <li>僅支援以下格式: jpg, png</li>
                 <li>檔案大小不得超過 2MB</li>
-                {
-                    size && <li>圖片尺寸為: {size}</li>
-                }
             </UploadFilesNoticeLayout>
 
             <Upload
+                listType={listType}
                 accept=".jpg,.jpeg,.png,.gif" // 限制檔案格式
                 fileList={handleFileList(fileData, imagePosition)}
                 beforeUpload={handleBeforeUpload}
                 customRequest={handleUploadData}
                 onPreview={handlePreview}
                 // onRemove={handleRemove}
-                itemRender={(originNode, file, currFileList, actions) => (
+                {...(listType === 'picture') && {
+                    itemRender: (originNode, file, currFileList, actions) => (
 
-                    <ListWrap
-                        file={file}
-                        onClick={() => actions.preview()}
-                    />
+                        <ListWrap
+                            file={file}
+                            onClick={() => actions.preview()}
+                        />
 
-                )}
+                    )
+                }}
             >
-                <ButtonsLayout
-                    type="default"
-                    text="選擇圖片"
-                    icon={<UploadOutlined />}
-                />
+                {
+                    (listType === 'picture') ? (
+
+                        <ButtonsLayout
+                            type="default"
+                            text="選擇圖片"
+                            icon={<UploadOutlined />}
+                        />
+
+                    ) : (
+
+                        <Fragment>
+                            <PlusOutlined /> 上傳圖片
+                        </Fragment>
+
+                    )
+                }
 
                 <span className="other-fields">{children}</span>
             </Upload>
@@ -221,19 +201,6 @@ const UploadFiles = ({
                         />
                     </div>
             }
-
-            <Modal
-                visible={previewVisible}
-                title={previewTitle}
-                footer={null}
-                onCancel={handleCancel}
-            >
-                <img
-                    src={previewImage}
-                    alt="圖片放大"
-                    style={{ width: '100%' }}
-                />
-            </Modal>
         </Fragment>
 
     );
@@ -241,15 +208,18 @@ const UploadFiles = ({
 };
 
 UploadFiles.defaultProps = {
-    handleUploadData: () => { return; },
+    listType: 'picture',
     showPreview: false,
+    handleUploadData: () => { return; },
 };
 
 UploadFiles.propTypes = {
-    size: PropTypes.string,
+    listType: PropTypes.string,
     fileData: PropTypes.array.isRequired,
+    showPreview: PropTypes.bool,
     handleUploadData: PropTypes.func,
     handleRemove: PropTypes.func,
+    children: PropTypes.any,
 };
 
 export default UploadFiles;

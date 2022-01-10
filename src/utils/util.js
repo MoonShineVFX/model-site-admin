@@ -160,9 +160,10 @@ const util = {
     /**
      * @author Betty
      * @param {number} bytes
+     * @param {number} decimals
      * @return {number} - 小數兩位
      */
-    formatBytes: (bytes, decimals = 2) => {
+    renderBytesConvert: (bytes, decimals = 2) => {
 
         if (bytes === 0) return '0 Bytes';
 
@@ -172,6 +173,20 @@ const util = {
         const i = Math.floor(Math.log(bytes) / Math.log(k));
 
         return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))}${sizes[i]}`;
+
+    },
+
+    /**
+     * @author Betty
+     * @param {number} bytes
+     * @param {number} limit
+     * @return {number}
+     */
+    uploadFileLimit: (bytes, limit = 2) => {
+
+        const k = 1024;
+        const limitSize = bytes / k / k < limit;
+        return limitSize;
 
     },
 

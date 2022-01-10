@@ -1,6 +1,7 @@
 import { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { message } from 'antd';
+import { blue } from '@ant-design/colors';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 
@@ -8,9 +9,24 @@ import Buttons from '../Buttons';
 import { ErrorMesg } from '../LightboxForm';
 import UploadFiles from '../UploadFiles';
 import { GlobalContext } from '../../context/global.state';
+import util from '../../utils/util';
+import utilConst from '../../utils/util.const';
 import Service from '../../utils/util.service';
 
+const { uploadFileLimit } = util;
+const { limitSizeText } = utilConst;
+
+const mappingSize = {
+    main: '1200x400',
+    mobileMain: '',
+    thumb: '480x280',
+    extend: '420x500',
+};
+
 const RowWrapLayout = styled.div({
+    '.notice': {
+        color: blue.primary,
+    },
     '.other-fields': {
         display: 'inline-block',
         verticalAlign: 'top',
@@ -23,34 +39,13 @@ const RowWrapLayout = styled.div({
     },
 });
 
-const ImageUpload = ({ data }) => {
-
-    // fake
-    // data.webImages = [
-    //     {
-    //         "id": 48,
-    //         "url": "https://storage.googleapis.com/backend-django/demonstrations/images/5G實驗場.jpg",
-    //         "positionId": 2,
-    //         "name": "圖片檔名01",
-    //         "size": 20000
-    //     },
-    //     {
-    //         "id": 49,
-    //         "url": "https://storage.googleapis.com/backend-django/demonstrations/images/5G實驗場.jpg",
-    //         "positionId": 3,
-    //         "name": "圖片檔名02",
-    //         "size": 20000
-    //     }
-    // ];
-
-    console.log('image data:', data)
+const PositionImageUpload = ({ data }) => {
 
     // Context
     const { imagePosition, formStorageData } = useContext(GlobalContext);
 
     // State
     const [imageLists, setImageLists] = useState(data?.webImages || []);
-    const [beforePreview, setBeforePreview] = useState(true);
 
     // React Hook Form
     const {
@@ -58,37 +53,6 @@ const ImageUpload = ({ data }) => {
         register,
         formState: { errors },
     } = useForm();
-
-    // 上傳圖片
-    const handleUploadData = ({ file }) => {
-
-        const isLt10M = file.size / 1024 / 1024 < 10;
-        const formData = new FormData();
-
-        if (!isLt10M) {
-
-            message.error('檔案不能超過 2MB，請重新上傳!!!');
-            return;
-
-        }
-
-        formData.append('productId', data.id);
-        formData.append('file', file);
-
-        let resData = {
-            id: 84751,
-            url: 'https://fakeimg.pl/321x186',
-            key: 'thumb',
-            name: "321x186",
-            size: 20000
-        };
-
-        setImageLists([{ ...resData }, ...imageLists]);
-        return;
-        Service.imageUpload(formData)
-            .then((resData) => setImageLists([{ ...resData }, ...imageLists]));
-
-    };
 
     // 送資料
     const handleReqData = (reqData) => {
@@ -113,12 +77,12 @@ const ImageUpload = ({ data }) => {
         // 檢查: 圖片尺寸
         if (formStorageData?.selectedFile) {
 
-            const limitSize = (reqData.file.size / 1024 / 1024) < 2;
+            const limitSize = uploadFileLimit(reqData.file.size);
 
             // 檢查圖片大小是否超過 2MB
             if (!limitSize) {
 
-                message.error('檔案不能超過 2MB，請重新上傳');
+                message.error(limitSizeText);
                 return;
 
             }
@@ -132,22 +96,8 @@ const ImageUpload = ({ data }) => {
         }
 
         // Service
-        Service.imageUpload(formData)
-            .then((resData) => {
-
-                // fake
-                resData = {
-                    "id": 50,
-                    "url": "https://storage.googleapis.com/backend-django/demonstrations/images/5G實驗場.jpg",
-                    "positionId": 4,
-                    "name": "圖片檔名03",
-                    "size": 20000
-                };
-
-                // setBeforePreview(false);
-                setImageLists([{ ...resData }, ...imageLists]);
-
-            });
+        Service.PositionImageUpload(formData)
+            .then((resData) => setImageLists([{ ...resData }, ...imageLists]));
 
     };
 
@@ -155,12 +105,21 @@ const ImageUpload = ({ data }) => {
 
         <RowWrapLayout className="row">
             <h3>前台圖片顯示區塊</h3>
+            <div className="notice">
+                建議尺寸:
+                {
+                    imagePosition.map(({ id, key, name }) => (
+
+                        (key !== 'preview') && <div key={id}>{name}: {mappingSize[key]}</div>
+
+                    ))
+                }
+            </div>
 
             <form onSubmit={handleSubmit(handleReqData)}>
                 <UploadFiles
                     fileData={imageLists}
-                    // handleUploadData={handleUploadData}
-                    showPreview={beforePreview}
+                    showPreview={true}
                 >
                     <span className={`img-position ${errors.positionId ? 'hasError' : ''}`}>
                         <select
@@ -199,8 +158,8 @@ const ImageUpload = ({ data }) => {
 
 };
 
-ImageUpload.propTypes = {
+PositionImageUpload.propTypes = {
     data: PropTypes.object.isRequired,
 };
 
-export default ImageUpload;
+export default PositionImageUpload;

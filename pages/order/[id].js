@@ -136,8 +136,8 @@ const OrderDetail = ({ pageData }) => {
                                         <img
                                             src={imgUrl}
                                             alt={title}
-                                            width="321"
-                                            height="186"
+                                            width="480"
+                                            height="280"
                                         />
                                     </div>
                                     <div className="content">

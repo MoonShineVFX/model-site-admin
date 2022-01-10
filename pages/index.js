@@ -128,7 +128,7 @@ const ProductList = ({ pageData }) => {
         Service.productActive({ id, isActive: target.value })
             .then(() => {
 
-                message.success(`${id} 已改為${productActiveStatus[target.value]}`);
+                message.success(`ID ${id} 已改為${productActiveStatus[target.value]}`);
 
             });
 
@@ -188,7 +188,7 @@ export async function getServerSideProps ({ req }) {
         props: {
             pageData: {
                 title: '商品管理',
-                imageSize: '321x186',
+                imageSize: '480x280',
                 data: data.data,
             },
         },

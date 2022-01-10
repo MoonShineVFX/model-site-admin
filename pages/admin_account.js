@@ -62,18 +62,18 @@ const AdminAccount = ({ pageData }) => {
         },
         {
             title: '素材',
-            dataIndex: 'handleMaterial',
-            render: (handleMaterial) => handleMaterial && <DownOutlined />,
+            dataIndex: 'isAssetAdmin',
+            render: (isAssetAdmin) => isAssetAdmin && <DownOutlined />,
         },
         {
             title: '帳務',
-            dataIndex: 'handleFinance',
-            render: (handleFinance) => handleFinance && <DownOutlined />,
+            dataIndex: 'isFinanceAdmin',
+            render: (isFinanceAdmin) => isFinanceAdmin && <DownOutlined />,
         },
         {
             title: '管理帳號',
-            dataIndex: 'isMax',
-            render: (isMax) => isMax && <DownOutlined />,
+            dataIndex: 'isSuperuser',
+            render: (isSuperuser) => isSuperuser && <DownOutlined />,
         },
         {
             title: '更動時間',

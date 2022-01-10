@@ -5,6 +5,7 @@ const utilConst = {
     sendSuccessText: '資料已成功送出，將於 3 秒後更新。',
     emptyText: '目前沒有資料...',
     errorText: '此欄位為必填!',
+    limitSizeText: '檔案不能超過 2MB，請重新上傳!!!',
 
     // 側邊攔
     navbar: [

@@ -39,9 +39,9 @@ const AdAccountForm = () => {
 
     // State
     const [selected, setSelected] = useState({
-        handleMaterial: !!formStorageData.handleMaterial,
-        handleFinance: !!formStorageData.handleFinance,
-        isMax: !!formStorageData.isMax,
+        isAssetAdmin: !!formStorageData.isAssetAdmin,
+        isFinanceAdmin: !!formStorageData.isFinanceAdmin,
+        isSuperuser: !!formStorageData.isSuperuser,
     });
 
     // React Hook Form
@@ -69,12 +69,17 @@ const AdAccountForm = () => {
 
         reqData = {
             ...reqData,
-            ...selected,
+            // ...selected,
             ...(currEvent === 'updateAdAccount') && { id: formStorageData.id },
+            isAssetAdmin: true,
+            isFinanceAdmin: true,
+            isSuperuser: true,
         };
 
         // 編輯部允許更改帳號
         if (currEvent === 'updateAdAccount') delete reqData.account;
+
+        // console.log('reqData:', reqData)
 
         // Service
         // if (currEvent === 'updateTag') tagUpdate(reqData);
@@ -137,13 +142,15 @@ const AdAccountForm = () => {
             }
 
             <AuthorityWrap>
-                <h4 className="title">權限設定</h4>
+                <h4 className="title">權限設定 (若要更改請找研發)</h4>
                 <label className="row">
                     <div className="title">素材</div>
                     <div className="field noBorder">
                         <Switch
-                            defaultChecked={formStorageData.handleMaterial}
-                            onChange={(checked, event) => handleChange(checked, event, 'handleMaterial')}
+                            disabled
+                            defaultChecked
+                            // defaultChecked={formStorageData.isAssetAdmin}
+                            onChange={(checked, event) => handleChange(checked, event, 'isAssetAdmin')}
                         />
                     </div>
                 </label>
@@ -151,8 +158,10 @@ const AdAccountForm = () => {
                     <div className="title">訂單</div>
                     <div className="field noBorder">
                         <Switch
-                            defaultChecked={formStorageData.handleFinance}
-                            onChange={(checked, event) => handleChange(checked, event, 'handleFinance')}
+                            disabled
+                            defaultChecked
+                            // defaultChecked={formStorageData.isFinanceAdmin}
+                            onChange={(checked, event) => handleChange(checked, event, 'isFinanceAdmin')}
                         />
                     </div>
                 </label>
@@ -160,8 +169,10 @@ const AdAccountForm = () => {
                     <div className="title">帳號管理</div>
                     <div className="field noBorder">
                         <Switch
-                            defaultChecked={formStorageData.isMax}
-                            onChange={(checked, event) => handleChange(checked, event, 'isMax')}
+                            disabled
+                            defaultChecked
+                            // defaultChecked={formStorageData.isSuperuser}
+                            onChange={(checked, event) => handleChange(checked, event, 'isSuperuser')}
                         />
                     </div>
                 </label>

@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { message } from 'antd';
 import { blue } from '@ant-design/colors';
 import styled from 'styled-components';
 import UploadFiles from '../UploadFiles';
+import { GlobalContext } from '../../context/global.state';
 import util from '../../utils/util';
 import utilConst from '../../utils/util.const';
 import Service from '../../utils/util.service';
@@ -22,8 +23,11 @@ const RowWrapLayout = styled.div(({ theme }) => ({
 
 const PreviewImageUpload = ({ data }) => {
 
+    // Context
+    const { imagePosition } = useContext(GlobalContext);
+
     // State
-    const [imageLists, setImageLists] = useState(data?.webImages || []);
+    const [imageLists, setImageLists] = useState(data?.previews || []);
 
     // 上傳圖片
     const handleUploadData = ({ file }) => {
@@ -39,9 +43,10 @@ const PreviewImageUpload = ({ data }) => {
         }
 
         formData.append('productId', data.id);
+        formData.append('positionId', imagePosition.filter(({ key }) => key === 'preview')[0].id);
         formData.append('file', file);
 
-        Service.PreviewImageUpload(formData)
+        Service.imageUpload(formData)
             .then((resData) => setImageLists([{ ...resData }, ...imageLists]));
 
     };
@@ -49,7 +54,7 @@ const PreviewImageUpload = ({ data }) => {
     return (
 
         <RowWrapLayout className="row">
-            <h3>商品組圖</h3>
+            <h3>商品展示組圖</h3>
             <p className="notice">建議尺寸: 840x480</p>
 
             <UploadFiles

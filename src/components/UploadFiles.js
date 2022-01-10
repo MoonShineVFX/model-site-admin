@@ -9,6 +9,7 @@ import { GlobalContext } from '../context/global.state';
 import util from '../utils/util';
 
 const { renderBytesConvert } = util;
+const supportFormat = '.jpg,.jpeg,.png';
 
 // 整理成 Ant Design 的格式
 const handleFileList = (files, array) => files.reduce((arr, { id, url, name, size, positionId }) => {
@@ -148,13 +149,13 @@ const UploadFiles = ({
             <UploadFilesNoticeLayout>
                 <li className="warning-text">圖片經上傳後將取代原圖，請小心使用</li>
                 <li className="warning-text">檔名請勿重複，以免被覆寫</li>
-                <li>僅支援以下格式: jpg, png</li>
+                <li>僅支援以下格式: {supportFormat}</li>
                 <li>檔案大小不得超過 2MB</li>
             </UploadFilesNoticeLayout>
 
             <Upload
                 listType={listType}
-                accept=".jpg,.jpeg,.png,.gif" // 限制檔案格式
+                accept={supportFormat} // 限制檔案格式
                 fileList={handleFileList(fileData, imagePosition)}
                 beforeUpload={handleBeforeUpload}
                 customRequest={handleUploadData}

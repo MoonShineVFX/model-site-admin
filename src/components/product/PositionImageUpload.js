@@ -96,7 +96,7 @@ const PositionImageUpload = ({ data }) => {
         }
 
         // Service
-        Service.PositionImageUpload(formData)
+        Service.imageUpload(formData)
             .then((resData) => setImageLists([{ ...resData }, ...imageLists]));
 
     };
@@ -129,14 +129,15 @@ const PositionImageUpload = ({ data }) => {
                         >
                             <option value="">請選擇</option>
                             {
-                                imagePosition.map(({ id, name }) => (
+                                imagePosition.map(({ id, key, name }) => (
 
-                                    <option
-                                        key={id}
-                                        value={id}
-                                    >
-                                        {name}
-                                    </option>
+                                    (key !== 'preview') &&
+                                        <option
+                                            key={id}
+                                            value={id}
+                                        >
+                                            {name}
+                                        </option>
 
                                 ))
                             }

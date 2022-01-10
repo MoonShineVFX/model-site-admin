@@ -45,6 +45,7 @@ const GlobalStyle = createGlobalStyle`
     .ant-tag {
         font-size: 14px;
         margin-right: 6px;
+        margin-bottom: 6px;
         padding: 2px 10px;
         cursor: default;
     }

@@ -26,6 +26,7 @@ const Service = {
             'Content-Type': 'multipart/form-data',
         },
     }),
+    imageDelete: (reqData) => util.serviceProxy('/admin_image_delete', reqData),
 
     // 標籤管理
     tagCreate: (reqData) => util.serviceProxy('/admin_tag_create', reqData),

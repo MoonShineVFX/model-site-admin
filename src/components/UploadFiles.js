@@ -2,9 +2,12 @@ import React, { Fragment, useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Upload } from 'antd';
 import { UploadOutlined, PlusOutlined } from '@ant-design/icons';
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { red } from '@ant-design/colors';
 import styled from 'styled-components';
+
 import Buttons from './Buttons';
+import FontIcon from './FontIcon';
 import { GlobalContext } from '../context/global.state';
 import util from '../utils/util';
 
@@ -52,21 +55,32 @@ const ButtonsLayout = styled(Buttons)({
 const ListWrapLayout = styled.div(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
+    marginBottom: '12px',
     '> *': {
         flex: '1',
     },
+    '.btnDelete': {
+        maxWidth: '40px',
+        fontSize: '1.4em',
+        color: 'grey',
+        'span': {
+            display: 'inline-block',
+            marginLeft: '-4px',
+            padding: '2px 4px',
+            cursor: 'pointer',
+        },
+    },
     '.imgWrap': {
-        maxWidth: '300px',
+        maxWidth: '320px',
+        minWidth: '320px',
         border: `1px solid ${theme.palette.border}`,
-        display: 'flex',
-        alignItems: 'center',
         marginRight: '20px',
-        marginBottom: '10px',
         padding: '8px',
         position: 'relative',
         cursor: 'pointer',
         '> *': {
-            flex: '1',
+            display: 'inline-block',
+            verticalAlign: 'middle',
         },
     },
     '.thumb': {
@@ -75,7 +89,13 @@ const ListWrapLayout = styled.div(({ theme }) => ({
         overflow: 'hidden',
     },
     '.fileInfo': {
+        width: 'calc(100% - 80px - 8px)',
         paddingLeft: '8px',
+    },
+    '.name': {
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
     },
     '.size': {
         fontSize: '0.8em',
@@ -84,14 +104,18 @@ const ListWrapLayout = styled.div(({ theme }) => ({
 }));
 
 //
-const ListWrap = ({ file, onClick }) => (
+const ListWrap = ({ file, handleClickEnlarge, handleDelete }) => (
 
     <ListWrapLayout>
+        <div className="btnDelete">
+            <span onClick={handleDelete}><FontIcon icon={faTrashAlt} /></span>
+        </div>
         <div
             className="imgWrap"
-            onClick={onClick}
+            onClick={handleClickEnlarge}
+            title={file.name}
         >
-            <div className="thumb">
+            <span className="thumb">
                 <img
                     src={file.url}
                     alt={file.name}
@@ -99,11 +123,11 @@ const ListWrap = ({ file, onClick }) => (
                     width="80"
                     height="80"
                 />
-            </div>
-            <div className="fileInfo">
-                <div>{file.name}</div>
+            </span>
+            <span className="fileInfo">
+                <div className="name">{file.name}</div>
                 <div className="size">檔案大小: {renderBytesConvert(file.size)}</div>
-            </div>
+            </span>
         </div>
         <div>
             前台顯示位置:
@@ -119,7 +143,7 @@ const UploadFiles = ({
     fileData,
     showPreview,
     handleUploadData,
-    handleRemove,
+    handleDelete,
     children,
 }) => {
 
@@ -160,13 +184,14 @@ const UploadFiles = ({
                 beforeUpload={handleBeforeUpload}
                 customRequest={handleUploadData}
                 onPreview={handlePreview}
-                // onRemove={handleRemove}
+                onRemove={handleDelete}
                 {...(listType === 'picture') && {
                     itemRender: (originNode, file, currFileList, actions) => (
 
                         <ListWrap
                             file={file}
-                            onClick={() => actions.preview()}
+                            handleClickEnlarge={() => actions.preview()}
+                            handleDelete={() => handleDelete(file)}
                         />
 
                     )
@@ -219,7 +244,7 @@ UploadFiles.propTypes = {
     fileData: PropTypes.array.isRequired,
     showPreview: PropTypes.bool,
     handleUploadData: PropTypes.func,
-    handleRemove: PropTypes.func,
+    handleDelete: PropTypes.func,
     children: PropTypes.any,
 };
 

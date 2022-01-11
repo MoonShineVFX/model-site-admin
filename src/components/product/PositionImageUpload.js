@@ -101,6 +101,14 @@ const PositionImageUpload = ({ data }) => {
 
     };
 
+    // 刪除圖片
+    const handleDelete = (file) => {
+
+        Service.imageDelete({ id: file.uid })
+            .then(() => setImageLists(imageLists.filter(({ id }) => id !== file.uid)));
+
+    };
+
     return (
 
         <RowWrapLayout className="row">
@@ -120,6 +128,7 @@ const PositionImageUpload = ({ data }) => {
                 <UploadFiles
                     fileData={imageLists}
                     showPreview={true}
+                    handleDelete={handleDelete}
                 >
                     <span className={`img-position ${errors.positionId ? 'hasError' : ''}`}>
                         <select

@@ -51,6 +51,14 @@ const PreviewImageUpload = ({ data }) => {
 
     };
 
+    // 刪除圖片
+    const handleDelete = (file) => {
+
+        Service.imageDelete({ id: file.uid })
+            .then(() => setImageLists(imageLists.filter(({ id }) => id !== file.uid)));
+
+    };
+
     return (
 
         <RowWrapLayout className="row">
@@ -61,6 +69,7 @@ const PreviewImageUpload = ({ data }) => {
                 listType="picture-card"
                 fileData={imageLists}
                 handleUploadData={handleUploadData}
+                handleDelete={handleDelete}
             />
         </RowWrapLayout>
 

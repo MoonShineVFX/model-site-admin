@@ -58,7 +58,6 @@ const formStorageReducer = (state, { type, payload }) => {
         case 'CLEAR':
             return {
                 formStorageData: {},
-                file: {},
             };
 
         default:

@@ -10,9 +10,10 @@ import Buttons from './Buttons';
 import FontIcon from './FontIcon';
 import { GlobalContext } from '../context/global.state';
 import util from '../utils/util';
+import utilConst from '../utils/util.const';
 
 const { renderBytesConvert } = util;
-const supportFormat = '.jpg,.jpeg,.png';
+const { supportFormat } = utilConst;
 
 // 整理成 Ant Design 的格式
 const handleFileList = (files, array) => files.reduce((arr, { id, url, name, size, positionId }) => {

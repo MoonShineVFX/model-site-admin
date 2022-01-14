@@ -31,6 +31,9 @@ const TablesLayout = styled(Table)({
     '.col-tags': {
         maxWidth: '200px',
     },
+    '.ant-tag': {
+        marginBottom: '6px',
+    },
 });
 
 // 表格列表

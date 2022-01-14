@@ -38,6 +38,11 @@ const Service = {
 
     // 後台帳號
     adAccountSearch: (reqData) => util.serviceProxy('/admin_account_search', reqData),
+    adAccountCreate: (reqData) => util.serviceProxy('/admin_account_create', reqData),
+    adAccountUpdate: (reqData) => util.serviceProxy('/admin_account_update', reqData),
+
+    // 關於我們
+    aboutUsUpdate: (reqData) => util.serviceProxy('/admin_about_update', reqData),
 
 };
 

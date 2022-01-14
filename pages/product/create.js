@@ -29,8 +29,6 @@ export default ProductCreate;
 
 export async function getServerSideProps ({ req }) {
 
-    console.log('betty:', req.cookies)
-
     // 沒有 cookie(token) 導登入頁
     if (!req.cookies.token) {
 

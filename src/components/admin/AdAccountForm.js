@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import Buttons from '../Buttons';
 import { FormRow } from '../LightboxForm';
 import { GlobalContext } from '../../context/global.state';
+import { AdAccountContext } from '../../context/admin/adaccount.state';
 
 //
 const AuthorityWrap = styled.div(({ theme }) => ({
@@ -36,6 +37,8 @@ const AdAccountForm = () => {
         lightboxDispatch,
         formStorageData,
     } = useContext(GlobalContext);
+
+    const { adAccountCreate, adAccountUpdate } = useContext(AdAccountContext);
 
     // State
     const [selected, setSelected] = useState({ // 一開始是 undefined，需給預設值
@@ -73,14 +76,15 @@ const AdAccountForm = () => {
             ...(currEvent === 'updateAdAccount') && { id: formStorageData.id },
         };
 
-        // 編輯部允許更改帳號
-        if (currEvent === 'updateAdAccount') delete reqData.account;
-
-        // console.log('reqData:', reqData)
-
         // Service
-        // if (currEvent === 'updateTag') tagUpdate(reqData);
-        // else tagCreate(reqData);
+        if (currEvent === 'updateAdAccount') {
+
+            // 編輯部允許更改帳號
+            delete reqData.email;
+            adAccountUpdate(reqData);
+
+        }
+        else adAccountCreate(reqData);
 
     };
 
@@ -93,9 +97,7 @@ const AdAccountForm = () => {
                     ...(currEvent === 'createAdAccount') ? {
                         required: true,
                         error: errors.email && true,
-                    } : {
-                        readonly: true,
-                    }
+                    } : { readonly: true }
                 }
             >
                 <input

@@ -7,7 +7,7 @@ import { GlobalContext } from '../context/global.state';
 import utilConst from '../utils/util.const';
 
 const { Sider } = Layout;
-const { SubMenu, Item } = Menu;
+const { Item } = Menu;
 const { navbar } = utilConst;
 
 const SiderLayout = styled(Sider)({

@@ -6,6 +6,7 @@ const utilConst = {
     emptyText: '目前沒有資料...',
     errorText: '此欄位為必填!',
     limitSizeText: '檔案不得超過 2MB，請重新選擇!!!',
+    supportFormat: '.jpg,.jpeg,.png',
 
     // 側邊攔
     navbar: [
@@ -24,6 +25,10 @@ const utilConst = {
         {
             name: '後台帳號設定',
             pageKey: 'admin_account',
+        },
+        {
+            name: '關於我們',
+            pageKey: 'about_us',
         },
     ],
 

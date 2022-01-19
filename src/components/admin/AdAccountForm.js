@@ -67,6 +67,14 @@ const AdAccountForm = () => {
     // 權限事件
     const handleChange = (checked, event, type) => setSelected({ ...selected, [type]: checked });
 
+    // 重設密碼導頁 + reset lightbox
+    const handleResetPassword = () => {
+
+        lightboxDispatch({ type: 'HIDE' });
+        router.push(`/reset_password?uid=${formStorageData.id}`);
+
+    };
+
     // 送資料
     const handleReqData = (reqData) => {
 
@@ -131,7 +139,7 @@ const AdAccountForm = () => {
                                 <Buttons
                                     className="third"
                                     text="重設密碼"
-                                    onClick={() => router.push(`/reset_password?uid=${formStorageData.id}`)}
+                                    onClick={handleResetPassword}
                                 />
                             </span>
                         </div>

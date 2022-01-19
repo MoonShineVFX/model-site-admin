@@ -6,11 +6,6 @@ const Service = {
         headers: { ...headers },
     }),
 
-    // 重設密碼
-    resetPassword: ({ reqData, headers }) => util.serviceProxy('/???', reqData, {
-        headers: { ...headers },
-    }),
-
     // common
     common: (reqData) => util.serviceProxy('/admin_common', reqData),
 
@@ -40,6 +35,9 @@ const Service = {
     adAccountSearch: (reqData) => util.serviceProxy('/admin_account_search', reqData),
     adAccountCreate: (reqData) => util.serviceProxy('/admin_account_create', reqData),
     adAccountUpdate: (reqData) => util.serviceProxy('/admin_account_update', reqData),
+
+    // 重設密碼
+    resetPassword: (reqData) => util.serviceProxy('/admin_change_password', reqData),
 
     // 關於我們
     aboutUsUpdate: (reqData) => util.serviceProxy('/admin_about_update', reqData),

@@ -1,14 +1,13 @@
 import { Fragment, useContext, useEffect, useRef } from 'react';
 import router from 'next/router';
+import { message } from 'antd';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
-
 import HeadTag from '../src/containers/HeadTag';
 import { FormRow } from '../src/components/LightboxForm';
 import Buttons from '../src/components/Buttons';
 import Links from '../src/components/Links';
 import LightboxFormStyle from '../src/components/LightboxFormStyle';
-
 import { GlobalContext } from '../src/context/global.state';
 import Service from '../src/utils/util.service';
 
@@ -38,9 +37,9 @@ const ResetPassword = ({ pageData }) => {
         watch,
     } = useForm();
 
-    // useRef
+    // Ref
     const password = useRef({});
-    password.current = watch('newPassword', '');
+    password.current = watch('newPassword');
 
     useEffect(() => {
 
@@ -63,6 +62,7 @@ const ResetPassword = ({ pageData }) => {
         Service.resetPassword(reqData)
             .then(() => {
 
+                message.success('更新成功');
                 router.push('/admin_account');
 
             });

@@ -13,22 +13,27 @@ const utilConst = {
         {
             name: '商品管理',
             pageKey: '',
+            group: 'product',
         },
         {
             name: '標籤管理',
             pageKey: 'tag',
+            group: 'product',
         },
         {
             name: '訂單管理',
             pageKey: 'order',
+            group: 'order',
         },
         {
             name: '後台帳號設定',
             pageKey: 'admin_account',
+            group: 'setting',
         },
         {
             name: '關於我們',
             pageKey: 'about_us',
+            group: 'setting',
         },
     ],
 

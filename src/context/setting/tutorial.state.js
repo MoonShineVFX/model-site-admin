@@ -1,5 +1,5 @@
 import { createContext, useContext, useReducer } from 'react';
-import { adAccountReducer } from './adaccount.reducer';
+import { tutorialReducer } from './tutorial.reducer';
 import Prompt from '../../components/Prompt';
 import { GlobalContext } from '../global.state';
 import Service from '../../utils/util.service';
@@ -8,25 +8,26 @@ import Service from '../../utils/util.service';
 const initState = {
     action: false,
     list: [],
+    imageSize: '',
 };
 
 // Create Context
-const AdAccountContext = createContext(null);
+const TutorialContext = createContext(null);
 
 // Provider
-const AdAccountProvider = ({ children }) => {
+const TutorialProvider = ({ children }) => {
 
     // Context
     const { lightboxDispatch, formStorageDispatch } = useContext(GlobalContext);
-    const [adAccountState, adAccountDispatch] = useReducer(adAccountReducer, initState);
+    const [tutorialState, tutorialDispatch] = useReducer(tutorialReducer, initState);
 
-    const { action, list } = adAccountState;
-    const { Provider } = AdAccountContext;
+    const { action, list, imageSize } = tutorialState;
+    const { Provider } = TutorialContext;
 
     // 新增
-    const adAccountCreate = (reqData) => {
+    const tutorialCreate = (reqData) => {
 
-        Service.adAccountCreate(reqData)
+        Service.tutorialCreate(reqData)
         .then((resData) => {
 
                 lightboxDispatch({ type: 'HIDE' });
@@ -34,7 +35,7 @@ const AdAccountProvider = ({ children }) => {
                     callback: () => {
 
                         formStorageDispatch({ type: 'CLEAR' });
-                        adAccountDispatch({ type: 'adaccount_create', payload: { resData, action: true } });
+                        tutorialDispatch({ type: 'tutorial_create', payload: { resData, action: true } });
 
                     },
                 });
@@ -44,9 +45,9 @@ const AdAccountProvider = ({ children }) => {
     };
 
     // 編輯
-    const adAccountUpdate = (reqData) => {
+    const tutorialUpdate = (reqData) => {
 
-        Service.adAccountUpdate(reqData)
+        Service.tutorialUpdate(reqData)
             .then((resData) => {
 
                 lightboxDispatch({ type: 'HIDE' });
@@ -54,7 +55,7 @@ const AdAccountProvider = ({ children }) => {
                     callback: () => {
 
                         formStorageDispatch({ type: 'CLEAR' });
-                        adAccountDispatch({ type: 'adaccount_update', payload: { resData, action: true } });
+                        tutorialDispatch({ type: 'tutorial_update', payload: { resData, action: true } });
 
                     },
                 });
@@ -68,12 +69,13 @@ const AdAccountProvider = ({ children }) => {
         <Provider value={{
             action,
             list,
+            imageSize,
 
-            adAccountCreate,
-            adAccountUpdate,
+            tutorialCreate,
+            tutorialUpdate,
 
             // Dispatch
-            adAccountDispatch,
+            tutorialDispatch,
         }}>
             {children}
         </Provider>
@@ -81,4 +83,4 @@ const AdAccountProvider = ({ children }) => {
 
 };
 
-export { AdAccountProvider, AdAccountContext };
+export { TutorialProvider, TutorialContext };

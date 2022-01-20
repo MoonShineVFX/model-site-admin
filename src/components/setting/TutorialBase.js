@@ -1,17 +1,17 @@
 import { Fragment, useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { DownOutlined } from '@ant-design/icons';
+import { Image } from 'antd';
 
 import HeadTag from '../../containers/HeadTag';
 import ContentHeader from '../../containers/ContentHeader';
 import Tables from '../Tables';
 import Buttons from '../Buttons';
+import Links from '../Links';
 import LightboxForm from '../LightboxForm';
-import SearchForm from './SearchForm';
-import AdAccountForm from './AdAccountForm';
+import TutorialForm from './TutorialForm';
 
 import { GlobalContext } from '../../context/global.state';
-import { AdAccountContext } from '../../context/admin/adaccount.state';
+import { TutorialContext } from '../../context/setting/tutorial.state';
 import util from '../../utils/util';
 import utilConst from '../../utils/util.const';
 
@@ -23,7 +23,7 @@ const {
 
 const { lightboxTitle } = utilConst;
 
-const AdminAccountBase = ({ pageData }) => {
+const TutorialBase = ({ pageData }) => {
 
     // Router
     const { pathname } = useRouter();
@@ -32,7 +32,6 @@ const AdminAccountBase = ({ pageData }) => {
     const {
         visible,
         currEvent,
-        searchResult,
         globalDispatch,
         lightboxDispatch,
         formStorageDispatch,
@@ -41,8 +40,8 @@ const AdminAccountBase = ({ pageData }) => {
     const {
         action,
         list,
-        adAccountDispatch,
-    } = useContext(AdAccountContext);
+        tutorialDispatch,
+    } = useContext(TutorialContext);
 
     useEffect(() => {
 
@@ -51,9 +50,12 @@ const AdminAccountBase = ({ pageData }) => {
             payload: pathnameKey(pathname),
         });
 
-        adAccountDispatch({
-            type: 'adaccount_list',
-            payload: pageData.data.list,
+        tutorialDispatch({
+            type: 'tutorial_list',
+            payload: {
+                list: pageData.data.list,
+                imageSize: pageData.imageSize,
+            },
         });
 
     }, []);
@@ -65,24 +67,20 @@ const AdminAccountBase = ({ pageData }) => {
             dataIndex: 'id',
         },
         {
-            title: '後台帳號',
-            dataIndex: 'email',
-            render: (email) => renderWithoutValue(email),
+            title: `縮圖(${pageData.imageSize})`,
+            dataIndex: 'imgUrl',
+            width: 160,
+            render: (imgUrl, { title }) => imgUrl ? <Image src={imgUrl} alt={title} /> : '--',
         },
         {
-            title: '素材',
-            dataIndex: 'isAssetAdmin',
-            render: (isAssetAdmin) => isAssetAdmin && <DownOutlined />,
+            title: '文件標題',
+            dataIndex: 'title',
+            render: (title) => renderWithoutValue(title),
         },
         {
-            title: '帳務',
-            dataIndex: 'isFinanceAdmin',
-            render: (isFinanceAdmin) => isFinanceAdmin && <DownOutlined />,
-        },
-        {
-            title: '管理帳號',
-            dataIndex: 'isSuperuser',
-            render: (isSuperuser) => isSuperuser && <DownOutlined />,
+            title: '外部連結',
+            dataIndex: 'link',
+            render: (link) => <Links url={link} newPage>{link}</Links>,
         },
         {
             title: '更動時間',
@@ -112,14 +110,20 @@ const AdminAccountBase = ({ pageData }) => {
     };
 
     // 新增按鈕
-    const btnCreate = () => lightboxDispatch({ type: 'SHOW', currEvent: 'createAdAccount' });
+    const btnCreate = () => lightboxDispatch({ type: 'SHOW', currEvent: 'createTutorial' });
 
     // 編輯按鈕
     const btnUpdate = (data) => {
 
-        const { createTime, updateTime, ...rest } = data;
+        const {
+            createTime,
+            updateTime,
+            creator,
+            updater,
+            ...rest
+        } = data;
 
-        lightboxDispatch({ type: 'SHOW', currEvent: 'updateAdAccount' });
+        lightboxDispatch({ type: 'SHOW', currEvent: 'updateTutorial' });
         formStorageDispatch({
             type: 'COLLECT',
             payload: rest,
@@ -137,12 +141,10 @@ const AdminAccountBase = ({ pageData }) => {
                 onClick={btnCreate}
             />
 
-            <SearchForm />
-
             <Tables
                 rowKey="id"
                 columns={columns}
-                data={(searchResult?.curr === 'adAccount') ? searchResult.list : (action ? list : pageData.data.list)}
+                data={action ? list : pageData.data.list}
             />
 
             {
@@ -152,7 +154,7 @@ const AdminAccountBase = ({ pageData }) => {
                         visible={visible}
                         handleCancel={hideModal}
                     >
-                        <AdAccountForm />
+                        <TutorialForm />
                     </LightboxForm>
             }
         </Fragment>
@@ -161,36 +163,4 @@ const AdminAccountBase = ({ pageData }) => {
 
 };
 
-export default AdminAccountBase;
-
-export async function getServerSideProps ({ req }) {
-
-    // 沒有 cookie(token) 導登入頁
-    if (!req.cookies.token) {
-
-        return {
-            redirect: {
-                destination: '/login',
-                permanent: false,
-            },
-        };
-
-    }
-
-    const resData = await util.serviceServer({
-        url: '/admin_accounts',
-        cookie: req.cookies.token,
-    });
-
-    const { data } = resData;
-
-    return {
-        props: {
-            pageData: {
-                title: '後台帳號設定',
-                data: data.data,
-            },
-        },
-    };
-
-}
+export default TutorialBase;

@@ -26,10 +26,16 @@ const Service = {
     // 標籤管理
     tagCreate: (reqData) => util.serviceProxy('/admin_tag_create', reqData),
     tagUpdate: (reqData) => util.serviceProxy('/admin_tag_update', reqData),
-    tagDelete: (reqData) => util.serviceProxy('/admin_tag_delete', reqData),
 
     // 訂單
     orderSearch: (reqData) => util.serviceProxy('/admin_order_search', reqData),
+
+    // 文件導覽
+    tutorialCreate: (reqData) => util.serviceProxy('/admin_tutorial_create', reqData),
+    tutorialUpdate: (reqData) => util.serviceProxy('/admin_tutorial_update', reqData),
+
+    // 關於我們
+    aboutUsUpdate: (reqData) => util.serviceProxy('/admin_about_update', reqData),
 
     // 後台帳號
     adAccountSearch: (reqData) => util.serviceProxy('/admin_account_search', reqData),
@@ -38,10 +44,6 @@ const Service = {
 
     // 重設密碼
     resetPassword: (reqData) => util.serviceProxy('/admin_change_password', reqData),
-
-    // 關於我們
-    aboutUsUpdate: (reqData) => util.serviceProxy('/admin_about_update', reqData),
-
 };
 
 export default Service;

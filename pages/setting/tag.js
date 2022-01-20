@@ -1,6 +1,6 @@
-import TagBase from '../src/components/tag/TagBase';
-import { TagProvider } from '../src/context/tag/tag.state';
-import util from '../src/utils/util';
+import TagBase from '../../src/components/tag/TagBase';
+import { TagProvider } from '../../src/context/tag/tag.state';
+import util from '../../src/utils/util';
 
 const TagList = ({ pageData }) => (
 

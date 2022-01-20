@@ -3,13 +3,13 @@ import router from 'next/router';
 import { message } from 'antd';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
-import HeadTag from '../src/containers/HeadTag';
-import { FormRow } from '../src/components/LightboxForm';
-import Buttons from '../src/components/Buttons';
-import Links from '../src/components/Links';
-import LightboxFormStyle from '../src/components/LightboxFormStyle';
-import { GlobalContext } from '../src/context/global.state';
-import Service from '../src/utils/util.service';
+import HeadTag from '../../src/containers/HeadTag';
+import { FormRow } from '../../src/components/LightboxForm';
+import Buttons from '../../src/components/Buttons';
+import Links from '../../src/components/Links';
+import LightboxFormStyle from '../../src/components/LightboxFormStyle';
+import { GlobalContext } from '../../src/context/global.state';
+import Service from '../../src/utils/util.service';
 
 const FormWrapLayout = styled.form({
     maxWidth: '300px',
@@ -63,7 +63,7 @@ const ResetPassword = ({ pageData }) => {
             .then(() => {
 
                 message.success('更新成功');
-                router.push('/admin_account');
+                router.push('/setting/admin_account');
 
             });
 
@@ -80,7 +80,7 @@ const ResetPassword = ({ pageData }) => {
                     <span>{pageData.title}</span>
 
                     <Buttons type="default">
-                        <Links url="/admin_account">回前頁</Links>
+                        <Links url="/setting/admin_account">回前頁</Links>
                     </Buttons>
                 </h3>
 
@@ -140,8 +140,6 @@ const ResetPassword = ({ pageData }) => {
 export default ResetPassword;
 
 export async function getServerSideProps ({ req, query }) {
-
-    console.log('query:', query)
 
     // 沒有 cookie(token) 導登入頁
     if (!req.cookies.token) {

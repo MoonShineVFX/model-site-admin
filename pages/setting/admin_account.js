@@ -1,6 +1,6 @@
-import AdAccountBase from '../src/components/admin/AdAccountBase';
-import { AdAccountProvider } from '../src/context/admin/adaccount.state';
-import util from '../src/utils/util';
+import AdAccountBase from '../../src/components/admin/AdAccountBase';
+import { AdAccountProvider } from '../../src/context/admin/adaccount.state';
+import util from '../../src/utils/util';
 
 const AdminAccount = ({ pageData }) => (
 

@@ -47,12 +47,12 @@ const MainHeader = () => {
                 <FontIcon icon={faUserShield} />
                 <span className="account">{user.userName}</span>
             </span>
-            <span
+            {/* <span
                 className="logout"
                 onClick={handleLogout}
             >
                 <FontIcon icon={faSignOutAlt} />
-            </span>
+            </span> */}
         </HeaderLayout>
 
     );

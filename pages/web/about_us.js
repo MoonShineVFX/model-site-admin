@@ -4,18 +4,18 @@ import { message } from 'antd';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 
-import LightboxFormStyle from '../src/components/LightboxFormStyle';
-import HeadTag from '../src/containers/HeadTag';
-import ContentHeader from '../src/containers/ContentHeader';
+import LightboxFormStyle from '../../src/components/LightboxFormStyle';
+import HeadTag from '../../src/containers/HeadTag';
+import ContentHeader from '../../src/containers/ContentHeader';
 
-import Buttons from '../src/components/Buttons';
-import UploadSingle from '../src/components/UploadSingle';
-import { FormRow, ErrorMesg } from '../src/components/LightboxForm';
+import Buttons from '../../src/components/Buttons';
+import UploadSingle from '../../src/components/UploadSingle';
+import { FormRow, ErrorMesg } from '../../src/components/LightboxForm';
 
-import { GlobalContext } from '../src/context/global.state';
-import util from '../src/utils/util';
-import utilConst from '../src/utils/util.const';
-import Service from '../src/utils/util.service';
+import { GlobalContext } from '../../src/context/global.state';
+import util from '../../src/utils/util';
+import utilConst from '../../src/utils/util.const';
+import Service from '../../src/utils/util.service';
 
 const { pathnameKey, uploadFileLimit } = util;
 const { limitSizeText } = utilConst;
@@ -38,7 +38,7 @@ const FormWrapLayout = styled.form(({ theme }) => ({
         textAlign: 'left',
         '.admin-btn': {
             width: '200px',
-            margin: '20px 0 0',
+            margin: '0',
         },
     },
 }));

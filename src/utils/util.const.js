@@ -13,27 +13,44 @@ const utilConst = {
         {
             name: '商品管理',
             pageKey: '',
-            group: 'product',
-        },
-        {
-            name: '標籤管理',
-            pageKey: 'tag',
-            group: 'product',
+            subItems: [],
         },
         {
             name: '訂單管理',
             pageKey: 'order',
-            group: 'order',
+            subItems: [],
         },
         {
-            name: '後台帳號設定',
-            pageKey: 'admin_account',
-            group: 'setting',
+            name: '前台設定',
+            pageKey: 'web',
+            subItems: [
+                {
+                    name: '行銷廣告',
+                    pageKey: 'banner',
+                },
+                {
+                    name: '文件導覽',
+                    pageKey: 'toturial',
+                },
+                {
+                    name: '關於我們',
+                    pageKey: 'about_us',
+                },
+            ],
         },
         {
-            name: '關於我們',
-            pageKey: 'about_us',
-            group: 'setting',
+            name: '其他設定',
+            pageKey: 'setting',
+            subItems: [
+                {
+                    name: '標籤',
+                    pageKey: 'tag',
+                },
+                {
+                    name: '後台帳號',
+                    pageKey: 'admin_account',
+                },
+            ],
         },
     ],
 

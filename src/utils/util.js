@@ -107,7 +107,7 @@ const util = {
      * @param {string} path
      * @return {string} - 回傳文字 key
      */
-    pathnameKey: (path) => (path.split('/')[1] || ''),
+    pathnameKey: (path, noSub = false) => noSub ? path.split('/')[1] : (path.split('/')[2] || 'product'),
 
     /**
      * @author Betty

@@ -71,7 +71,7 @@ const AdAccountForm = () => {
     const handleResetPassword = () => {
 
         lightboxDispatch({ type: 'HIDE' });
-        router.push(`/reset_password?uid=${formStorageData.id}`);
+        router.push(`/setting/reset_password?uid=${formStorageData.id}`);
 
     };
 

@@ -1,16 +1,16 @@
 import { Fragment, useContext, useEffect } from 'react';
 import router, { useRouter } from 'next/router';
 
-import HeadTag from '../src/containers/HeadTag';
-import ContentHeader from '../src/containers/ContentHeader';
-import Tables from '../src/components/Tables';
-import Links from '../src/components/Links';
-import Buttons from '../src/components/Buttons';
-import SearchForm from '../src/components/order/SearchForm';
+import HeadTag from '../../src/containers/HeadTag';
+import ContentHeader from '../../src/containers/ContentHeader';
+import Tables from '../../src/components/Tables';
+import Links from '../../src/components/Links';
+import Buttons from '../../src/components/Buttons';
+import SearchForm from '../../src/components/order/SearchForm';
 
-import { GlobalContext } from '../src/context/global.state';
-import util from '../src/utils/util';
-import utilConst from '../src/utils/util.const';
+import { GlobalContext } from '../../src/context/global.state';
+import util from '../../src/utils/util';
+import utilConst from '../../src/utils/util.const';
 
 const {
     pathnameKey,
@@ -34,7 +34,7 @@ const OrderList = ({ pageData }) => {
 
         globalDispatch({
             type: 'page',
-            payload: pathnameKey(pathname),
+            payload: pathnameKey(pathname, true),
         });
 
     }, []);

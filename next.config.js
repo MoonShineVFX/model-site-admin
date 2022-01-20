@@ -3,19 +3,6 @@ module.exports = {
         HOST: process.env.NEXT_PUBLIC_HOST || 'market.moonshine.tw',
     },
     basePath: '/admin',
-    // async headers() {
-    //     return [
-    //         {
-    //             source: '/(.*)',
-    //             headers: [
-    //                 {
-    //                     key: 'Strict-Transport-Security',
-    //                     value: 'max-age=63072000',
-    //                 }
-    //             ],
-    //         },
-    //     ]
-    // },
     async redirects () {
         return [
             {
@@ -23,6 +10,18 @@ module.exports = {
                 destination: '/',
                 permanent: false,
             },
+            // {
+            //     source: '/admin/:slug*',
+            //     has: [
+            //         {
+            //             type: 'cookie',
+            //             key: 'authorized',
+            //             value: 'false',
+            //         },
+            //     ],
+            //     destination: '/login',
+            //     permanent: false,
+            // },
         ]
     },
 }

@@ -14,7 +14,7 @@ import MainContent from '../src/containers/MainContent';
 import { GlobalProvider } from '../src/context/global.state';
 
 const { Content, Footer } = Layout;
-const navbarWidth = 200;
+const navbarWidth = 240;
 
 const ContentLayout = styled(Content)({
     minHeight: 'calc(100vh - 50px - 54px - 30px)', // header: 50px, footer: 54px, main margin bottom: 30px

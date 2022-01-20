@@ -38,7 +38,7 @@ const ProductList = ({ pageData }) => {
 
         globalDispatch({
             type: 'page',
-            payload: pathnameKey(pathname),
+            payload: pathnameKey(pathname, true),
         });
 
     }, []);

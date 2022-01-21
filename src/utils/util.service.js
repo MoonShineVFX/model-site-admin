@@ -30,6 +30,10 @@ const Service = {
     // 訂單
     orderSearch: (reqData) => util.serviceProxy('/admin_order_search', reqData),
 
+    // Banner
+    bannerCreate: (reqData) => util.serviceProxy('/admin_banner_create', reqData),
+    bannerUpdate: (reqData) => util.serviceProxy('/admin_banner_update', reqData),
+
     // 文件導覽
     tutorialCreate: (reqData) => util.serviceProxy('/admin_tutorial_create', reqData),
     tutorialUpdate: (reqData) => util.serviceProxy('/admin_tutorial_update', reqData),

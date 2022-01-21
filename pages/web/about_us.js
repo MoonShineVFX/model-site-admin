@@ -17,12 +17,18 @@ import util from '../../src/utils/util';
 import utilConst from '../../src/utils/util.const';
 import Service from '../../src/utils/util.service';
 
-const { pathnameKey, uploadFileLimit } = util;
+const { pathnameKey, uploadFileLimit, renderDateTime } = util;
 const { limitSizeText } = utilConst;
 
 //
 const FormWrapLayout = styled.form(({ theme }) => ({
     maxWidth: '60%',
+    '.update-time': {
+        fontSize: '14px',
+        textAlign: 'right',
+        color: theme.palette.font,
+        opacity: '0.6',
+    },
     '.item-row': {
         marginRight: '20px',
         'input': {
@@ -97,7 +103,7 @@ const AboutUs = ({ pageData }) => {
         };
 
         // 檢查: 圖片尺寸
-        if (formStorageData?.file) {
+        if (reqData.file) {
 
             const limitSize = uploadFileLimit(reqData.file.size);
 
@@ -134,6 +140,8 @@ const AboutUs = ({ pageData }) => {
             />
 
             <FormWrapLayout onSubmit={handleSubmit(handleReqData)}>
+                <p className="update-time">{pageData.data.updater} 更新於 {renderDateTime(pageData.data.updateTime)}</p>
+
                 <FormRow
                     labelTitle="標題"
                     required={true}

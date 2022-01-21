@@ -85,7 +85,7 @@ const AdminAccountBase = ({ pageData }) => {
             render: (isSuperuser) => isSuperuser && <DownOutlined />,
         },
         {
-            title: '更動時間',
+            title: '變更時間',
             dataIndex: 'updateTime',
             render: (updateTime) => renderDateTime(updateTime),
         },

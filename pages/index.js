@@ -1,6 +1,6 @@
 import { Fragment, useContext, useEffect } from 'react';
 import router, { useRouter } from 'next/router';
-import { Image, Tag, message } from 'antd';
+import { Image, Tag, message, Tooltip } from 'antd';
 
 import HeadTag from '../src/containers/HeadTag';
 import ContentHeader from '../src/containers/ContentHeader';
@@ -107,6 +107,24 @@ const ProductList = ({ pageData }) => {
             title: '上架時間',
             dataIndex: 'activeTime',
             render: (activeTime) => renderDateTime(activeTime),
+        },
+        {
+            title: '變更者',
+            dataIndex: 'updater',
+            render: (updater, { updateTime }) => (
+
+                updater ? (
+
+                    <Tooltip
+                        placement="bottomLeft"
+                        title={`更新於 ${renderDateTime(updateTime)}`}
+                    >
+                        {updater}
+                    </Tooltip>
+
+                ) : '--'
+
+            ),
         },
         {
             title: '操作',

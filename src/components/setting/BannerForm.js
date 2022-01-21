@@ -1,25 +1,21 @@
 import { useContext } from 'react';
 import { message } from 'antd';
 import { useForm } from 'react-hook-form';
-import styled from 'styled-components';
+
 import Buttons from '../Buttons';
 import UploadSingle from '../UploadSingle';
+import TextEditor from '../TextEditor';
 import { FormRow } from '../LightboxForm';
+
 import { GlobalContext } from '../../context/global.state';
-import { TutorialContext } from '../../context/setting/tutorial.state';
+import { BannerContext } from '../../context/setting/banner.state';
 import util from '../../utils/util';
 import utilConst from '../../utils/util.const';
 
 const { uploadFileLimit } = util;
 const { limitSizeText } = utilConst;
 
-//
-const RowUpload = styled.div({
-    marginTop: '30px',
-    marginBottom: '40px',
-});
-
-const TutorialForm = () => {
+const BannerForm = () => {
 
     // Context
     const {
@@ -29,7 +25,7 @@ const TutorialForm = () => {
         formStorageData,
     } = useContext(GlobalContext);
 
-    const { imageSize, tutorialCreate, tutorialUpdate } = useContext(TutorialContext);
+    const { imageSize, bannerCreate, bannerUpdate } = useContext(BannerContext);
 
     // React Hook Form
     const {
@@ -56,8 +52,25 @@ const TutorialForm = () => {
         reqData = {
             ...reqData,
             ...formStorageData?.file && { file: formStorageData?.file },
-            ...(currEvent === 'updateTutorial') && { id: formStorageData.id },
+            ...(currEvent === 'updateBanner') && { id: formStorageData.id },
+            description: formStorageData.description,
         };
+
+        // 檢查: 檔案選取
+       if ((currEvent === 'createBanner') && !reqData.file) {
+
+            alert('圖片未選取');
+            return;
+
+       }
+
+        // 檢查: 簡述
+        if (!reqData.description) {
+
+                alert('簡述不得為空');
+                return;
+
+        }
 
         // 檢查: 圖片尺寸
         if (reqData.file) {
@@ -80,41 +93,50 @@ const TutorialForm = () => {
 
         }
 
-        if (currEvent === 'updateTutorial') tutorialUpdate(formData);
-        else tutorialCreate(formData);
+        if (currEvent === 'updateBanner') bannerUpdate(formData);
+        else bannerCreate(formData);
 
     };
 
     return (
 
         <form onSubmit={handleSubmit(handleReqData)}>
-            <FormRow
-                labelTitle="標題"
-                required={true}
-                error={errors.title && true}
-            >
-                <input
-                    type="text"
-                    name="title"
-                    {...register('title', { required: true })}
-                />
-            </FormRow>
+            <div className="items">
+                <FormRow
+                    labelTitle="標題 (給圖片用)"
+                    required={true}
+                    error={errors.title && true}
+                >
+                    <input
+                        type="text"
+                        name="title"
+                        {...register('title', { required: true })}
+                    />
+                </FormRow>
 
-            <FormRow
-                labelTitle="外部連結"
-                required={true}
-                error={errors.link && true}
-            >
-                <input
-                    type="text"
-                    name="link"
-                    {...register('link', { required: true })}
-                />
-            </FormRow>
+                <FormRow
+                    labelTitle="外部連結"
+                    required={true}
+                    error={errors.link && true}
+                >
+                    <input
+                        type="text"
+                        name="link"
+                        {...register('link', { required: true })}
+                    />
+                </FormRow>
+            </div>
 
-            <RowUpload>
-                <UploadSingle size={imageSize} />
-            </RowUpload>
+            <UploadSingle size={imageSize} />
+
+            <div className="row row-editor">
+                <TextEditor content={formStorageData.description} />
+                <textarea
+                    name="description"
+                    {...register('description')}
+                    style={{ display: 'none' }}
+                />
+            </div>
 
             <div className="row row-btns">
                 <Buttons
@@ -133,4 +155,4 @@ const TutorialForm = () => {
 
 };
 
-export default TutorialForm;
+export default BannerForm;

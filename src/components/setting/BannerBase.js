@@ -8,22 +8,17 @@ import Tables from '../Tables';
 import Buttons from '../Buttons';
 import Links from '../Links';
 import LightboxForm from '../LightboxForm';
-import TutorialForm from './TutorialForm';
+import BannerForm from './BannerForm';
 
 import { GlobalContext } from '../../context/global.state';
-import { TutorialContext } from '../../context/setting/tutorial.state';
+import { BannerContext } from '../../context/setting/banner.state';
 import util from '../../utils/util';
 import utilConst from '../../utils/util.const';
 
-const {
-    pathnameKey,
-    renderWithoutValue,
-    renderDateTime,
-} = util;
-
+const { pathnameKey, renderDateTime } = util;
 const { lightboxTitle } = utilConst;
 
-const TutorialBase = ({ pageData }) => {
+const BannerBase = ({ pageData }) => {
 
     // Router
     const { pathname } = useRouter();
@@ -40,8 +35,8 @@ const TutorialBase = ({ pageData }) => {
     const {
         action,
         list,
-        tutorialDispatch,
-    } = useContext(TutorialContext);
+        bannerDispatch,
+    } = useContext(BannerContext);
 
     useEffect(() => {
 
@@ -50,8 +45,8 @@ const TutorialBase = ({ pageData }) => {
             payload: pathnameKey(pathname),
         });
 
-        tutorialDispatch({
-            type: 'tutorial_list',
+        bannerDispatch({
+            type: 'banner_list',
             payload: {
                 list: pageData.data.list,
                 imageSize: pageData.imageSize,
@@ -73,9 +68,10 @@ const TutorialBase = ({ pageData }) => {
             render: (imgUrl, { title }) => imgUrl ? <Image src={imgUrl} alt={title} /> : '--',
         },
         {
-            title: '標題',
-            dataIndex: 'title',
-            render: (title) => renderWithoutValue(title),
+            title: '簡述',
+            dataIndex: 'description',
+            width: 500,
+            render: (description) => description ? <div dangerouslySetInnerHTML={{ __html: description }} /> : '--',
         },
         {
             title: '外部連結',
@@ -123,7 +119,7 @@ const TutorialBase = ({ pageData }) => {
     };
 
     // 新增按鈕
-    const btnCreate = () => lightboxDispatch({ type: 'SHOW', currEvent: 'createTutorial' });
+    const btnCreate = () => lightboxDispatch({ type: 'SHOW', currEvent: 'createBanner' });
 
     // 編輯按鈕
     const btnUpdate = (data) => {
@@ -136,7 +132,7 @@ const TutorialBase = ({ pageData }) => {
             ...rest
         } = data;
 
-        lightboxDispatch({ type: 'SHOW', currEvent: 'updateTutorial' });
+        lightboxDispatch({ type: 'SHOW', currEvent: 'updateBanner' });
         formStorageDispatch({
             type: 'COLLECT',
             payload: rest,
@@ -163,11 +159,12 @@ const TutorialBase = ({ pageData }) => {
             {
                 visible &&
                     <LightboxForm
+                        width={700}
                         title={lightboxTitle[currEvent]}
                         visible={visible}
                         handleCancel={hideModal}
                     >
-                        <TutorialForm />
+                        <BannerForm />
                     </LightboxForm>
             }
         </Fragment>
@@ -176,4 +173,4 @@ const TutorialBase = ({ pageData }) => {
 
 };
 
-export default TutorialBase;
+export default BannerBase;

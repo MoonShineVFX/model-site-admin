@@ -7,7 +7,6 @@ import draftToHtml from 'draftjs-to-html';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import styled from 'styled-components';
 import { GlobalContext } from '../context/global.state';
-import Service from '../utils/util.service';
 
 //
 const htmlToDraft = (typeof window === 'object') && require('html-to-draftjs').default;
@@ -19,7 +18,6 @@ const Editor = dynamic(
 );
 
 const EditorLayout = styled.div(({ theme }) => ({
-    minHeight: '70vh',
     border: `1px solid ${theme.palette.border}`,
     overflow: 'hidden',
     '.adminEditor-wrapper, .DraftEditor-root': {
@@ -37,7 +35,7 @@ const EditorLayout = styled.div(({ theme }) => ({
         },
     },
     '.adminEditor-editor': {
-        height: 'calc(100% - 58px - 58px)', // toolbar: 58px, button: 58px
+        minHeight: '20vh',
         padding: '10px 12px',
         'a[href] span': {
             color: blue.primary,
@@ -65,6 +63,9 @@ const EditorLayout = styled.div(({ theme }) => ({
             padding: '4px 8px',
         },
     },
+    '.rdw-option-wrapper': {
+        minWidth: '20px',
+    },
 }));
 
 const TextEditor = ({ content }) => {
@@ -90,7 +91,7 @@ const TextEditor = ({ content }) => {
 
         }
 
-    }, [content]);
+    }, []);
 
     //
     const handleEditorChange = (state) => {
@@ -100,30 +101,8 @@ const TextEditor = ({ content }) => {
             type: 'COLLECT',
             payload: {
                 ...formStorageData,
-                detail: draftToHtml(convertToRaw(editorState.getCurrentContent())),
+                description: draftToHtml(convertToRaw(editorState.getCurrentContent())),
             },
-        });
-
-    };
-
-    // 上傳圖片
-    const uploadImageCallBack = async (file) => {
-
-        // FormData 上傳圖片
-        const formData = new FormData();
-        formData.append('file', file);
-
-        const res = await Service.fileUploadEditor(formData);
-        const { imgUrl } = res;
-
-        // 預覽已上傳圖片
-        return new Promise((resolve, reject) => {
-
-            const reader = new FileReader();
-            reader.onload = () => resolve({ data: { link: imgUrl }});
-            reader.onerror = (e) => reject(e);
-            reader.readAsDataURL(file);
-
         });
 
     };
@@ -141,16 +120,7 @@ const TextEditor = ({ content }) => {
                         onEditorStateChange={handleEditorChange}
                         localization={{ locale: 'zh_tw' }}
                         toolbar={{
-                            image: {
-                                previewImage: true,
-                                inputAccept: 'image/jpeg,image/jpg,image/png',
-                                // 先註解，若覺得圖片太大需要 default 再拔掉
-                                // defaultSize: {
-                                //     width: '300',
-                                //     height: 'auto',
-                                // },
-                                uploadCallback: uploadImageCallBack,
-                            },
+                            options: ['inline', 'blockType', 'fontSize', 'fontFamily', 'list', 'textAlign', 'colorPicker'],
                         }}
                     />
             }
@@ -158,6 +128,10 @@ const TextEditor = ({ content }) => {
 
     );
 
+};
+
+TextEditor.defaultProps = {
+    content: '',
 };
 
 TextEditor.propTypes = {

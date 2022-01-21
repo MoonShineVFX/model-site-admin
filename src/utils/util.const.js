@@ -61,6 +61,8 @@ const utilConst = {
         updateAdAccount: '編輯後台帳號',
         createTutorial: '新增文件導覽',
         updateTutorial: '編輯文件導覽',
+        createBanner: '新增 Banner',
+        updateBanner: '編輯 Banner',
     },
 
     // Prompt type

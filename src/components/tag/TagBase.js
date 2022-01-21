@@ -1,6 +1,6 @@
 import { Fragment, useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { Row, Col, Tag } from 'antd';
+import { Row, Col, Tag, Tooltip } from 'antd';
 
 import HeadTag from '../../containers/HeadTag';
 import ContentHeader from '../../containers/ContentHeader';
@@ -20,7 +20,7 @@ import { TagContext } from '../../context/tag/tag.state';
 import util from '../../utils/util';
 import utilConst from '../../utils/util.const';
 
-const { pathnameKey } = util;
+const { pathnameKey, renderDateTime } = util;
 const { lightboxTitle } = utilConst;
 
 const TagBase = ({ pageData }) => {
@@ -66,6 +66,24 @@ const TagBase = ({ pageData }) => {
             title: '標籤名稱',
             dataIndex: 'name',
             render: (name) => name ? <Tag>{name}</Tag> : '--',
+        },
+        {
+            title: '變更者',
+            dataIndex: 'updater',
+            render: (updater, { updateTime }) => (
+
+                updater ? (
+
+                    <Tooltip
+                        placement="bottomLeft"
+                        title={`更新於 ${renderDateTime(updateTime)}`}
+                    >
+                        {updater}
+                    </Tooltip>
+
+                ) : '--'
+
+            ),
         },
         {
             title: '操作',

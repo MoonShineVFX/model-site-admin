@@ -1,11 +1,14 @@
 import { useContext } from 'react';
 import { Layout } from 'antd';
+import Cookies from 'js-cookie';
 import styled from 'styled-components';
 import { faUserShield, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import FontIcon from '../components/FontIcon';
 import { GlobalContext } from '../context/global.state';
+import util from '../utils/util';
 
 const { Header } = Layout;
+const { redirectTo } = util;
 
 //
 const HeaderLayout = styled(Header)(({ theme }) => ({
@@ -36,7 +39,8 @@ const MainHeader = () => {
 
     const handleLogout = () => {
 
-        console.log('logout');
+        Cookies.remove('token');
+        redirectTo();
 
     };
 
@@ -47,12 +51,12 @@ const MainHeader = () => {
                 <FontIcon icon={faUserShield} />
                 <span className="account">{user.userName}</span>
             </span>
-            {/* <span
+            <span
                 className="logout"
                 onClick={handleLogout}
             >
                 <FontIcon icon={faSignOutAlt} />
-            </span> */}
+            </span>
         </HeaderLayout>
 
     );

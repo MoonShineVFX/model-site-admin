@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Router from 'next/router';
 import { Modal } from 'antd';
 import dayjs from 'dayjs';
 import Cookies from 'js-cookie';
@@ -187,6 +188,17 @@ const util = {
         const k = 1024;
         const limitSize = bytes / k / k < limit;
         return limitSize;
+
+    },
+
+    /**
+     * @author Betty
+     * @param {string} url
+     */
+    redirectTo: (url = '/') => {
+
+        Router.push(url);
+        Router.reload();
 
     },
 

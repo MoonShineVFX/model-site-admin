@@ -1,5 +1,4 @@
-import { Fragment, useContext, useState } from 'react';
-import { useRouter } from 'next/router';
+import { Fragment, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { createGlobalStyle } from 'styled-components';
 
@@ -8,9 +7,10 @@ import HeadTag from '../src/containers/HeadTag';
 import LightboxFormStyle from '../src/components/LightboxFormStyle';
 import Buttons from '../src/components/Buttons';
 import { FormRow } from '../src/components/LightboxForm';
-
-import { GlobalContext } from '../src/context/global.state';
+import util from '../src/utils/util';
 import Service from '../src/utils/util.service';
+
+const { redirectTo } = util;
 
 //
 const errConfig = {
@@ -55,12 +55,6 @@ const LoginStyle = createGlobalStyle`
 //
 const Login = ({ pageData }) => {
 
-    // Router
-    const router = useRouter();
-
-    // Context
-    const { getGlobalData } = useContext(GlobalContext);
-
     // State
     const [loading, setLoading] = useState(false);
 
@@ -78,12 +72,7 @@ const Login = ({ pageData }) => {
         let auth = btoa(`${reqData.account}:${reqData.password}`);
 
         Service.login({ headers: { Authorization: `Basic ${auth}`} })
-            .then(() => {
-
-                router.push('/');
-                getGlobalData();
-
-            });
+            .then(redirectTo);
 
     };
 

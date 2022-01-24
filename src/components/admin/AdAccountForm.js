@@ -42,9 +42,9 @@ const AdAccountForm = () => {
 
     // State
     const [selected, setSelected] = useState({ // 一開始是 undefined，需給預設值
-        isAssetAdmin: !!formStorageData.isAssetAdmin,
-        isFinanceAdmin: !!formStorageData.isFinanceAdmin,
-        isSuperuser: !!formStorageData.isSuperuser,
+        isAssetAdmin: true,
+        isFinanceAdmin: true,
+        isSuperuser: true,
     });
 
     // React Hook Form
@@ -154,7 +154,8 @@ const AdAccountForm = () => {
                     <div className="title">素材</div>
                     <div className="field noBorder">
                         <Switch
-                            defaultChecked={formStorageData.isAssetAdmin}
+                            disabled
+                            defaultChecked={true}
                             onChange={(checked, event) => handleChange(checked, event, 'isAssetAdmin')}
                         />
                     </div>
@@ -163,7 +164,8 @@ const AdAccountForm = () => {
                     <div className="title">訂單</div>
                     <div className="field noBorder">
                         <Switch
-                            defaultChecked={formStorageData.isFinanceAdmin}
+                            disabled
+                            defaultChecked={true}
                             onChange={(checked, event) => handleChange(checked, event, 'isFinanceAdmin')}
                         />
                     </div>
@@ -172,7 +174,8 @@ const AdAccountForm = () => {
                     <div className="title">帳號管理</div>
                     <div className="field noBorder">
                         <Switch
-                            defaultChecked={formStorageData.isSuperuser}
+                            disabled
+                            defaultChecked={true}
                             onChange={(checked, event) => handleChange(checked, event, 'isSuperuser')}
                         />
                     </div>

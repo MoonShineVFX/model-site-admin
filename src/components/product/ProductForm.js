@@ -60,6 +60,11 @@ const ProductForm = ({ data, service }) => {
                     callback: () => {
 
                         if (service === 'productCreate') router.push('/');
+                        else {
+
+                            if (window.confirm('編輯成功，是否導回列表頁?!')) router.push('/');
+
+                        }
 
                     },
                 });

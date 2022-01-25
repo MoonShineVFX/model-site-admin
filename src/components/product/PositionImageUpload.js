@@ -18,7 +18,7 @@ const { limitSizeText } = utilConst;
 
 const mappingSize = {
     main: '1200x400',
-    mobileMain: '',
+    mobileMain: '640x213',
     thumb: '480x280',
     extend: '420x500',
 };
@@ -118,7 +118,8 @@ const PositionImageUpload = ({ data }) => {
                 {
                     imagePosition.map(({ id, key, name }) => (
 
-                        (key !== 'preview') && <div key={id}>{name}: {mappingSize[key]}</div>
+                        (key !== 'preview') &&
+                            <div key={id}>{name}: {mappingSize[key]}</div>
 
                     ))
                 }
@@ -145,7 +146,7 @@ const PositionImageUpload = ({ data }) => {
                                             key={id}
                                             value={id}
                                         >
-                                            {name}
+                                            {`${name} (${mappingSize[key]})`}
                                         </option>
 
                                 ))

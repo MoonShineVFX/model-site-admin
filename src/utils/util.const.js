@@ -92,8 +92,8 @@ const utilConst = {
     },
 
     payment: {
-        webATM: '網路 ATM',
-        credit: '信用卡',
+        VACC: 'ATM 轉帳',
+        CREDIT: '信用卡',
     },
 
 };

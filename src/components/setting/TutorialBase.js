@@ -65,6 +65,7 @@ const TutorialBase = ({ pageData }) => {
         {
             title: 'ID',
             dataIndex: 'id',
+            render: (id, data) => <Links url="#" onClick={() => btnUpdate(data)}>{id}</Links>,
         },
         {
             title: `縮圖(${pageData.imageSize})`,
@@ -83,22 +84,23 @@ const TutorialBase = ({ pageData }) => {
             render: (link) => <Links url={link} newPage>{link}</Links>,
         },
         {
-            title: '變更者',
-            dataIndex: 'updater',
-            render: (updater, { updateTime }) => (
+            title: '更新時間',
+            dataIndex: 'updateTime',
+            render: (updateTime, { updater }) => (
 
-                updater ? (
+                updateTime ? (
 
                     <Tooltip
                         placement="bottomLeft"
-                        title={`更新於 ${renderDateTime(updateTime)}`}
+                        title={`${updater} 編輯`}
                     >
-                        {updater}
+                        {renderDateTime(updateTime)}
                     </Tooltip>
 
                 ) : '--'
 
             ),
+            sorter: (a, b) => new Date(a.updateTime) - new Date(b.updateTime),
         },
         {
             title: '操作',

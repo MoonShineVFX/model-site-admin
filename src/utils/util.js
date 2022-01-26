@@ -112,19 +112,6 @@ const util = {
 
     /**
      * @author Betty
-     * @param {object[]} array
-     * @return {object[]} - 回傳陣列結構
-     */
-    antdTableFilter: (array) => array.reduce((acc, { id, name }) => {
-
-        const obj = { text: name, value: id };
-        acc.push(obj);
-        return acc;
-
-    }, []),
-
-    /**
-     * @author Betty
      * @param  {number} price - 金額
      * @param  {number} fixed - 位數
      * @returns {string}}
@@ -156,7 +143,7 @@ const util = {
      * @param {string} date - 日期
      * @return {string}
      */
-    renderDateTime: (date) => date ? dayjs(date).format('YYYY-MM-DD hh:mm:ss') : '--',
+    renderDateTime: (date) => date ? dayjs(date).format('YYYY-MM-DD HH:mm') : '--',
 
     /**
      * @author Betty

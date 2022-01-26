@@ -1,6 +1,6 @@
 import { Fragment, useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { Image, Tooltip } from 'antd';
+import { Image, Tooltip, message } from 'antd';
 
 import HeadTag from '../../containers/HeadTag';
 import ContentHeader from '../../containers/ContentHeader';
@@ -14,9 +14,10 @@ import { GlobalContext } from '../../context/global.state';
 import { BannerContext } from '../../context/setting/banner.state';
 import util from '../../utils/util';
 import utilConst from '../../utils/util.const';
+import Service from '../../utils/util.service';
 
 const { pathnameKey, renderDateTime } = util;
-const { lightboxTitle } = utilConst;
+const { lightboxTitle, productActiveStatus } = utilConst;
 
 const BannerBase = ({ pageData }) => {
 
@@ -60,6 +61,7 @@ const BannerBase = ({ pageData }) => {
         {
             title: 'ID',
             dataIndex: 'id',
+            render: (id, data) => <Links url="#" onClick={() => btnUpdate(data)}>{id}</Links>,
         },
         {
             title: `縮圖(${pageData.imageSize})`,
@@ -79,22 +81,71 @@ const BannerBase = ({ pageData }) => {
             render: (link) => <Links url={link} newPage>{link}</Links>,
         },
         {
-            title: '變更者',
-            dataIndex: 'updater',
-            render: (updater, { updateTime }) => (
+            title: '狀態',
+            dataIndex: 'isActive',
+            render: (isActive, { id }) => (
 
-                updater ? (
+                <select
+                    name="isActive"
+                    defaultValue={isActive}
+                    onChange={(e) => handleChangeActive(e, id)}
+                >
+                    {
+                        Object.keys(productActiveStatus).map((key) => (
+
+                            <option
+                                key={key}
+                                value={key}
+                            >
+                                {productActiveStatus[key]}
+                            </option>
+
+                        ))
+                    }
+                </select>
+
+            ),
+            filters: [
+                {
+                    text: '上架',
+                    value: true,
+                },
+                {
+                    text: '下架',
+                    value: false,
+                },
+            ],
+            onFilter: (value, { isActive }) => {
+
+                const regex = new RegExp(`^${value}$`);
+                return regex.test(isActive);
+
+            },
+        },
+        {
+            title: '上架時間',
+            dataIndex: 'activeTime',
+            render: (activeTime) => renderDateTime(activeTime),
+            sorter: (a, b) => new Date(a.activeTime) - new Date(b.activeTime),
+        },
+        {
+            title: '更新時間',
+            dataIndex: 'updateTime',
+            render: (updateTime, { updater }) => (
+
+                updateTime ? (
 
                     <Tooltip
                         placement="bottomLeft"
-                        title={`更新於 ${renderDateTime(updateTime)}`}
+                        title={`${updater} 編輯`}
                     >
-                        {updater}
+                        {renderDateTime(updateTime)}
                     </Tooltip>
 
                 ) : '--'
 
             ),
+            sorter: (a, b) => new Date(a.updateTime) - new Date(b.updateTime),
         },
         {
             title: '操作',
@@ -137,6 +188,18 @@ const BannerBase = ({ pageData }) => {
             type: 'COLLECT',
             payload: rest,
         });
+
+    };
+
+    // 上下架
+    const handleChangeActive = ({ target }, id) => {
+
+        Service.productActive({ id, isActive: target.value })
+            .then(() => {
+
+                message.success(`ID ${id} 已改為${productActiveStatus[target.value]}`);
+
+            });
 
     };
 

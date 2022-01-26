@@ -6,6 +6,7 @@ import HeadTag from '../../containers/HeadTag';
 import ContentHeader from '../../containers/ContentHeader';
 import Buttons from '../../../src/components/Buttons';
 import LightboxFormStyle from '../LightboxFormStyle';
+import Links from '../Links';
 
 import TagForm from './TagForm';
 import {
@@ -61,6 +62,7 @@ const TagBase = ({ pageData }) => {
         {
             title: 'ID',
             dataIndex: 'id',
+            render: (id, data) => <Links url="#" onClick={() => btnUpdate(data)}>{id}</Links>,
         },
         {
             title: '標籤名稱',
@@ -68,17 +70,17 @@ const TagBase = ({ pageData }) => {
             render: (name) => name ? <Tag>{name}</Tag> : '--',
         },
         {
-            title: '變更者',
-            dataIndex: 'updater',
-            render: (updater, { updateTime }) => (
+            title: '更新時間',
+            dataIndex: 'updateTime',
+            render: (updateTime, { updater }) => (
 
-                updater ? (
+                updateTime ? (
 
                     <Tooltip
                         placement="bottomLeft"
-                        title={`更新於 ${renderDateTime(updateTime)}`}
+                        title={`${updater} 編輯`}
                     >
-                        {updater}
+                        {renderDateTime(updateTime)}
                     </Tooltip>
 
                 ) : '--'

@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import Buttons from '../Buttons';
 import UploadSingle from '../UploadSingle';
 import TextEditor from '../TextEditor';
-import { FormRow } from '../LightboxForm';
+import { FormRow, ErrorMesg } from '../LightboxForm';
 
 import { GlobalContext } from '../../context/global.state';
 import { BannerContext } from '../../context/setting/banner.state';
@@ -13,7 +13,7 @@ import util from '../../utils/util';
 import utilConst from '../../utils/util.const';
 
 const { uploadFileLimit } = util;
-const { limitSizeText } = utilConst;
+const { limitSizeText, productActiveStatus } = utilConst;
 
 const BannerForm = () => {
 
@@ -33,7 +33,10 @@ const BannerForm = () => {
         register,
         formState: { errors },
     } = useForm({
-        defaultValues: formStorageData,
+        defaultValues: {
+            ...formStorageData,
+            isActive: formStorageData?.isActive ? 'true' : 'false',
+        },
     });
 
     // 隱藏 Modal
@@ -53,6 +56,7 @@ const BannerForm = () => {
             ...reqData,
             ...formStorageData?.file && { file: formStorageData?.file },
             ...(currEvent === 'updateBanner') && { id: formStorageData.id },
+            isActive: (reqData.isActive === 'false') ? !reqData.isActive : !!reqData.isActive,
             description: formStorageData.description,
         };
 
@@ -114,18 +118,44 @@ const BannerForm = () => {
                     />
                 </FormRow>
 
-                <FormRow
-                    labelTitle="外部連結"
-                    required={true}
-                    error={errors.link && true}
-                >
-                    <input
-                        type="text"
-                        name="link"
-                        {...register('link', { required: true })}
-                    />
-                </FormRow>
+                <div className={`row ${errors.isActive ? 'hasError' : ''}`}>
+                    <div className="title isRequired">商品狀態 (必填)</div>
+                    <div className="field noBorder">
+                        <select
+                            name="isActive"
+                            {...register('isActive', { required: true })}
+                        >
+                            <option value="">請選擇</option>
+                            {
+                                Object.keys(productActiveStatus).map((key) => (
+
+                                    <option
+                                        key={key}
+                                        value={key}
+                                    >
+                                        {productActiveStatus[key]}
+                                    </option>
+
+                                ))
+                            }
+                        </select>
+                    </div>
+
+                    {errors.priority && <ErrorMesg />}
+                </div>
             </div>
+
+            <FormRow
+                labelTitle="外部連結"
+                required={true}
+                error={errors.link && true}
+            >
+                <input
+                    type="text"
+                    name="link"
+                    {...register('link', { required: true })}
+                />
+            </FormRow>
 
             <UploadSingle size={imageSize} />
 

@@ -74,8 +74,8 @@ const ProductList = ({ pageData }) => {
         {
             title: '價格',
             dataIndex: 'price',
-            sorter: (a, b) => a.price - b.price,
             render: (price) => priceWithCommas(price),
+            sorter: (a, b) => b.price - a.price,
         },
         {
             title: '狀態',
@@ -102,29 +102,47 @@ const ProductList = ({ pageData }) => {
                 </select>
 
             ),
+            filters: [
+                {
+                    text: '上架',
+                    value: true,
+                },
+                {
+                    text: '下架',
+                    value: false,
+                },
+            ],
+            onFilter: (value, { isActive }) => {
+
+                const regex = new RegExp(`^${value}$`);
+                return regex.test(isActive);
+
+            },
         },
         {
             title: '上架時間',
             dataIndex: 'activeTime',
             render: (activeTime) => renderDateTime(activeTime),
+            sorter: (a, b) => new Date(a.activeTime) - new Date(b.activeTime),
         },
         {
-            title: '變更者',
-            dataIndex: 'updater',
-            render: (updater, { updateTime }) => (
+            title: '更新時間',
+            dataIndex: 'updateTime',
+            render: (updateTime, { updater }) => (
 
-                updater ? (
+                updateTime ? (
 
                     <Tooltip
                         placement="bottomLeft"
-                        title={`更新於 ${renderDateTime(updateTime)}`}
+                        title={`${updater} 編輯`}
                     >
-                        {updater}
+                        {renderDateTime(updateTime)}
                     </Tooltip>
 
                 ) : '--'
 
             ),
+            sorter: (a, b) => new Date(a.updateTime) - new Date(b.updateTime),
         },
         {
             title: '操作',
@@ -136,6 +154,7 @@ const ProductList = ({ pageData }) => {
                     text="編輯"
                     onClick={() => router.push(`/product/${id}`)}
                 />
+
             ),
         },
     ];

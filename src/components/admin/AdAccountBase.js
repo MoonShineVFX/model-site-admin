@@ -1,11 +1,13 @@
 import { Fragment, useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { Tooltip } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 
 import HeadTag from '../../containers/HeadTag';
 import ContentHeader from '../../containers/ContentHeader';
 import Tables from '../Tables';
 import Buttons from '../Buttons';
+import Links from '../Links';
 import LightboxForm from '../LightboxForm';
 import SearchForm from './SearchForm';
 import AdAccountForm from './AdAccountForm';
@@ -63,6 +65,7 @@ const AdminAccountBase = ({ pageData }) => {
         {
             title: 'ID',
             dataIndex: 'id',
+            render: (id, data) => <Links url="#" onClick={() => btnUpdate(data)}>{id}</Links>,
         },
         {
             title: '後台帳號',
@@ -73,21 +76,37 @@ const AdminAccountBase = ({ pageData }) => {
             title: '素材',
             dataIndex: 'isAssetAdmin',
             render: (isAssetAdmin) => isAssetAdmin && <DownOutlined />,
+            sorter: (a, b) => b.isAssetAdmin - a.isAssetAdmin,
         },
         {
             title: '帳務',
             dataIndex: 'isFinanceAdmin',
             render: (isFinanceAdmin) => isFinanceAdmin && <DownOutlined />,
+            sorter: (a, b) => b.isFinanceAdmin - a.isFinanceAdmin,
         },
         {
             title: '管理帳號',
             dataIndex: 'isSuperuser',
             render: (isSuperuser) => isSuperuser && <DownOutlined />,
+            sorter: (a, b) => b.isSuperuser - a.isSuperuser,
         },
         {
-            title: '變更時間',
+            title: '更新時間',
             dataIndex: 'updateTime',
-            render: (updateTime) => renderDateTime(updateTime),
+            render: (updateTime, { updater }) => (
+
+                updateTime ? (
+
+                    <Tooltip
+                        placement="bottomLeft"
+                        title={`${updater} 編輯`}
+                    >
+                        {renderDateTime(updateTime)}
+                    </Tooltip>
+
+                ) : '--'
+
+            ),
         },
         {
             title: '操作',

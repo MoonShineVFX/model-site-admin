@@ -21,6 +21,14 @@ const {
 
 const { orderStatus, payment } = utilConst;
 
+const antdTableFilter = (data) => Object.keys(data).reduce((acc, key) => {
+
+    const obj = { text: data[key], value: key };
+    acc.push(obj);
+    return acc;
+
+}, []);
+
 //
 const OrderList = ({ pageData }) => {
 
@@ -49,6 +57,13 @@ const OrderList = ({ pageData }) => {
             title: '訂單編號',
             dataIndex: 'orderNumber',
             render: (orderNumber) => <Links url={`/order/${orderNumber}`}>{orderNumber}</Links>,
+            sorter: (a, b) => {
+
+                if (b.orderNumber < a.orderNumber) return -1;
+                if (b.orderNumber > a.orderNumber) return 1;
+                return 0;
+
+            },
         },
         {
             title: '會員帳號',
@@ -59,30 +74,38 @@ const OrderList = ({ pageData }) => {
             title: '金額',
             dataIndex: 'price',
             className: 'admin-order-price',
-            sorter: (a, b) => a.price - b.price,
             render: (price) => priceWithCommas(price),
+            sorter: (a, b) => a.price - b.price,
         },
         {
             title: '訂單狀態',
             dataIndex: 'status',
-            sorter: (a, b) => a.status.length - b.status.length,
             render: (status) => <span className={`admin-order-status-${status}`}>{orderStatus[status]}</span>,
+            filters: antdTableFilter(orderStatus),
+            onFilter: (value, { status }) => {
+
+                const regex = new RegExp(`^${value}$`);
+                return regex.test(status);
+
+            },
         },
         {
             title: '訂單成立時間',
             dataIndex: 'createdAt',
             render: (createdAt) => renderDateTime(createdAt),
+            sorter: (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
         },
         {
             title: '付款時間',
             dataIndex: 'paidAt',
             render: (paidAt) => renderDateTime(paidAt),
+            sorter: (a, b) => new Date(a.paidAt) - new Date(b.paidAt),
         },
         {
             title: '付款方式',
             dataIndex: 'paidBy',
-            sorter: (a, b) => a.paidBy.length - b.paidBy.length,
             render: (paidBy) => renderWithoutValue(payment[paidBy]),
+            sorter: (a, b) => a.paidBy.length - b.paidBy.length,
         },
         {
             title: '交易序號',

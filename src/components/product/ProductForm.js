@@ -52,7 +52,6 @@ const ProductForm = ({ data, service }) => {
             tags: reqData.tags.filter((id) => id).map((id) => +id),
         };
 
-        delete reqData.fileSize;
         Service[service](reqData)
             .then(() => {
 
@@ -134,14 +133,10 @@ const ProductForm = ({ data, service }) => {
                 </div>
 
                 <div className="items">
-                    <FormRow
-                        labelTitle="檔案大小 (系統自動代入)"
-                        readonly
-                    >
+                    <FormRow labelTitle="檔案大小 (系統自動代入)">
                         <input
-                            type="text"
+                            type="number"
                             name="fileSize"
-                            readOnly
                             {...register('fileSize')}
                         />
                     </FormRow>

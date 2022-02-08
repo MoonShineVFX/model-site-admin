@@ -71,7 +71,7 @@ const AdAccountForm = () => {
     const handleResetPassword = () => {
 
         lightboxDispatch({ type: 'HIDE' });
-        router.push(`/setting/reset_password?uid=${formStorageData.id}`);
+        router.push(`/setting/change_password?uid=${formStorageData.id}`);
 
     };
 
@@ -88,7 +88,7 @@ const AdAccountForm = () => {
         if (currEvent === 'updateAdAccount') {
 
             // 編輯部允許更改帳號
-            delete reqData.email;
+            delete reqData.account;
             adAccountUpdate(reqData);
 
         }
@@ -104,14 +104,14 @@ const AdAccountForm = () => {
                 {
                     ...(currEvent === 'createAdAccount') ? {
                         required: true,
-                        error: errors.email && true,
+                        error: errors.account && true,
                     } : { readonly: true }
                 }
             >
                 <input
                     type="text"
-                    name="email"
-                    {...register('email', { required: !!(currEvent === 'createAdAccount') })}
+                    name="account"
+                    {...register('account', { required: !!(currEvent === 'createAdAccount') })}
                 />
             </FormRow>
 

@@ -49,7 +49,7 @@ const MainHeader = () => {
         <HeaderLayout>
             <span>
                 <FontIcon icon={faUserShield} />
-                <span className="account">{user.userName}</span>
+                <span className="account">{user.account}</span>
             </span>
             <span
                 className="logout"

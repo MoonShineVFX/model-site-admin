@@ -101,7 +101,7 @@ const TextEditor = ({ content }) => {
             type: 'COLLECT',
             payload: {
                 ...formStorageData,
-                description: draftToHtml(convertToRaw(editorState.getCurrentContent())),
+                detail: draftToHtml(convertToRaw(editorState.getCurrentContent())),
             },
         });
 
@@ -139,9 +139,3 @@ TextEditor.propTypes = {
 };
 
 export default TextEditor;
-
-/**
- * Example
- * https://github.com/jpuri/react-draft-wysiwyg/tree/master/stories
- * https://www.gyanblog.com/javascript/how-integrate-next-js-draft-js-strapi-create-article-upload-image-view-page
- */

@@ -13,7 +13,7 @@ const globalReducer = (state, { type, payload }) => {
                 ...state,
                 user: {
                     userId: payload.userId,
-                    userName: payload.userName,
+                    account: payload.account,
                 },
                 tags: payload.tags,
                 imagePosition: payload.imagePosition,

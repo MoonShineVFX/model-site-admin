@@ -71,9 +71,9 @@ const BannerBase = ({ pageData }) => {
         },
         {
             title: '簡述',
-            dataIndex: 'description',
+            dataIndex: 'detail',
             width: 500,
-            render: (description) => description ? <div dangerouslySetInnerHTML={{ __html: description }} /> : '--',
+            render: (detail) => detail ? <div dangerouslySetInnerHTML={{ __html: detail }} /> : '--',
         },
         {
             title: '外部連結',
@@ -194,10 +194,10 @@ const BannerBase = ({ pageData }) => {
     // 上下架
     const handleChangeActive = ({ target }, id) => {
 
-        Service.productActive({ id, isActive: target.value })
+        Service.bannerActive({ id, isActive: (target.value === 'true') ? true : false })
             .then(() => {
 
-                message.success(`ID ${id} 已改為${productActiveStatus[target.value]}`);
+                message.success(`ID: ${id} 已改為${productActiveStatus[target.value]}`);
 
             });
 

@@ -31,6 +31,7 @@ const Service = {
     orderSearch: (reqData) => util.serviceProxy('/admin_order_search', reqData),
 
     // Banner
+    bannerActive: (reqData) => util.serviceProxy('/admin_banner_active', reqData),
     bannerCreate: (reqData) => util.serviceProxy('/admin_banner_create', reqData),
     bannerUpdate: (reqData) => util.serviceProxy('/admin_banner_update', reqData),
 
@@ -40,6 +41,9 @@ const Service = {
 
     // 關於我們
     aboutUsUpdate: (reqData) => util.serviceProxy('/admin_about_update', reqData),
+
+    // 隱私權政策
+    privacyUpdate: (reqData) => util.serviceProxy('/admin_privacy_update', reqData),
 
     // 後台帳號
     adAccountSearch: (reqData) => util.serviceProxy('/admin_account_search', reqData),

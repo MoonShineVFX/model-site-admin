@@ -162,10 +162,10 @@ const ProductList = ({ pageData }) => {
     // 上下架
     const handleChangeActive = ({ target }, id) => {
 
-        Service.productActive({ id, isActive: target.value })
+        Service.productActive({ id, isActive: (target.value === 'true') ? true : false })
             .then(() => {
 
-                message.success(`ID ${id} 已改為${productActiveStatus[target.value]}`);
+                message.success(`ID: ${id} 已改為${productActiveStatus[target.value]}`);
 
             });
 

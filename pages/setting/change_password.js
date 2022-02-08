@@ -39,7 +39,7 @@ const ResetPassword = ({ pageData }) => {
 
     // Ref
     const password = useRef({});
-    password.current = watch('newPassword');
+    password.current = watch('password');
 
     useEffect(() => {
 
@@ -85,7 +85,7 @@ const ResetPassword = ({ pageData }) => {
                 </h3>
 
                 <FormRow
-                    labelTitle="原密碼"
+                    labelTitle="密碼"
                     required={true}
                     error={errors.password && true}
                 >
@@ -97,19 +97,7 @@ const ResetPassword = ({ pageData }) => {
                 </FormRow>
 
                 <FormRow
-                    labelTitle="新密碼"
-                    required={true}
-                    error={errors.newPassword && true}
-                >
-                    <input
-                        type="password"
-                        name="newPassword"
-                        {...register('newPassword', { required: true })}
-                    />
-                </FormRow>
-
-                <FormRow
-                    labelTitle="再次輸入新密碼"
+                    labelTitle="再次輸入密碼"
                     required={true}
                     error={errors.confirm_password && true}
                     errorMesg={errors?.confirm_password?.message}

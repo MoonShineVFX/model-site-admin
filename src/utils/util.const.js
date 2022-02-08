@@ -47,6 +47,10 @@ const utilConst = {
                     pageKey: 'tag',
                 },
                 {
+                    name: '隱私權政策',
+                    pageKey: 'privacy',
+                },
+                {
                     name: '後台帳號',
                     pageKey: 'admin_account',
                 },

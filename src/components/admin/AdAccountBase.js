@@ -69,8 +69,8 @@ const AdminAccountBase = ({ pageData }) => {
         },
         {
             title: '後台帳號',
-            dataIndex: 'email',
-            render: (email) => renderWithoutValue(email),
+            dataIndex: 'account',
+            render: (account) => renderWithoutValue(account),
         },
         {
             title: '素材',

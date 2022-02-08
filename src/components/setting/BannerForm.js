@@ -57,7 +57,7 @@ const BannerForm = () => {
             ...formStorageData?.file && { file: formStorageData?.file },
             ...(currEvent === 'updateBanner') && { id: formStorageData.id },
             isActive: (reqData.isActive === 'false') ? !reqData.isActive : !!reqData.isActive,
-            description: formStorageData.description,
+            detail: formStorageData.detail,
         };
 
         // 檢查: 檔案選取
@@ -69,7 +69,7 @@ const BannerForm = () => {
        }
 
         // 檢查: 簡述
-        if (!reqData.description) {
+        if (!reqData.detail) {
 
                 alert('簡述不得為空');
                 return;
@@ -160,10 +160,10 @@ const BannerForm = () => {
             <UploadSingle size={imageSize} />
 
             <div className="row row-editor">
-                <TextEditor content={formStorageData.description} />
+                <TextEditor content={formStorageData.detail} />
                 <textarea
-                    name="description"
-                    {...register('description')}
+                    name="detail"
+                    {...register('detail')}
                     style={{ display: 'none' }}
                 />
             </div>

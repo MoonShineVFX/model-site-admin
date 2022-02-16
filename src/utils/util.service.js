@@ -2,7 +2,7 @@ import util from './util';
 
 const Service = {
     // 登入
-    login: ({ reqData, headers }) => util.serviceProxy('/login', reqData, {
+    login: ({ reqData, headers }) => util.serviceProxy('/admin_login', reqData, {
         headers: { ...headers },
     }),
 

@@ -58,13 +58,13 @@ const util = {
 
             const authHeader = {
                 headers: {
-                    Authorization: `Bearer ${Cookies.get('token')}`,
+                    Authorization: `Bearer ${Cookies.get('admin_token')}`,
                 },
             };
 
             axios[CONFIG().method](CONFIG().url, reqData, {
                 ...option,
-                ...(Cookies.get()?.token) && { ...authHeader },
+                ...(Cookies.get()?.admin_token) && { ...authHeader },
             })
             .then(
                 // result: 1

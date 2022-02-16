@@ -127,8 +127,8 @@ export default Login;
 
 export async function getServerSideProps ({ req }) {
 
-    // 有 cookie(token) 導首頁
-    if (req.cookies.token) {
+    // 有 cookie(admin_token) 導首頁
+    if (req.cookies.admin_token) {
 
         return {
             redirect: {

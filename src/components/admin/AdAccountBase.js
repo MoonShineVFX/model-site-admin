@@ -184,8 +184,8 @@ export default AdminAccountBase;
 
 export async function getServerSideProps ({ req }) {
 
-    // 沒有 cookie(token) 導登入頁
-    if (!req.cookies.token) {
+    // 沒有 cookie(admin_token) 導登入頁
+    if (!req.cookies.admin_token) {
 
         return {
             redirect: {
@@ -198,7 +198,7 @@ export async function getServerSideProps ({ req }) {
 
     const resData = await util.serviceServer({
         url: '/admin_accounts',
-        cookie: req.cookies.token,
+        cookie: req.cookies.admin_token,
     });
 
     const { data } = resData;

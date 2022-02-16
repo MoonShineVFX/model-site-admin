@@ -30,8 +30,8 @@ export default ProductDetail;
 
 export async function getServerSideProps ({ params, req }) {
 
-    // 沒有 cookie(token) 導登入頁
-    if (!req.cookies.token) {
+    // 沒有 cookie(admin_token) 導登入頁
+    if (!req.cookies.admin_token) {
 
         return {
             redirect: {
@@ -45,7 +45,7 @@ export async function getServerSideProps ({ params, req }) {
     const resData = await util.serviceServer({
         method: 'get',
         url: `/admin_products/${params.id}`,
-        cookie: req.cookies.token,
+        cookie: req.cookies.admin_token,
     });
 
     const { data } = resData;

@@ -129,8 +129,8 @@ export default ResetPassword;
 
 export async function getServerSideProps ({ req, query }) {
 
-    // 沒有 cookie(token) 導登入頁
-    if (!req.cookies.token) {
+    // 沒有 cookie(admin_token) 導登入頁
+    if (!req.cookies.admin_token) {
 
         return {
             redirect: {

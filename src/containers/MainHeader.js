@@ -39,7 +39,7 @@ const MainHeader = () => {
 
     const handleLogout = () => {
 
-        Cookies.remove('token');
+        Cookies.remove('admin_token');
         redirectTo();
 
     };

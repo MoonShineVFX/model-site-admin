@@ -92,3 +92,8 @@ Navbar.propTypes = {
 };
 
 export default Navbar;
+
+/**
+ * demo active link
+ * https://stackblitz.com/github/vercel/next.js/tree/canary/examples/active-class-name?file=components%2FActiveLink.js
+ */

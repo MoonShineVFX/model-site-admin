@@ -21,6 +21,8 @@ const mappingSize = {
     mobileMain: '640x213',
     thumb: '480x280',
     extend: '420x500',
+    banner: '840x386',
+    mobileBanner: '436x606',
 };
 
 const RowWrapLayout = styled.div({

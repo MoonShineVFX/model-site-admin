@@ -52,6 +52,9 @@ const Service = {
 
     // 重設密碼
     resetPassword: (reqData) => util.serviceProxy('/admin_change_password', reqData),
+
+    // 詞條管理
+    deftagSearch: (reqData) => util.serviceProxy('/???', reqData),
 };
 
 export default Service;

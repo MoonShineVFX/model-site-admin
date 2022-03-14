@@ -33,7 +33,7 @@ const DetailWrapLayout = styled(Row)(({ theme }) => ({
     '.left': {
         borderRight: `1px solid ${theme.palette.border}`,
     },
-}))
+}));
 
 // 返回列表按鈕
 const BackToLayout = styled(Buttons)({

@@ -7,7 +7,6 @@ const utilConst = {
     errorText: '此欄位為必填!',
     limitSizeText: '檔案不得超過 2MB，請重新選擇!!!',
     supportFormat: '.jpg,.jpeg,.png',
-
     // 側邊攔
     navbar: [
         {
@@ -56,8 +55,12 @@ const utilConst = {
                 },
             ],
         },
+        {
+            name: '詞條管理',
+            pageKey: 'deftag',
+            subItems: [],
+        },
     ],
-
     lightboxTitle: {
         createTag: '新增標籤',
         updateTag: '編輯標籤',
@@ -68,7 +71,6 @@ const utilConst = {
         createBanner: '新增 Banner',
         updateBanner: '編輯 Banner',
     },
-
     // Prompt type
     prompts: {
         info: '提示',
@@ -76,30 +78,31 @@ const utilConst = {
         error: '錯誤',
         success: '成功',
     },
-
     // Yes or No
     yesOrNo: {
         'false': '否',
         'true': '是',
     },
-
     productActiveStatus: {
         true: '上架',
         false: '下架',
     },
-
     orderStatus: {
         unpaid: '等待付款',
         success: '交易成功',
         fail: '交易失敗',
         cancel: '取消交易',
     },
-
     payment: {
         VACC: 'ATM 轉帳',
         CREDIT: '信用卡',
     },
-
+    lang: {
+        'zh': '繁體中文',
+        'en': 'English',
+        // 'cn': '简体中文',
+        // 'jp': '日文',
+    },
 };
 
 export default utilConst;

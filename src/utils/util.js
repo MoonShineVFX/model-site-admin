@@ -170,7 +170,7 @@ const util = {
      * @param {number} limit
      * @return {number}
      */
-    uploadFileLimit: (bytes, limit = 2) => {
+    uploadFileLimit: (bytes, limit = 1) => {
 
         const k = 1024;
         const limitSize = bytes / k / k < limit;

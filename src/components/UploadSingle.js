@@ -145,7 +145,7 @@ const UploadSingle = ({ size }) => {
                 <li className="warning-text">圖片經上傳後將取代原圖，請小心使用</li>
                 <li className="warning-text">檔名請勿重複，以免被覆寫</li>
                 <li>僅支援以下格式: {supportFormat}</li>
-                <li>檔案大小不得超過 2MB</li>
+                <li>檔案大小不得超過 1MB</li>
                 <li>圖片尺寸為: {size}</li>
             </ul>
         </UploadSingleLayout>

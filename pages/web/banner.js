@@ -38,6 +38,7 @@ export async function getServerSideProps ({ req }) {
             pageData: {
                 title: '行銷廣告',
                 imageSize: '840x386',
+                mobileImageSize: '436x606',
                 data: data.data,
             },
         },

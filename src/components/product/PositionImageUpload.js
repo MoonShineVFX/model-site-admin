@@ -81,7 +81,7 @@ const PositionImageUpload = ({ data }) => {
 
             const limitSize = uploadFileLimit(reqData.file.size);
 
-            // 檢查圖片大小是否超過 2MB
+            // 檢查圖片大小是否超過 1MB
             if (!limitSize) {
 
                 message.error(limitSizeText);
@@ -129,8 +129,8 @@ const PositionImageUpload = ({ data }) => {
 
             <form onSubmit={handleSubmit(handleReqData)}>
                 <UploadFiles
+                    showPreview
                     fileData={imageLists}
-                    showPreview={true}
                     handleDelete={handleDelete}
                 >
                     <span className={`img-position ${errors.positionId ? 'hasError' : ''}`}>

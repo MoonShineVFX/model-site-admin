@@ -9,6 +9,7 @@ const initState = {
     action: false,
     list: [],
     imageSize: '',
+    mobileImageSize: '',
 };
 
 // Create Context
@@ -21,7 +22,7 @@ const BannerProvider = ({ children }) => {
     const { lightboxDispatch, formStorageDispatch } = useContext(GlobalContext);
     const [bannerState, bannerDispatch] = useReducer(bannerReducer, initState);
 
-    const { action, list, imageSize } = bannerState;
+    const { action, list, imageSize, mobileImageSize } = bannerState;
     const { Provider } = BannerContext;
 
     // 新增
@@ -70,6 +71,7 @@ const BannerProvider = ({ children }) => {
             action,
             list,
             imageSize,
+            mobileImageSize,
 
             bannerCreate,
             bannerUpdate,

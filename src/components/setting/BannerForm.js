@@ -1,10 +1,9 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { message } from 'antd';
 import { useForm } from 'react-hook-form';
+import styled from 'styled-components';
 
 import Buttons from '../Buttons';
-import UploadSingle from '../UploadSingle';
-import TextEditor from '../TextEditor';
 import { FormRow, ErrorMesg } from '../LightboxForm';
 
 import { GlobalContext } from '../../context/global.state';
@@ -15,6 +14,75 @@ import utilConst from '../../utils/util.const';
 const { uploadFileLimit } = util;
 const { limitSizeText, productActiveStatus } = utilConst;
 
+//
+const UploadImageLayout = styled.div(({ theme }) => ({
+    '.field': {
+        display: 'inline-block',
+        marginBottom: '4px',
+    },
+    '.suggest-size': {
+        color: 'blue',
+    },
+    '.file-size': {
+        color: '#bfbfbf',
+        float: 'right',
+        marginTop: 'calc((30px - 22px) / 2)',
+    },
+    '.image-preivew': {
+        height: '200px',
+        textAlign: 'center',
+        border: `1px solid ${theme.palette.border}`,
+        padding: '8px',
+        '&:before': {
+            content: "''",
+            height: '100%',
+            display: 'inline-block',
+            verticalAlign: 'middle',
+        },
+        'img': {
+            maxHeight: '100%',
+            maxWidth: '100%',
+        },
+    },
+}));
+
+//
+const UploadImage = ({
+    data,
+    title,
+    image,
+    imageSize,
+    onChange,
+}) => (
+
+    <UploadImageLayout className="row row-upload">
+        <div className="title">{title} <span className="suggest-size">(建議尺寸: {imageSize})</span></div>
+        <div className="field noBorder">
+            <input
+                type="file"
+                name="file"
+                accept="image/*"
+                onChange={onChange}
+            />
+        </div>
+
+        <span className="file-size">
+            {
+                // 小於 1MB 顯示 KB
+                (image?.size / 1024 / 1024 > 1) ?
+                    `${(Math.round((image?.size / 1024 / 1024) * 100) / 100) || 0} MB` :
+                    `${(Math.round((image?.size / 1024) * 100) / 100) || 0} KB`
+            }
+        </span>
+
+        <div className="image-preivew">
+            <img src={image ? URL.createObjectURL(image) : data} alt="" />
+        </div>
+    </UploadImageLayout>
+
+);
+
+//
 const BannerForm = () => {
 
     // Context
@@ -25,7 +93,16 @@ const BannerForm = () => {
         formStorageData,
     } = useContext(GlobalContext);
 
-    const { imageSize, bannerCreate, bannerUpdate } = useContext(BannerContext);
+    const {
+        imageSize,
+        mobileImageSize,
+        bannerCreate,
+        bannerUpdate,
+    } = useContext(BannerContext);
+
+    // State
+    const [webImg, setWebImg] = useState(null);
+    const [mobileImg, setMobileImg] = useState(null);
 
     // React Hook Form
     const {
@@ -47,6 +124,14 @@ const BannerForm = () => {
 
     };
 
+    // Change
+    const handleUploader = ({ target }, type = 'large') => {
+
+        if (type === 'large') setWebImg(target.files[0]);
+        else setMobileImg(target.files[0]);
+
+    };
+
     // 送資料
     const handleReqData = (reqData) => {
 
@@ -54,35 +139,20 @@ const BannerForm = () => {
 
         reqData = {
             ...reqData,
-            ...formStorageData?.file && { file: formStorageData?.file },
             ...(currEvent === 'updateBanner') && { id: formStorageData.id },
             isActive: (reqData.isActive === 'false') ? !reqData.isActive : !!reqData.isActive,
-            detail: formStorageData.detail,
+            ...webImg && { image: webImg },
+            ...mobileImg && { mobileImage: mobileImg },
         };
 
-        // 檢查: 檔案選取
-       if ((currEvent === 'createBanner') && !reqData.file) {
-
-            alert('圖片未選取');
-            return;
-
-       }
-
-        // 檢查: 簡述
-        if (!reqData.detail) {
-
-                alert('簡述不得為空');
-                return;
-
-        }
-
         // 檢查: 圖片尺寸
-        if (reqData.file) {
+        if (reqData.image || reqData.mobileImage) {
 
-            const limitSize = uploadFileLimit(reqData.file.size);
+            const web = uploadFileLimit(reqData?.image?.size || 0);
+            const mobile = uploadFileLimit(reqData?.mobileImage?.size || 0);
 
-            // 檢查圖片大小是否超過 2MB
-            if (!limitSize) {
+            // 檢查圖片大小是否超過 1MB
+            if (!web || !mobile) {
 
                 message.error(limitSizeText);
                 return;
@@ -97,6 +167,7 @@ const BannerForm = () => {
 
         }
 
+        // return;
         if (currEvent === 'updateBanner') bannerUpdate(formData);
         else bannerCreate(formData);
 
@@ -105,16 +176,41 @@ const BannerForm = () => {
     return (
 
         <form onSubmit={handleSubmit(handleReqData)}>
+            <FormRow
+                labelTitle="標題 (給圖片用)"
+                required={true}
+                error={errors.title && true}
+            >
+                <input
+                    type="text"
+                    name="title"
+                    {...register('title', { required: true })}
+                />
+            </FormRow>
+
+            <FormRow
+                labelTitle="簡述"
+                className="textarea place-textarea"
+                noBorder={true}
+                required={true}
+                error={errors.description && true}
+            >
+                <textarea
+                    name="description"
+                    {...register('description', { required: true })}
+                />
+            </FormRow>
+
             <div className="items">
                 <FormRow
-                    labelTitle="標題 (給圖片用)"
+                    labelTitle="外部連結"
                     required={true}
-                    error={errors.title && true}
+                    error={errors.link && true}
                 >
                     <input
                         type="text"
-                        name="title"
-                        {...register('title', { required: true })}
+                        name="link"
+                        {...register('link', { required: true })}
                     />
                 </FormRow>
 
@@ -145,28 +241,21 @@ const BannerForm = () => {
                 </div>
             </div>
 
-            <FormRow
-                labelTitle="外部連結"
-                required={true}
-                error={errors.link && true}
-            >
-                <input
-                    type="text"
-                    name="link"
-                    {...register('link', { required: true })}
-                />
-            </FormRow>
+            <UploadImage
+                title="大圖"
+                data={formStorageData.imgUrl}
+                image={webImg}
+                imageSize={imageSize}
+                onChange={handleUploader}
+            />
 
-            <UploadSingle size={imageSize} />
-
-            <div className="row row-editor">
-                <TextEditor content={formStorageData.detail} />
-                <textarea
-                    name="detail"
-                    {...register('detail')}
-                    style={{ display: 'none' }}
-                />
-            </div>
+            <UploadImage
+                title="小圖"
+                data={formStorageData.mobileImgUrl}
+                image={mobileImg}
+                imageSize={mobileImageSize}
+                onChange={(e) => handleUploader(e, 'small')}
+            />
 
             <div className="row row-btns">
                 <Buttons

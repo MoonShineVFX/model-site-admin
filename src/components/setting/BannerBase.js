@@ -16,7 +16,12 @@ import util from '../../utils/util';
 import utilConst from '../../utils/util.const';
 import Service from '../../utils/util.service';
 
-const { pathnameKey, renderDateTime } = util;
+const {
+    pathnameKey,
+    renderDateTime,
+    renderWithoutValue,
+} = util;
+
 const { lightboxTitle, productActiveStatus } = utilConst;
 
 const BannerBase = ({ pageData }) => {
@@ -51,6 +56,7 @@ const BannerBase = ({ pageData }) => {
             payload: {
                 list: pageData.data.list,
                 imageSize: pageData.imageSize,
+                mobileImageSize: pageData.mobileImageSize,
             },
         });
 
@@ -64,16 +70,26 @@ const BannerBase = ({ pageData }) => {
             render: (id, data) => <Links url="#" onClick={() => btnUpdate(data)}>{id}</Links>,
         },
         {
-            title: `縮圖(${pageData.imageSize})`,
+            title: `大圖(${pageData.imageSize})`,
             dataIndex: 'imgUrl',
             width: 160,
             render: (imgUrl, { title }) => imgUrl ? <Image src={imgUrl} alt={title} /> : '--',
         },
         {
+            title: `小圖(${pageData.mobileImageSize})`,
+            dataIndex: 'mobileImgUrl',
+            width: 160,
+            render: (mobileImgUrl, { title }) => mobileImgUrl ? <Image src={mobileImgUrl} alt={title} /> : '--',
+        },
+        {
+            title: '標題',
+            dataIndex: 'title',
+            render: (title) => renderWithoutValue(title),
+        },
+        {
             title: '簡述',
-            dataIndex: 'detail',
-            width: 500,
-            render: (detail) => detail ? <div dangerouslySetInnerHTML={{ __html: detail }} /> : '--',
+            dataIndex: 'description',
+            render: (description) => renderWithoutValue(description),
         },
         {
             title: '外部連結',

@@ -1,14 +1,7 @@
-import { Row } from 'antd';
 import styled from 'styled-components';
-import Buttons from '../Buttons';
 
 // 詳細頁 > 兩欄
 const DeftagFormLayout = styled('form')(({ theme }) => ({
-    '.container': {
-        // maxWidth: '60%',
-        // display: 'flex',
-        // margin: '0 -20px',
-    },
     '.items': {
         border: `1px solid ${theme.palette.border}`,
         flex: '1',
@@ -23,9 +16,11 @@ const DeftagFormLayout = styled('form')(({ theme }) => ({
     '.row:not(.row-btns)': {
         marginBottom: '16px',
     },
-    // '.label': {
-    //     marginBottom: '2px',
-    // },
+    '.label span': {
+        display: 'inline-block',
+        marginTop: 'calc((34px - 18px) / 2)',
+
+    },
     '.row-btns': {
         textAlign: 'left',
         '.admin-btn': {
@@ -36,7 +31,6 @@ const DeftagFormLayout = styled('form')(({ theme }) => ({
 
     '.item': {
         display: 'flex',
-        alignItems: 'center',
         marginBottom: '10px',
     },
     '.item-header': {
@@ -59,6 +53,4 @@ const DeftagFormLayout = styled('form')(({ theme }) => ({
     },
 }));
 
-export {
-    DeftagFormLayout,
-};
+export { DeftagFormLayout };

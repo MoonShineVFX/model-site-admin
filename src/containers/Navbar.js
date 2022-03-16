@@ -26,6 +26,9 @@ const SiderLayout = styled(Sider)(({ theme }) => ({
     'li': {
         fontSize: '16px',
     },
+    '.side-menu': {
+        paddingBottom: '40px',
+    },
 }));
 
 const Navbar = ({ width }) => {
@@ -48,6 +51,7 @@ const Navbar = ({ width }) => {
                 mode="inline"
                 openKeys={navbrItem.flatMap(({ pageKey }) => pageKey)}
                 selectedKeys={[page]}
+                className="side-menu"
             >
                 {
                     navbrItem.map(({ name, pageKey, subItems }) => (

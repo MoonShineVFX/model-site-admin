@@ -3,11 +3,9 @@ import { useForm } from 'react-hook-form';
 import LightboxFormStyle from '../LightboxFormStyle';
 import { DeftagFormLayout } from './DeftagLayout';
 import Buttons from '../Buttons';
+import { ErrorMesg } from '../LightboxForm';
 import { GlobalContext } from '../../context/global.state';
-import utilConst from '../../utils/util.const';
 import Service from '../../utils/util.service';
-
-const { lang } = utilConst;
 
 // 整理資料結構
 const arrangeData = (data) => Object.keys(data).reduce((acc, code) => {
@@ -26,35 +24,6 @@ const arrangeData = (data) => Object.keys(data).reduce((acc, code) => {
 
 }, {});
 
-// Item
-const ItemWrap = ({ code, data, register }) => (
-
-    <div className="items">
-        <h3 className="title">({code}) {lang[code]}</h3>
-
-        <div className="row-item">
-            {
-                Object.keys(data[code]).map((key) => (
-
-                    <div key={key} className="row">
-                        <div className="label">{key}</div>
-                        <div className="field">
-                            <input
-                                type="text"
-                                name={key}
-                                defaultValue={data[code][key]}
-                                // {...register(key)}
-                            />
-                        </div>
-                    </div>
-
-                ))
-            }
-        </div>
-    </div>
-
-);
-
 //
 const DeftagForm = ({ data }) => {
 
@@ -62,7 +31,11 @@ const DeftagForm = ({ data }) => {
     const { globalDispatch } = useContext(GlobalContext);
 
     // React Hook Form
-    const { handleSubmit, register} = useForm();
+    const {
+        handleSubmit,
+        register,
+        formState: { errors },
+    } = useForm();
 
     // State
     const [list, setList] = useState(arrangeData(data));
@@ -104,17 +77,20 @@ const DeftagForm = ({ data }) => {
                         Object.keys(list).map((index) => (
 
                             <div key={index} className="item">
-                                <div className="column label">{index}</div>
+                                <div className="column label">
+                                    <span>{index}</span>
+                                </div>
 
-                                <div className="column row">
+                                <div className={`column row ${errors?.zh?.[index] ? 'hasError' : ''}`}>
                                     <div className="field">
                                         <input
                                             type="text"
                                             name={`zh_${index}`}
                                             defaultValue={list[index]['zh']}
-                                            {...register(`zh_${index}`)}
+                                            {...register(`zh.${index}`, { required: true })}
                                         />
                                     </div>
+                                    {errors?.zh?.[index] && <ErrorMesg />}
                                 </div>
 
                                 <div className="column row">
@@ -123,7 +99,7 @@ const DeftagForm = ({ data }) => {
                                             type="text"
                                             name={`en_${index}`}
                                             defaultValue={list[index]['en']}
-                                            {...register(`en_${index}`)}
+                                            {...register(`en.${index}`)}
                                         />
                                     </div>
                                 </div>
@@ -131,19 +107,6 @@ const DeftagForm = ({ data }) => {
 
                         ))
                     }
-
-                    {/* {
-                        Object.keys(data).map((code) => (
-
-                            <ItemWrap
-                                key={code}
-                                code={code}
-                                data={data}
-                                register={register}
-                            />
-
-                        ))
-                    } */}
                 </div>
 
                 <div className="row row-btns">

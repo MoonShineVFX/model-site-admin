@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-// 詳細頁 > 兩欄
+//
 const DeftagFormLayout = styled('form')(({ theme }) => ({
     '.items': {
         border: `1px solid ${theme.palette.border}`,

@@ -12,23 +12,7 @@ import util from '../../src/utils/util';
 const { pathnameKey } = util;
 
 //
-const OrderList = ({ pageData }) => {
-
-    // Fake
-    pageData.data = {
-        "zh": {
-            "menu_store": "商店",
-            "button_signin": "登入",
-            "product_detail_format_and_renderer": "軟體格式與算圖引擎",
-            "product_detail_notice": "購買後，可以在我的模型庫下載其他檔案格式"
-        },
-        "en": {
-            "menu_store": "Store",
-            "button_signin": "Sign",
-            "product_detail_format_and_renderer": "Format And Renderer",
-            "product_detail_notice": ""
-        }
-    };
+const DeftagList = ({ pageData }) => {
 
     // Router
     const { pathname } = useRouter();
@@ -56,14 +40,14 @@ const OrderList = ({ pageData }) => {
             />
 
             <SearchForm options={pageData.data} />
-            <DeftagForm data={pageData.data} />
+            <DeftagForm data={(searchResult?.curr === 'deftag') ? searchResult.list : pageData.data} />
         </Fragment>
 
     );
 
 };
 
-export default OrderList;
+export default DeftagList;
 
 export async function getServerSideProps ({ req }) {
 
@@ -85,6 +69,24 @@ export async function getServerSideProps ({ req }) {
     });
 
     const { data } = resData;
+
+    // Fake
+    var fake = {
+        "zh": {
+            "menu_store": "商店",
+            "button_signin": "登入",
+            "product_detail_format_and_renderer": "軟體格式與算圖引擎",
+            "product_detail_notice": "購買後，可以在我的模型庫下載其他檔案格式"
+        },
+        "en": {
+            "menu_store": "Store",
+            "button_signin": "Sign",
+            "product_detail_format_and_renderer": "Format And Renderer",
+            "product_detail_notice": ""
+        }
+    };
+
+    data.data = { ...fake };
 
     return {
         props: {

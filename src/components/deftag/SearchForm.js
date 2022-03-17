@@ -1,13 +1,10 @@
-import { Fragment, useState, useContext } from 'react';
+import { Fragment, useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import LightboxFormStyle from '../LightboxFormStyle';
 import Buttons from '../Buttons';
 import { SearchFormLayout } from '../order/OrderLayout';
 import { GlobalContext } from '../../context/global.state';
-import utilConst from '../../utils/util.const';
 import Service from '../../utils/util.service';
-
-const { lang } = utilConst;
 
 const SearchForm = ({ options }) => {
 
@@ -17,16 +14,13 @@ const SearchForm = ({ options }) => {
     // React Hook Form
     const { handleSubmit, register, reset } = useForm();
 
-    // State
-    // const [selectedDate, setSelectedDate] = useState([today, today]); // 預設代今日
-
     // reset
     const targetReset = () => {
 
         reset();
         globalDispatch({
             type: 'search',
-            payload: { curr: '', list: [] },
+            payload: { curr: '', list: null },
         });
 
     };
@@ -34,11 +28,24 @@ const SearchForm = ({ options }) => {
     // 送資料
     const handleReqData = (reqData) => {
 
+        // Fake
+        const list = {
+            "zh": {
+                "product_detail_format_and_renderer": "軟體格式與算圖引擎",
+                "product_detail_notice": "購買後，可以在我的模型庫下載其他檔案格式"
+            },
+            "en": {
+                "product_detail_format_and_renderer": "Format And Renderer",
+                "product_detail_notice": ""
+            }
+        };
+
         console.log('reqData:', reqData)
 
-        // reqData = {
-        //     ...reqData,
-        // };
+        globalDispatch({
+            type: 'search',
+            payload: { curr: 'deftag', list },
+        });
 
         // Service.deftagSearch(reqData)
         //     .then((resData) => {
@@ -68,26 +75,6 @@ const SearchForm = ({ options }) => {
                         {...register('query')}
                     />
                 </span>
-
-                <select
-                    name="code"
-                    className="input"
-                    {...register('code')}
-                >
-                    <option value="">選擇語系</option>
-                    {
-                        Object.keys(options).map((code) => (
-
-                            <option
-                                key={code}
-                                value={code}
-                            >
-                                {lang[code]}
-                            </option>
-
-                        ))
-                    }
-                </select>
 
                 <Buttons
                     text="查詢"

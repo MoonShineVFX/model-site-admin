@@ -1,14 +1,13 @@
-import { Fragment, useState, useContext } from 'react';
+import { Fragment, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import LightboxFormStyle from '../LightboxFormStyle';
 import { DeftagFormLayout } from './DeftagLayout';
 import Buttons from '../Buttons';
 import { ErrorMesg } from '../LightboxForm';
-import { GlobalContext } from '../../context/global.state';
 import Service from '../../utils/util.service';
 
 // 整理資料結構
-const arrangeData = (data) => Object.keys(data).reduce((acc, code) => {
+const tidyData = (data) => Object.keys(data).reduce((acc, code) => {
 
     return Object.keys(data[code]).reduce((_acc, _obj) => {
 
@@ -27,9 +26,6 @@ const arrangeData = (data) => Object.keys(data).reduce((acc, code) => {
 //
 const DeftagForm = ({ data }) => {
 
-    // Context
-    const { globalDispatch } = useContext(GlobalContext);
-
     // React Hook Form
     const {
         handleSubmit,
@@ -38,26 +34,13 @@ const DeftagForm = ({ data }) => {
     } = useForm();
 
     // State
-    const [list, setList] = useState(arrangeData(data));
+    const [list, setList] = useState(tidyData(data));
 
     // 送資料
     const handleReqData = (reqData) => {
 
-        console.log('reqData:', reqData)
-
-        // reqData = {
-        //     ...reqData,
-        // };
-
-        // Service.deftagSearch(reqData)
-        //     .then((resData) => {
-
-        //         globalDispatch({
-        //             type: 'search',
-        //             payload: { curr: 'deftag', list },
-        //         });
-
-        //     });
+        Service.deftagUpdate(reqData)
+            .then((resData) => setList(tidyData(resData)));
 
     };
 

@@ -55,6 +55,7 @@ const Service = {
 
     // 詞條管理
     deftagSearch: (reqData) => util.serviceProxy('/???', reqData),
+    deftagUpdate: (reqData) => util.serviceProxy('/???', reqData),
 };
 
 export default Service;

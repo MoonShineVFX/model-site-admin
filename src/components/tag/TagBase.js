@@ -126,12 +126,7 @@ const TagBase = ({ pageData }) => {
         <Fragment>
             <LightboxFormStyle />
             <HeadTag title={pageData.title} />
-
-            <ContentHeader
-                title={pageData.title}
-                showButton={false}
-            />
-
+            <ContentHeader title={pageData.title} />
             <Row gutter={20}>
                 <Col flex="400px">
                     <TagFormLayout className="lightbox-wrap">

@@ -176,10 +176,7 @@ const ProductList = ({ pageData }) => {
         <Fragment>
             <HeadTag title={pageData.title} />
 
-            <ContentHeader
-                title={pageData.title}
-                showButton={false}
-            >
+            <ContentHeader title={pageData.title}>
                 <Buttons className="btn-create">
                     <Links url="/product/create">新增</Links>
                 </Buttons>

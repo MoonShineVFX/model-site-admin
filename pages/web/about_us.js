@@ -136,7 +136,8 @@ const AboutUs = ({ pageData }) => {
 
             <ContentHeader
                 title={pageData.title}
-                showButton={false}
+                component={<h1>1111</h1>}
+                showLangButton
             />
 
             <FormWrapLayout onSubmit={handleSubmit(handleReqData)}>

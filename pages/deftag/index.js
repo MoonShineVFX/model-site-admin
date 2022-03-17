@@ -33,12 +33,7 @@ const DeftagList = ({ pageData }) => {
 
         <Fragment>
             <HeadTag title={pageData.title} />
-
-            <ContentHeader
-                title={pageData.title}
-                showButton={false}
-            />
-
+            <ContentHeader title={pageData.title} />
             <SearchForm options={pageData.data} />
             <DeftagForm data={(searchResult?.curr === 'deftag') ? searchResult.list : pageData.data} />
         </Fragment>

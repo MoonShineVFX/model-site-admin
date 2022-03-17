@@ -14,12 +14,7 @@ const ActionWrap = ({ title, data, service }) => (
 
     <Fragment>
         <HeadTag title={title} />
-
-        <ContentHeader
-            title={title}
-            showButton={false}
-        />
-
+        <ContentHeader title={title} />
         <DetailWrapLayout gutter={60}>
             <Col span={14}>
                 <ProductForm

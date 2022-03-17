@@ -70,6 +70,7 @@ const utilConst = {
         updateTutorial: '編輯文件導覽',
         createBanner: '新增 Banner',
         updateBanner: '編輯 Banner',
+        updateLang: '更新語言',
     },
     // Prompt type
     prompts: {
@@ -97,7 +98,7 @@ const utilConst = {
         VACC: 'ATM 轉帳',
         CREDIT: '信用卡',
     },
-    lang: {
+    langs: {
         'zh': '繁體中文',
         'en': 'English',
         // 'cn': '简体中文',

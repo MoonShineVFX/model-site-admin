@@ -154,6 +154,7 @@ const AdminAccountBase = ({ pageData }) => {
             <ContentHeader
                 title={pageData.title}
                 onClick={btnCreate}
+                showButton
             />
 
             <SearchForm />

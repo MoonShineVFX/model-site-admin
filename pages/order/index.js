@@ -137,14 +137,8 @@ const OrderList = ({ pageData }) => {
 
         <Fragment>
             <HeadTag title={pageData.title} />
-
-            <ContentHeader
-                title={pageData.title}
-                showButton={false}
-            />
-
+            <ContentHeader title={pageData.title} />
             <SearchForm />
-
             <Tables
                 rowKey="id"
                 columns={columns}

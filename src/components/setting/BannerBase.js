@@ -227,6 +227,7 @@ const BannerBase = ({ pageData }) => {
             <ContentHeader
                 title={pageData.title}
                 onClick={btnCreate}
+                showButton
             />
 
             <Tables

@@ -6,7 +6,6 @@ import Buttons from '../../components/Buttons';
 const SearchFormLayout = styled.form(({ theme }) => ({
     marginBottom: '30px',
     '.input': {
-        width: '300px',
         height: '34px',
         fontSize: '0.9em',
         display: 'inline-block',
@@ -17,9 +16,6 @@ const SearchFormLayout = styled.form(({ theme }) => ({
         transition: 'all .3s ease-in-out',
         ':hover, :focus': {
             borderColor: theme.palette.blue,
-        },
-        'input': {
-            width: '100%',
         },
     },
     '.ant-picker': {

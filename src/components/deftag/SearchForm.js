@@ -70,9 +70,18 @@ const SearchForm = ({ options }) => {
                 <span className="input">
                     <input
                         type="text"
-                        name="query"
-                        placeholder="索引值或關鍵字"
-                        {...register('query')}
+                        name="key"
+                        placeholder="索引值"
+                        {...register('key')}
+                    />
+                </span>
+
+                <span className="input">
+                    <input
+                        type="text"
+                        name="value"
+                        placeholder="文字"
+                        {...register('value')}
                     />
                 </span>
 

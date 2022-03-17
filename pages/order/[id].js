@@ -61,10 +61,7 @@ const OrderDetail = ({ pageData }) => {
         <Fragment>
             <HeadTag title={`訂單 ${pageData.data.orderNumber}`} />
 
-            <ContentHeader
-                title={`${pageData.title} - ${pageData.data.orderNumber}`}
-                showButton={false}
-            >
+            <ContentHeader title={`${pageData.title} - ${pageData.data.orderNumber}`}>
                 <BackToLayout type="default">
                     <Links url="/order">回前頁</Links>
                 </BackToLayout>

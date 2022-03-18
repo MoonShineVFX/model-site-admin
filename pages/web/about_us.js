@@ -136,7 +136,7 @@ const AboutUs = ({ pageData }) => {
 
             <ContentHeader
                 title={pageData.title}
-                component={<h1>1111</h1>}
+                langForm={<h1>1111</h1>}
                 showLangButton
             />
 

@@ -80,7 +80,7 @@ const SearchForm = ({ options }) => {
                     <input
                         type="text"
                         name="value"
-                        placeholder="文字"
+                        placeholder="翻譯文字"
                         {...register('value')}
                     />
                 </span>

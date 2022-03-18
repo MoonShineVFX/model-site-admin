@@ -53,8 +53,8 @@ const DeftagForm = ({ data }) => {
                 <div className="container">
                     <div className="item item-header">
                         <div className="column"></div>
-                        <div className="column">(zh) 繁體中文</div>
-                        <div className="column">(en) English</div>
+                        <div className="column">zh (繁體中文)</div>
+                        <div className="column">en (English)</div>
                     </div>
                     {
                         Object.keys(list).map((index) => (
@@ -68,7 +68,7 @@ const DeftagForm = ({ data }) => {
                                     <div className="field">
                                         <input
                                             type="text"
-                                            name={`zh_${index}`}
+                                            name={`zh.${index}`}
                                             defaultValue={list[index]['zh']}
                                             {...register(`zh.${index}`, { required: true })}
                                         />
@@ -80,7 +80,7 @@ const DeftagForm = ({ data }) => {
                                     <div className="field">
                                         <input
                                             type="text"
-                                            name={`en_${index}`}
+                                            name={`en.${index}`}
                                             defaultValue={list[index]['en']}
                                             {...register(`en.${index}`)}
                                         />

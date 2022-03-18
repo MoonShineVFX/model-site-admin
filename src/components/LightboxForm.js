@@ -97,6 +97,7 @@ const LightboxForm = ({
     className,
     handleCancel,
     children,
+    ...rest
 }) => (
 
     <Fragment>
@@ -109,6 +110,7 @@ const LightboxForm = ({
             wrapClassName={`lightbox-wrap ${className}`}
             onCancel={handleCancel}
             footer={null}
+            {...rest}
         >
             {children}
         </LightboxFormLayout>

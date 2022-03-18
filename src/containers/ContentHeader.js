@@ -4,11 +4,13 @@ import { Dropdown, Menu } from 'antd';
 import styled from 'styled-components';
 import Buttons from '../components/Buttons';
 import LightboxForm from '../components/LightboxForm';
+import DeftagDataForm from '../components/DeftagDataForm';
 import { GlobalContext } from '../context/global.state';
 import utilConst from '../utils/util.const';
 
 const { langs, lightboxTitle } = utilConst;
 
+//
 const ContentHeaderLayout = styled.div({
     marginBottom: '16px',
     '> *': {
@@ -61,7 +63,7 @@ const ContentHeader = ({
     showButton,
     showLangButton,
     onClick,
-    component,
+    langForm,
     children,
 }) => {
 
@@ -124,11 +126,15 @@ const ContentHeader = ({
             {
                 visible &&
                     <LightboxForm
+                        width={800}
                         title={lightboxTitle[currEvent]}
                         visible={visible}
                         handleCancel={hideModal}
+                        className="lightbox-deftag-wrap"
                     >
-                        {component}
+                        <DeftagDataForm>
+                            {langForm}
+                        </DeftagDataForm>
                     </LightboxForm>
             }
         </Fragment>
@@ -147,6 +153,7 @@ ContentHeader.propTypes = {
     showButton: PropTypes.bool,
     showLangButton: PropTypes.bool,
     onClick: PropTypes.func,
+    langForm: PropTypes.any,
     children: PropTypes.any,
 };
 

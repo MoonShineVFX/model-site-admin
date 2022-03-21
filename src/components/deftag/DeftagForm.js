@@ -1,9 +1,11 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useState, useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import LightboxFormStyle from '../LightboxFormStyle';
 import { DeftagFormLayout } from './DeftagLayout';
 import Buttons from '../Buttons';
+import Prompt from '../Prompt';
 import { ErrorMesg } from '../LightboxForm';
+import { GlobalContext } from '../../context/global.state';
 import Service from '../../utils/util.service';
 
 // 整理資料結構
@@ -26,6 +28,9 @@ const tidyData = (data) => Object.keys(data).reduce((acc, code) => {
 //
 const DeftagForm = ({ data }) => {
 
+    // Context
+    const { searchResult } = useContext(GlobalContext);
+
     // React Hook Form
     const {
         handleSubmit,
@@ -39,8 +44,21 @@ const DeftagForm = ({ data }) => {
     // 送資料
     const handleReqData = (reqData) => {
 
-        Service.deftagUpdate(reqData)
-            .then((resData) => setList(tidyData(resData)));
+        Prompt('confirm', {
+            title: '你確定要更新詞條嗎？',
+            mesg: '更新詞條將一次全部更新，請小心使用。',
+            callback: () => {
+
+                Service.deftagUpdate(reqData)
+                    .then((resData) => {
+
+                        Prompt('success', {
+                            callback: () => setList(tidyData(resData)),
+                        });
+                    });
+
+            },
+        });
 
     };
 
@@ -57,7 +75,7 @@ const DeftagForm = ({ data }) => {
                         <div className="column">en (English)</div>
                     </div>
                     {
-                        Object.keys(list).map((index) => (
+                        Object.keys((searchResult?.curr === 'deftag') ? tidyData(searchResult.list) : list).map((index) => (
 
                             <div key={index} className="item">
                                 <div className="column label">

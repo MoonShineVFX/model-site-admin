@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 
 const utilConst = {
     today: dayjs().format('YYYY-MM-DD'),
-    sendSuccessText: '資料已成功送出，將於 3 秒後更新。',
+    sendSuccessText: '資料已成功送出。',
     emptyText: '目前沒有資料...',
     errorText: '此欄位為必填!',
     limitSizeText: '檔案不得超過 1MB，請重新選擇!!!',

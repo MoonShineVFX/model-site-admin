@@ -1,11 +1,9 @@
 import { Fragment, useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
-
 import HeadTag from '../../src/containers/HeadTag';
 import ContentHeader from '../../src/containers/ContentHeader';
 import SearchForm from '../../src/components/deftag/SearchForm';
 import DeftagForm from '../../src/components/deftag/DeftagForm';
-
 import { GlobalContext } from '../../src/context/global.state';
 import util from '../../src/utils/util';
 
@@ -18,7 +16,7 @@ const DeftagList = ({ pageData }) => {
     const { pathname } = useRouter();
 
     // Context
-    const { searchResult, globalDispatch } = useContext(GlobalContext);
+    const { globalDispatch } = useContext(GlobalContext);
 
     useEffect(() => {
 
@@ -34,8 +32,8 @@ const DeftagList = ({ pageData }) => {
         <Fragment>
             <HeadTag title={pageData.title} />
             <ContentHeader title={pageData.title} />
-            <SearchForm options={pageData.data} />
-            <DeftagForm data={(searchResult?.curr === 'deftag') ? searchResult.list : pageData.data} />
+            <SearchForm />
+            <DeftagForm data={pageData.data} />
         </Fragment>
 
     );
@@ -59,29 +57,11 @@ export async function getServerSideProps ({ req }) {
     }
 
     const resData = await util.serviceServer({
-        url: '/admin_orders',
+        url: '/lang_configs',
         cookie: req.cookies.admin_token,
     });
 
     const { data } = resData;
-
-    // Fake
-    var fake = {
-        "zh": {
-            "menu_store": "商店",
-            "button_signin": "登入",
-            "product_detail_format_and_renderer": "軟體格式與算圖引擎",
-            "product_detail_notice": "購買後，可以在我的模型庫下載其他檔案格式"
-        },
-        "en": {
-            "menu_store": "Store",
-            "button_signin": "Sign",
-            "product_detail_format_and_renderer": "Format And Renderer",
-            "product_detail_notice": ""
-        }
-    };
-
-    data.data = { ...fake };
 
     return {
         props: {

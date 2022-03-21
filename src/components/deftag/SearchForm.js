@@ -6,7 +6,7 @@ import { SearchFormLayout } from '../order/OrderLayout';
 import { GlobalContext } from '../../context/global.state';
 import Service from '../../utils/util.service';
 
-const SearchForm = ({ options }) => {
+const SearchForm = () => {
 
     // Context
     const { globalDispatch } = useContext(GlobalContext);
@@ -28,34 +28,15 @@ const SearchForm = ({ options }) => {
     // 送資料
     const handleReqData = (reqData) => {
 
-        // Fake
-        const list = {
-            "zh": {
-                "product_detail_format_and_renderer": "軟體格式與算圖引擎",
-                "product_detail_notice": "購買後，可以在我的模型庫下載其他檔案格式"
-            },
-            "en": {
-                "product_detail_format_and_renderer": "Format And Renderer",
-                "product_detail_notice": ""
-            }
-        };
+        Service.deftagSearch(reqData)
+            .then((resData) => {
 
-        console.log('reqData:', reqData)
+                globalDispatch({
+                    type: 'search',
+                    payload: { curr: 'deftag', list: resData },
+                });
 
-        globalDispatch({
-            type: 'search',
-            payload: { curr: 'deftag', list },
-        });
-
-        // Service.deftagSearch(reqData)
-        //     .then((resData) => {
-
-        //         globalDispatch({
-        //             type: 'search',
-        //             payload: { curr: 'deftag', list },
-        //         });
-
-        //     });
+            });
 
     };
 

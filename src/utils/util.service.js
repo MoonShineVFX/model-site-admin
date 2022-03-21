@@ -54,8 +54,8 @@ const Service = {
     resetPassword: (reqData) => util.serviceProxy('/admin_change_password', reqData),
 
     // 詞條管理
-    deftagSearch: (reqData) => util.serviceProxy('/???', reqData),
-    deftagUpdate: (reqData) => util.serviceProxy('/???', reqData),
+    deftagSearch: (reqData) => util.serviceProxy('/admin_lang_config_search', reqData),
+    deftagUpdate: (reqData) => util.serviceProxy('/admin_lang_config_update', reqData),
 };
 
 export default Service;

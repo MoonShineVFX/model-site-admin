@@ -9,6 +9,7 @@ import Buttons from '../Buttons';
 import Links from '../Links';
 import LightboxForm from '../LightboxForm';
 import TutorialForm from './TutorialForm';
+import DeftagDataForm from '../DeftagDataForm';
 
 import { GlobalContext } from '../../context/global.state';
 import { TutorialContext } from '../../context/setting/tutorial.state';
@@ -139,10 +140,7 @@ const TutorialBase = ({ pageData }) => {
         } = data;
 
         lightboxDispatch({ type: 'SHOW', currEvent: 'updateTutorial' });
-        formStorageDispatch({
-            type: 'COLLECT',
-            payload: rest,
-        });
+        formStorageDispatch({ type: 'COLLECT', payload: rest });
 
     };
 
@@ -155,6 +153,7 @@ const TutorialBase = ({ pageData }) => {
                 title={pageData.title}
                 onClick={btnCreate}
                 showButton
+                showLangButton
             />
 
             <Tables
@@ -169,7 +168,12 @@ const TutorialBase = ({ pageData }) => {
                         title={lightboxTitle[currEvent]}
                         visible={visible}
                         handleCancel={hideModal}
+                        // {...(currEvent === 'updateLang') && {
+                        //     width: 800,
+                        //     className: "lightbox-deftag-wrap",
+                        // }}
                     >
+                        {/* {(currEvent === 'updateLang') ? <DeftagDataForm /> : <TutorialForm />} */}
                         <TutorialForm />
                     </LightboxForm>
             }

@@ -22,9 +22,17 @@ const Prompt = (type, obj) => {
             cancelText: '取消',
             className: `prompt-wrap prompt-confirm ${obj.className ? obj.className : ''}`,
             centered: true,
-            onOk: () => {
+            ...obj?.callback && {
+                onOk: () => new Promise((resolve) => {
 
-                if (obj.callback) obj.callback();
+                    setTimeout(() => {
+
+                        obj.callback();
+                        resolve();
+
+                    }, 2000);
+
+                }),
 
             },
         })
@@ -47,12 +55,15 @@ const Prompt = (type, obj) => {
             ...obj?.callback && {
                 onOk: () => new Promise((resolve) => {
 
-                    setTimeout(() => {
+                    obj.callback();
+                    resolve();
 
-                        obj.callback();
-                        resolve();
+                    // setTimeout(() => {
 
-                    }, 3000);
+                    //     obj.callback();
+                    //     resolve();
+
+                    // }, 2000);
 
                 })
                 .catch(() => console.log('Oops errors!')),

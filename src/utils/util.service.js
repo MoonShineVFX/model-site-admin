@@ -41,6 +41,8 @@ const Service = {
 
     // 關於我們
     aboutUsUpdate: (reqData) => util.serviceProxy('/admin_about_update', reqData),
+    aboutUsDeftag: (reqData) => util.serviceProxy('/???', reqData),
+    aboutUsDeftagUpdate: (reqData) => util.serviceProxy('/???', reqData),
 
     // 隱私權政策
     privacyUpdate: (reqData) => util.serviceProxy('/admin_privacy_update', reqData),

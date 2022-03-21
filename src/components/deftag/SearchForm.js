@@ -28,6 +28,9 @@ const SearchForm = () => {
     // 送資料
     const handleReqData = (reqData) => {
 
+        // 檢查欄位是否為空，都為空就不送資料
+        if (Object.keys(reqData).every((key) => reqData[key] === '')) return;
+
         Service.deftagSearch(reqData)
             .then((resData) => {
 

@@ -1,7 +1,8 @@
-import { Fragment, useState } from 'react';
+import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import Buttons from './Buttons';
+import { GlobalContext } from '../context/global.state';
 import utilConst from '../utils/util.const';
 import Service from '../utils/util.service';
 
@@ -48,7 +49,7 @@ const DeftagDataFormLayout = styled.form(({ theme }) => ({
 }));
 
 //
-const DeftagDataForm = ({ code, data }) => {
+const DeftagDataForm = ({ data }) => {
 
     // Fake
     data = {
@@ -62,6 +63,9 @@ const DeftagDataForm = ({ code, data }) => {
         }
     };
 
+    // Context
+    const { langCode } = useContext(GlobalContext);
+
     // React Hook Form
     const { handleSubmit, register } = useForm();
 
@@ -71,6 +75,7 @@ const DeftagDataForm = ({ code, data }) => {
     // 送資料
     const handleReqData = (reqData) => {
 
+        reqData = { ...reqData, code: langCode };
         console.log('reqData:', reqData)
 
         return;
@@ -105,7 +110,6 @@ const DeftagDataForm = ({ code, data }) => {
                                                 (code !== 'zh') ? (
 
                                                     <textarea
-                                                        readOnly
                                                         name={index}
                                                         defaultValue={list[code][index]}
                                                         {...register(index)}
@@ -128,6 +132,11 @@ const DeftagDataForm = ({ code, data }) => {
                 <Buttons
                     text="送出"
                     htmlType="submit"
+                />
+                <Buttons
+                    text="取消"
+                    type="default"
+                    // onClick={hideModal}
                 />
             </div>
         </DeftagDataFormLayout>

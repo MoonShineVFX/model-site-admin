@@ -6,6 +6,7 @@ import Buttons from '../components/Buttons';
 import LightboxForm from '../components/LightboxForm';
 import DeftagDataForm from '../components/DeftagDataForm';
 import { GlobalContext } from '../context/global.state';
+import useDeftag from '../utils/useDeftag';
 import utilConst from '../utils/util.const';
 
 const { langs, lightboxTitle } = utilConst;
@@ -63,7 +64,6 @@ const ContentHeader = ({
     showButton,
     showLangButton,
     onClick,
-    langForm,
     children,
 }) => {
 
@@ -71,25 +71,29 @@ const ContentHeader = ({
     const {
         visible,
         currEvent,
+        globalDispatch,
         lightboxDispatch,
         formStorageDispatch,
     } = useContext(GlobalContext);
 
+    // useDeftag
+    const [btnCreateLang, hideModal] = useDeftag(null);
+
     // 隱藏 Modal
-    const hideModal = () => {
+    // const hideModal = () => {
 
-        lightboxDispatch({ type: 'HIDE' });
-        formStorageDispatch({ type: 'CLEAR' });
+    //     lightboxDispatch({ type: 'HIDE' });
+    //     formStorageDispatch({ type: 'CLEAR' });
 
-    };
+    // };
 
-    //
-    const btnCreateLangOpt = (code) => {
+    // 新增語系
+    // const btnCreateLangOpt = (code) => {
 
-        console.log('click:', code);
-        lightboxDispatch({ type: 'SHOW', currEvent: 'updateLang' });
+    //     lightboxDispatch({ type: 'SHOW', currEvent: 'updateLang' });
+    //     globalDispatch({ type: 'langCode', payload: code });
 
-    };
+    // };
 
     return (
 
@@ -111,7 +115,7 @@ const ContentHeader = ({
                 {
                     showLangButton &&
                         <Dropdown
-                            overlay={renderMenu({ onClick: btnCreateLangOpt })}
+                            overlay={renderMenu({ onClick: btnCreateLang })}
                             trigger={['click']}
                             arrow={{ pointAtCenter: true }}
                         >
@@ -124,18 +128,16 @@ const ContentHeader = ({
             </ContentHeaderLayout>
 
             {
-                visible &&
-                    <LightboxForm
-                        width={800}
-                        title={lightboxTitle[currEvent]}
-                        visible={visible}
-                        handleCancel={hideModal}
-                        className="lightbox-deftag-wrap"
-                    >
-                        <DeftagDataForm>
-                            {langForm}
-                        </DeftagDataForm>
-                    </LightboxForm>
+                // visible &&
+                //     <LightboxForm
+                //         width={800}
+                //         title={lightboxTitle[currEvent]}
+                //         visible={visible}
+                //         handleCancel={hideModal}
+                //         className="lightbox-deftag-wrap"
+                //     >
+                //         <DeftagDataForm />
+                //     </LightboxForm>
             }
         </Fragment>
 
@@ -153,7 +155,6 @@ ContentHeader.propTypes = {
     showButton: PropTypes.bool,
     showLangButton: PropTypes.bool,
     onClick: PropTypes.func,
-    langForm: PropTypes.any,
     children: PropTypes.any,
 };
 

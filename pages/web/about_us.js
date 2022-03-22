@@ -9,18 +9,17 @@ import HeadTag from '../../src/containers/HeadTag';
 import ContentHeader from '../../src/containers/ContentHeader';
 
 import Buttons from '../../src/components/Buttons';
-import LightboxForm, { FormRow, ErrorMesg } from '../../src/components/LightboxForm';
-import DeftagDataForm from '../../src/components/DeftagDataForm';
+import { FormRow, ErrorMesg } from '../../src/components/LightboxForm';
 import UploadSingle from '../../src/components/UploadSingle';
+import DeftagDataForm from '../../src/components/DeftagDataForm';
 
 import { GlobalContext } from '../../src/context/global.state';
-import useDeftag from '../../src/utils/useDeftag';
 import util from '../../src/utils/util';
 import utilConst from '../../src/utils/util.const';
 import Service from '../../src/utils/util.service';
 
 const { pathnameKey, uploadFileLimit, renderDateTime } = util;
-const { limitSizeText, lightboxTitle } = utilConst;
+const { limitSizeText } = utilConst;
 
 //
 const FormWrapLayout = styled.form(({ theme }) => ({
@@ -65,16 +64,11 @@ const AboutUs = ({ pageData }) => {
 
     // Context
     const {
-        visible,
-        currEvent,
+        isShow,
         globalDispatch,
-        lightboxDispatch,
         formStorageData,
         formStorageDispatch,
     } = useContext(GlobalContext);
-
-    // useDeftag
-    const [btnCreateLang, hideModal] = useDeftag(null);
 
     // React Hook Form
     const {
@@ -100,14 +94,6 @@ const AboutUs = ({ pageData }) => {
         });
 
     }, []);
-
-    // 隱藏 Modal
-    // const hideModal = () => {
-
-    //     lightboxDispatch({ type: 'HIDE' });
-    //     formStorageDispatch({ type: 'CLEAR' });
-
-    // };
 
     // 送資料
     const handleReqData = (reqData) => {
@@ -241,18 +227,13 @@ const AboutUs = ({ pageData }) => {
                 </div>
             </FormWrapLayout>
 
-            {/* {
-                visible &&
-                    <LightboxForm
-                        width={800}
-                        title={lightboxTitle[currEvent]}
-                        visible={visible}
-                        handleCancel={hideModal}
-                        className="lightbox-deftag-wrap"
-                    >
-                        <DeftagDataForm />
-                    </LightboxForm>
-            } */}
+            {
+                isShow &&
+                    <DeftagDataForm
+                        handleGetData={Service.aboutUsDeftag}
+                        handleUpdateData={Service.aboutUsDeftagUpdate}
+                    />
+            }
         </Fragment>
 
     );

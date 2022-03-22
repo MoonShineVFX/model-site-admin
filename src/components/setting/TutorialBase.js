@@ -31,6 +31,7 @@ const TutorialBase = ({ pageData }) => {
 
     // Context
     const {
+        isShow,
         visible,
         currEvent,
         globalDispatch,
@@ -168,15 +169,12 @@ const TutorialBase = ({ pageData }) => {
                         title={lightboxTitle[currEvent]}
                         visible={visible}
                         handleCancel={hideModal}
-                        // {...(currEvent === 'updateLang') && {
-                        //     width: 800,
-                        //     className: "lightbox-deftag-wrap",
-                        // }}
                     >
-                        {/* {(currEvent === 'updateLang') ? <DeftagDataForm /> : <TutorialForm />} */}
                         <TutorialForm />
                     </LightboxForm>
             }
+
+            {isShow && <DeftagDataForm />}
         </Fragment>
 
     );

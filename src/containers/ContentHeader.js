@@ -3,13 +3,10 @@ import PropTypes from 'prop-types';
 import { Dropdown, Menu } from 'antd';
 import styled from 'styled-components';
 import Buttons from '../components/Buttons';
-import LightboxForm from '../components/LightboxForm';
-import DeftagDataForm from '../components/DeftagDataForm';
 import { GlobalContext } from '../context/global.state';
-import useDeftag from '../utils/useDeftag';
 import utilConst from '../utils/util.const';
 
-const { langs, lightboxTitle } = utilConst;
+const { langs } = utilConst;
 
 //
 const ContentHeaderLayout = styled.div({
@@ -68,32 +65,15 @@ const ContentHeader = ({
 }) => {
 
     // Context
-    const {
-        visible,
-        currEvent,
-        globalDispatch,
-        lightboxDispatch,
-        formStorageDispatch,
-    } = useContext(GlobalContext);
-
-    // useDeftag
-    const [btnCreateLang, hideModal] = useDeftag(null);
-
-    // 隱藏 Modal
-    // const hideModal = () => {
-
-    //     lightboxDispatch({ type: 'HIDE' });
-    //     formStorageDispatch({ type: 'CLEAR' });
-
-    // };
+    const { globalDispatch, deftagFormDispatch } = useContext(GlobalContext);
 
     // 新增語系
-    // const btnCreateLangOpt = (code) => {
+    const btnCreateLang = (code) => {
 
-    //     lightboxDispatch({ type: 'SHOW', currEvent: 'updateLang' });
-    //     globalDispatch({ type: 'langCode', payload: code });
+        deftagFormDispatch({ type: 'SHOW', curr: 'updateLang' });
+        globalDispatch({ type: 'langCode', payload: code });
 
-    // };
+    };
 
     return (
 
@@ -126,19 +106,6 @@ const ContentHeader = ({
                         </Dropdown>
                 }
             </ContentHeaderLayout>
-
-            {
-                // visible &&
-                //     <LightboxForm
-                //         width={800}
-                //         title={lightboxTitle[currEvent]}
-                //         visible={visible}
-                //         handleCancel={hideModal}
-                //         className="lightbox-deftag-wrap"
-                //     >
-                //         <DeftagDataForm />
-                //     </LightboxForm>
-            }
         </Fragment>
 
     );

@@ -5,6 +5,7 @@ import {
     globalReducer,
     formStorageReducer,
     lightboxReducer,
+    deftagFormReducer,
 } from './global.reducer';
 
 // Global
@@ -31,6 +32,11 @@ const lightboxInitState = {
     currEvent: '',
 };
 
+const deftagFormInitState = {
+    isShow: false,
+    curr: '',
+};
+
 // Create Context
 const GlobalContext = createContext(null);
 
@@ -40,6 +46,7 @@ const GlobalProvider = ({ children }) => {
     const [globalState, globalDispatch] = useReducer(globalReducer, globalInitState);
     const [formStorageState, formStorageDispatch] = useReducer(formStorageReducer, formStorageInitState);
     const [lightboxState, lightboxDispatch] = useReducer(lightboxReducer, lightboxInitState);
+    const [deftagFormState, deftagFormDispatch] = useReducer(deftagFormReducer, deftagFormInitState);
     const {
         page,
         user,
@@ -51,6 +58,7 @@ const GlobalProvider = ({ children }) => {
 
     const { formStorageData } = formStorageState;
     const { visible, currEvent } = lightboxState;
+    const { isShow, curr } = deftagFormState;
     const { Provider } = GlobalContext;
 
     // 取得全域資料
@@ -87,10 +95,15 @@ const GlobalProvider = ({ children }) => {
             visible,
             currEvent,
 
+            // deftag form
+            isShow,
+            curr,
+
             // Dispatch
             globalDispatch,
             formStorageDispatch,
             lightboxDispatch,
+            deftagFormDispatch,
         }}>
             {children}
         </Provider>

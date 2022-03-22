@@ -88,4 +88,25 @@ const lightboxReducer = (state, { type, currEvent }) => {
 
 };
 
-export { globalReducer, formStorageReducer, lightboxReducer };
+// Deftag Form
+const deftagFormReducer = (state, { type, curr }) => {
+
+    switch (type) {
+        case 'SHOW':
+            return { isShow: true, curr };
+
+        case 'HIDE':
+            return { isShow: false, curr: '' };
+
+        default:
+            return { ...state, curr };
+    }
+
+};
+
+export {
+    globalReducer,
+    formStorageReducer,
+    lightboxReducer,
+    deftagFormReducer,
+};

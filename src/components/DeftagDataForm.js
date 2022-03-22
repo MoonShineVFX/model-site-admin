@@ -1,29 +1,14 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import Buttons from './Buttons';
+import LightboxForm from './LightboxForm';
+import Prompt from './Prompt';
 import { GlobalContext } from '../context/global.state';
 import utilConst from '../utils/util.const';
-import Service from '../utils/util.service';
 
-const { langs } = utilConst;
-
-// 整理資料結構
-const tidyData = (data) => Object.keys(data).reduce((acc, code) => {
-
-    return Object.keys(data[code]).reduce((_acc, _obj) => {
-
-        acc[_obj] = acc[_obj] || {};
-        acc[_obj] = {
-            ...acc[_obj],
-            [code]: data[code][_obj],
-        };
-
-        return acc;
-
-    }, {});
-
-}, {});
+const { langs, lightboxTitle } = utilConst;
 
 //
 const DeftagDataFormLayout = styled.form(({ theme }) => ({
@@ -49,28 +34,48 @@ const DeftagDataFormLayout = styled.form(({ theme }) => ({
 }));
 
 //
-const DeftagDataForm = ({ data }) => {
-
-    // Fake
-    data = {
-        "zh": {
-            "title": "標題",
-            "description": "描述"
-        },
-        "en": {
-            "title": "Title",
-            "description": "Description"
-        }
-    };
+const DeftagDataForm = ({ handleGetData, handleUpdateData }) => {
 
     // Context
-    const { langCode } = useContext(GlobalContext);
+    const {
+        isShow,
+        curr,
+        langCode,
+        deftagFormDispatch,
+    } = useContext(GlobalContext);
 
     // React Hook Form
     const { handleSubmit, register } = useForm();
 
     // State
-    const [list, setList] = useState(data);
+    const [list, setList] = useState({});
+
+    // fetch
+    useEffect(() => {
+
+        handleGetData()
+            .then((resData) => {
+
+                // setList(resData);
+
+                // Fake
+                setList({
+                    "zh": {
+                        "title": "標題",
+                        "description": "描述"
+                    },
+                    "en": {
+                        "title": "Title",
+                        "description": "Description"
+                    }
+                });
+
+            });
+
+    }, [handleGetData]);
+
+    // 隱藏 Modal
+    const hideModal = () => deftagFormDispatch({ type: 'HIDE' });
 
     // 送資料
     const handleReqData = (reqData) => {
@@ -78,71 +83,84 @@ const DeftagDataForm = ({ data }) => {
         reqData = { ...reqData, code: langCode };
         console.log('reqData:', reqData)
 
-        return;
-        Service.deftagUpdate(reqData)
-            .then((resData) => setList(tidyData(resData)));
+        // return;
+        handleUpdateData(reqData)
+            .then(() => Prompt('success'));
 
     };
 
     return (
 
-        <DeftagDataFormLayout onSubmit={handleSubmit(handleReqData)}>
-            <div className="container">
-                {
-                    Object.keys(list).map((code) => (
+        <LightboxForm
+            width={800}
+            title={lightboxTitle[curr]}
+            visible={isShow}
+            handleCancel={hideModal}
+            className="lightbox-deftag-wrap"
+        >
+            <DeftagDataFormLayout onSubmit={handleSubmit(handleReqData)}>
+                <div className="container">
+                    {
+                        Object.keys(list).map((code) => (
 
-                        <div
-                            key={code}
-                            className={`item ${(code === 'zh') ? 'defaultMask' : ''}`}
-                        >
-                            <h3>{langs[code]} [{code}]</h3>
+                            <div
+                                key={code}
+                                className={`item ${(code === 'zh') ? 'defaultMask' : ''}`}
+                            >
+                                <h3>{langs[code]} [{code}]</h3>
 
-                            {
-                                Object.keys(list[code]).map((index) => (
+                                {
+                                    Object.keys(list[code]).map((index) => (
 
-                                    <div
-                                        key={index}
-                                        className="row textarea"
-                                    >
-                                        <div className="title">{index}</div>
-                                        <div className="field noBorder">
-                                            {
-                                                (code !== 'zh') ? (
+                                        <div
+                                            key={index}
+                                            className="row textarea"
+                                        >
+                                            <div className="title">{index}</div>
+                                            <div className="field noBorder">
+                                                {
+                                                    (code !== 'zh') ? (
 
-                                                    <textarea
-                                                        name={index}
-                                                        defaultValue={list[code][index]}
-                                                        {...register(index)}
-                                                    />
+                                                        <textarea
+                                                            name={index}
+                                                            defaultValue={list[code][index]}
+                                                            {...register(index)}
+                                                        />
 
-                                                ) : <div className="default-lang">{list[code][index]}</div>
-                                            }
+                                                    ) : <div className="default-lang">{list[code][index]}</div>
+                                                }
+                                            </div>
                                         </div>
-                                    </div>
 
-                                ))
-                            }
-                        </div>
+                                    ))
+                                }
+                            </div>
 
-                    ))
-                }
-            </div>
+                        ))
+                    }
+                </div>
 
-            <div className="row row-btns">
-                <Buttons
-                    text="送出"
-                    htmlType="submit"
-                />
-                <Buttons
-                    text="取消"
-                    type="default"
-                    // onClick={hideModal}
-                />
-            </div>
-        </DeftagDataFormLayout>
+                <div className="row row-btns">
+                    <Buttons
+                        text="送出"
+                        htmlType="submit"
+                    />
+                    <Buttons
+                        text="取消"
+                        type="default"
+                        onClick={hideModal}
+                    />
+                </div>
+            </DeftagDataFormLayout>
+        </LightboxForm>
 
     );
 
+};
+
+DeftagDataForm.propTypes = {
+    handleGetData: PropTypes.func,
+    handleUpdateData: PropTypes.func,
 };
 
 export default DeftagDataForm;

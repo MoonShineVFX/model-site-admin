@@ -168,6 +168,13 @@ const LightboxFormStyle = createGlobalStyle`
             border-color: ${red.primary};
         }
     }
+
+    // 語系
+    .lightbox-deftag-wrap {
+        .ant-modal-body {
+            padding: 30px;
+        }
+    }
 `;
 
 export default LightboxFormStyle;

@@ -65,6 +65,7 @@ const AboutUs = ({ pageData }) => {
     // Context
     const {
         isShow,
+        langCode,
         globalDispatch,
         formStorageData,
         formStorageDispatch,
@@ -137,12 +138,16 @@ const AboutUs = ({ pageData }) => {
     // 取得翻譯
     const handleFetchDeftag = () => {
 
-        Service.aboutUsDeftag()
-            .then((resData) => {
+        return Service.aboutUsDeftag({
+            headers: {
+                'Accept-Language': langCode,
+            },
+        });
+    //         .then((resData) => {
 
-                console.log('resData:', resData);
+    //             console.log('resData:', resData);
 
-            });
+    //         });
 
     };
 
@@ -230,7 +235,7 @@ const AboutUs = ({ pageData }) => {
             {
                 isShow &&
                     <DeftagDataForm
-                        handleGetData={Service.aboutUsDeftag}
+                        handleGetData={handleFetchDeftag}
                         handleUpdateData={Service.aboutUsDeftagUpdate}
                     />
             }

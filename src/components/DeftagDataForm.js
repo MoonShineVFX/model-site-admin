@@ -14,7 +14,6 @@ const { langs, lightboxTitle } = utilConst;
 const DeftagDataFormLayout = styled.form(({ theme }) => ({
     '.container': {
         display: 'flex',
-        margin: '0 -20px',
     },
     'h3': {
         fontWeight: 'bold'
@@ -24,12 +23,16 @@ const DeftagDataFormLayout = styled.form(({ theme }) => ({
         padding: '20px',
     },
     '.default-lang': {
-        height: '100px',
+        height: '120px',
         border: `1px solid ${theme.palette.border}`,
         padding: '8px 12px',
+        cursor: 'default',
     },
     '.defaultMask': {
         backgroundColor: '#EEE',
+    },
+    '.row.textarea .field': {
+        minHeight: '120px',
     },
 }));
 
@@ -56,19 +59,19 @@ const DeftagDataForm = ({ handleGetData, handleUpdateData }) => {
         handleGetData()
             .then((resData) => {
 
-                // setList(resData);
+                setList(resData);
 
                 // Fake
-                setList({
-                    "zh": {
-                        "title": "標題",
-                        "description": "描述"
-                    },
-                    "en": {
-                        "title": "Title",
-                        "description": "Description"
-                    }
-                });
+                // setList({
+                //     "zh": {
+                //         "title": "標題",
+                //         "description": "描述"
+                //     },
+                //     "en": {
+                //         "title": "Title",
+                //         "description": "Description"
+                //     }
+                // });
 
             });
 

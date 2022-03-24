@@ -92,10 +92,7 @@ const Login = ({ pageData }) => {
                     <input
                         type="text"
                         name="account"
-                        {...register('account', {
-                            required: true,
-                            pattern: /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/g,
-                        })}
+                        {...register('account', { required: true })}
                     />
                 </FormRow>
 

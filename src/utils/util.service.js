@@ -8,6 +8,7 @@ const Service = {
 
     // common
     common: (reqData) => util.serviceProxy('/admin_common', reqData),
+    setLang: (reqData) => util.serviceProxy('/set_language', reqData),
 
     // 商品
     productSearch: (reqData) => util.serviceProxy('/admin_product_search', reqData),
@@ -34,19 +35,16 @@ const Service = {
     bannerActive: (reqData) => util.serviceProxy('/admin_banner_active', reqData),
     bannerCreate: (reqData) => util.serviceProxy('/admin_banner_create', reqData),
     bannerUpdate: (reqData) => util.serviceProxy('/admin_banner_update', reqData),
+    bannerDeftag: (reqData) => util.serviceProxy('/banner_xltn', reqData),
 
     // 文件導覽
     tutorialCreate: (reqData) => util.serviceProxy('/admin_tutorial_create', reqData),
     tutorialUpdate: (reqData) => util.serviceProxy('/admin_tutorial_update', reqData),
+    tutorialDeftag: (reqData) => util.serviceProxy('/tutorial_xltn', reqData),
 
     // 關於我們
     aboutUsUpdate: (reqData) => util.serviceProxy('/admin_about_update', reqData),
-    aboutUsDeftag: (reqData, headers) => util.serviceProxy('/about_xltn', reqData, {
-        headers: { ...headers },
-    }),
-    aboutUsDeftagUpdate: (reqData, headers) => util.serviceProxy('/admin_about_xltn_update', reqData, {
-        headers: { ...headers },
-    }),
+    aboutUsDeftag: (reqData) => util.serviceProxy('/about_xltn', reqData),
 
     // 隱私權政策
     privacyUpdate: (reqData) => util.serviceProxy('/admin_privacy_update', reqData),

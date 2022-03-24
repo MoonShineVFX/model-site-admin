@@ -18,7 +18,10 @@ const globalInitState = {
         curr: '',
         list: [],
     },
-    langCode: '',
+    deftag: {
+        code: '',
+        id: null,
+    },
 };
 
 // Form values
@@ -53,7 +56,7 @@ const GlobalProvider = ({ children }) => {
         tags,
         imagePosition,
         searchResult,
-        langCode,
+        deftag,
     } = globalState;
 
     const { formStorageData } = formStorageState;
@@ -85,7 +88,7 @@ const GlobalProvider = ({ children }) => {
             tags,
             imagePosition,
             searchResult,
-            langCode,
+            deftag,
             getGlobalData,
 
             // Form 表單暫存

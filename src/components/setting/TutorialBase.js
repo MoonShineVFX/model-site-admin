@@ -6,6 +6,7 @@ import HeadTag from '../../containers/HeadTag';
 import ContentHeader from '../../containers/ContentHeader';
 import Tables from '../Tables';
 import Buttons from '../Buttons';
+import ButtonsLang from '../ButtonsLang';
 import Links from '../Links';
 import LightboxForm from '../LightboxForm';
 import TutorialForm from './TutorialForm';
@@ -15,6 +16,7 @@ import { GlobalContext } from '../../context/global.state';
 import { TutorialContext } from '../../context/setting/tutorial.state';
 import util from '../../utils/util';
 import utilConst from '../../utils/util.const';
+import Service from '../../utils/util.service';
 
 const {
     pathnameKey,
@@ -34,6 +36,7 @@ const TutorialBase = ({ pageData }) => {
         isShow,
         visible,
         currEvent,
+        deftag,
         globalDispatch,
         lightboxDispatch,
         formStorageDispatch,
@@ -108,12 +111,15 @@ const TutorialBase = ({ pageData }) => {
             title: '操作',
             dataIndex: '',
             width: 120,
-            render: (data) => (
+            render: (data, { id }) => (
 
-                <Buttons
-                    text="編輯"
-                    onClick={() => btnUpdate(data)}
-                />
+                <Fragment>
+                    <Buttons
+                        text="編輯"
+                        onClick={() => btnUpdate(data)}
+                    />
+                    <ButtonsLang id={id} />
+                </Fragment>
             ),
         },
     ];
@@ -154,7 +160,6 @@ const TutorialBase = ({ pageData }) => {
                 title={pageData.title}
                 onClick={btnCreate}
                 showButton
-                showLangButton
             />
 
             <Tables
@@ -174,7 +179,14 @@ const TutorialBase = ({ pageData }) => {
                     </LightboxForm>
             }
 
-            {isShow && <DeftagDataForm />}
+            {
+                // 語系表單
+                isShow &&
+                    <DeftagDataForm
+                        handleFetchData={() => Service.tutorialDeftag({ id: deftag.id })}
+                        handleUpdateData={Service.tutorialUpdate}
+                    />
+            }
         </Fragment>
 
     );

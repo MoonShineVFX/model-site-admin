@@ -6,9 +6,11 @@ import HeadTag from '../../containers/HeadTag';
 import ContentHeader from '../../containers/ContentHeader';
 import Tables from '../Tables';
 import Buttons from '../Buttons';
+import ButtonsLang from '../ButtonsLang';
 import Links from '../Links';
 import LightboxForm from '../LightboxForm';
 import BannerForm from './BannerForm';
+import DeftagDataForm from '../DeftagDataForm';
 
 import { GlobalContext } from '../../context/global.state';
 import { BannerContext } from '../../context/setting/banner.state';
@@ -33,6 +35,8 @@ const BannerBase = ({ pageData }) => {
     const {
         visible,
         currEvent,
+        isShow,
+        deftag,
         globalDispatch,
         lightboxDispatch,
         formStorageDispatch,
@@ -167,12 +171,16 @@ const BannerBase = ({ pageData }) => {
             title: '操作',
             dataIndex: '',
             width: 120,
-            render: (data) => (
+            render: (data, { id }) => (
 
-                <Buttons
-                    text="編輯"
-                    onClick={() => btnUpdate(data)}
-                />
+                <Fragment>
+                    <Buttons
+                        text="編輯"
+                        onClick={() => btnUpdate(data)}
+                    />
+                    <ButtonsLang id={id} />
+                </Fragment>
+
             ),
         },
     ];
@@ -246,6 +254,15 @@ const BannerBase = ({ pageData }) => {
                     >
                         <BannerForm />
                     </LightboxForm>
+            }
+
+            {
+                // 語系表單
+                isShow &&
+                    <DeftagDataForm
+                        handleFetchData={() => Service.bannerDeftag({ id: deftag.id })}
+                        handleUpdateData={Service.bannerUpdate}
+                    />
             }
         </Fragment>
 

@@ -18,11 +18,6 @@ const SiderLayout = styled(Sider)(({ theme }) => ({
     left: '0',
     overflow: 'auto',
     zIndex: '1',
-    '.logo': {
-        display: 'inline-block',
-        marginBottom: '20px',
-        padding: '0 20px',
-    },
     'li': {
         fontSize: '16px',
     },
@@ -42,10 +37,6 @@ const Navbar = ({ width }) => {
     return (
 
         <SiderLayout width={width}>
-            <Links url="/" className="logo">
-                <img src="//fakeimg.pl/200x60?text=LOGO" alt="LOGO" />
-            </Links>
-
             <Menu
                 theme="dark"
                 mode="inline"

@@ -37,13 +37,14 @@ const DeftagDataFormLayout = styled.form(({ theme }) => ({
 }));
 
 //
-const DeftagDataForm = ({ handleGetData, handleUpdateData }) => {
+const DeftagDataForm = ({ handleFetchData, handleUpdateData }) => {
 
     // Context
     const {
         isShow,
         curr,
-        langCode,
+        deftag,
+        globalDispatch,
         deftagFormDispatch,
     } = useContext(GlobalContext);
 
@@ -56,39 +57,35 @@ const DeftagDataForm = ({ handleGetData, handleUpdateData }) => {
     // fetch
     useEffect(() => {
 
-        handleGetData()
-            .then((resData) => {
+        handleFetchData()
+            .then((resData) => setList(resData));
 
-                setList(resData);
-
-                // Fake
-                // setList({
-                //     "zh": {
-                //         "title": "標題",
-                //         "description": "描述"
-                //     },
-                //     "en": {
-                //         "title": "Title",
-                //         "description": "Description"
-                //     }
-                // });
-
-            });
-
-    }, [handleGetData]);
+    }, []);
 
     // 隱藏 Modal
-    const hideModal = () => deftagFormDispatch({ type: 'HIDE' });
+    const hideModal = () => {
+
+        globalDispatch({ type: 'deftag', payload: { code: '', id: null } });
+        deftagFormDispatch({ type: 'HIDE' });
+
+    };
 
     // 送資料
     const handleReqData = (reqData) => {
 
-        reqData = { ...reqData, code: langCode };
-        console.log('reqData:', reqData)
+        reqData = {
+            ...reqData,
+            langCode: deftag.code,
+            ...deftag.id && { id: deftag.id },
+        };
 
-        // return;
         handleUpdateData(reqData)
-            .then(() => Prompt('success'));
+            .then(() => {
+
+                Prompt('success');
+                hideModal();
+
+            });
 
     };
 
@@ -162,7 +159,7 @@ const DeftagDataForm = ({ handleGetData, handleUpdateData }) => {
 };
 
 DeftagDataForm.propTypes = {
-    handleGetData: PropTypes.func,
+    handleFetchData: PropTypes.func,
     handleUpdateData: PropTypes.func,
 };
 

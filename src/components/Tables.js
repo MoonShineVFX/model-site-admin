@@ -16,8 +16,13 @@ const TablesLayout = styled(Table)({
     '.ant-table-cell': {
         padding: '8px 16px',
         '.ant-btn': {
+            width: '100%',
+            fontSize: '15px',
             marginRight: '6px',
-            marginBottom: '6px',
+            padding: '2px 10px',
+            ':not(:last-child)': {
+                marginBottom: '6px',
+            },
         },
     },
     '.pagination': {

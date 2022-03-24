@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useContext } from 'react';
+import { Fragment, useEffect, useContext, useState } from 'react';
 import { useRouter } from 'next/router';
 import { message } from 'antd';
 import { useForm } from 'react-hook-form';
@@ -11,6 +11,7 @@ import ContentHeader from '../../src/containers/ContentHeader';
 import Buttons from '../../src/components/Buttons';
 import { FormRow, ErrorMesg } from '../../src/components/LightboxForm';
 import UploadSingle from '../../src/components/UploadSingle';
+import ButtonsLang from '../../src/components/ButtonsLang';
 import DeftagDataForm from '../../src/components/DeftagDataForm';
 
 import { GlobalContext } from '../../src/context/global.state';
@@ -65,11 +66,16 @@ const AboutUs = ({ pageData }) => {
     // Context
     const {
         isShow,
-        langCode,
         globalDispatch,
         formStorageData,
         formStorageDispatch,
     } = useContext(GlobalContext);
+
+    // State
+    const [storage, setStorage] = useState({
+        updater: pageData.data.updater,
+        updateTime: pageData.data.updateTime,
+    });
 
     // React Hook Form
     const {
@@ -77,7 +83,13 @@ const AboutUs = ({ pageData }) => {
         register,
         formState: { errors },
     } = useForm({
-        defaultValues: { ...pageData.data },
+        defaultValues: {
+            title: pageData.data.title,
+            description: pageData.data.description,
+            supportModels: pageData.data.supportModels,
+            supportFormats: pageData.data.supportFormats,
+            supportRenders: pageData.data.supportRenders,
+        },
     });
 
     useEffect(() => {
@@ -103,10 +115,10 @@ const AboutUs = ({ pageData }) => {
 
         reqData = {
             ...reqData,
-            file: formStorageData.file,
             supportFormats: +reqData.supportFormats,
             supportModels: +reqData.supportModels,
             supportRenders: +reqData.supportRenders,
+            ...formStorageData?.file && { file: formStorageData.file },
         };
 
         // 檢查: 圖片尺寸
@@ -131,23 +143,12 @@ const AboutUs = ({ pageData }) => {
         }
 
         Service.aboutUsUpdate(formData)
-            .then(() => message.success('更新成功'));
+            .then(({ updater, updateTime }) => {
 
-    };
+                message.success('更新成功');
+                setStorage({ ...storage, updater, updateTime });
 
-    // 取得翻譯
-    const handleFetchDeftag = () => {
-
-        return Service.aboutUsDeftag({
-            headers: {
-                'Accept-Language': langCode,
-            },
-        });
-    //         .then((resData) => {
-
-    //             console.log('resData:', resData);
-
-    //         });
+            });
 
     };
 
@@ -157,13 +158,12 @@ const AboutUs = ({ pageData }) => {
             <LightboxFormStyle />
             <HeadTag title={pageData.title} />
 
-            <ContentHeader
-                title={pageData.title}
-                showLangButton
-            />
+            <ContentHeader title={pageData.title}>
+                <ButtonsLang />
+            </ContentHeader>
 
             <FormWrapLayout onSubmit={handleSubmit(handleReqData)}>
-                <p className="update-time">{pageData.data.updater} 更新於 {renderDateTime(pageData.data.updateTime)}</p>
+                <p className="update-time">{storage.updater} 更新於 {renderDateTime(storage.updateTime)}</p>
 
                 <FormRow
                     labelTitle="標題"
@@ -233,10 +233,11 @@ const AboutUs = ({ pageData }) => {
             </FormWrapLayout>
 
             {
+                // 語系表單
                 isShow &&
                     <DeftagDataForm
-                        handleGetData={handleFetchDeftag}
-                        handleUpdateData={Service.aboutUsDeftagUpdate}
+                        handleFetchData={Service.aboutUsDeftag}
+                        handleUpdateData={Service.aboutUsUpdate}
                     />
             }
         </Fragment>

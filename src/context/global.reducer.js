@@ -40,10 +40,13 @@ const globalReducer = (state, { type, payload }) => {
                 searchResult: payload,
             };
 
-        case 'langCode':
+        case 'deftag':
             return {
                 ...state,
-                langCode: payload,
+                deftag: {
+                    ...state.deftag,
+                    ...payload,
+                },
             };
 
         default:

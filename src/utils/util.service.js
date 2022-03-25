@@ -15,6 +15,7 @@ const Service = {
     productActive: (reqData) => util.serviceProxy('/admin_product_active', reqData),
     productCreate: (reqData) => util.serviceProxy('/admin_product_create', reqData),
     productUpdate: (reqData) => util.serviceProxy('/admin_product_update', reqData),
+    productDeftag: (reqData) => util.serviceProxy('/product_xltn', reqData),
 
     // 上傳檔案 (圖片 > 編輯器用)
     imageUpload: (reqData) => util.serviceProxy('/admin_image_upload', reqData, {

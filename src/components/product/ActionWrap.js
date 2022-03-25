@@ -1,44 +1,69 @@
-import { Fragment } from 'react';
+import { Fragment, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Col } from 'antd';
 
 import HeadTag from '../../containers/HeadTag';
 import ContentHeader from '../../containers/ContentHeader';
+import ButtonsLang from '../../components/ButtonsLang';
+import DeftagDataForm from '../../components/DeftagDataForm';
 
 import { DetailWrapLayout } from './ProductLayout';
 import ProductForm from './ProductForm';
 import PositionImageUpload from './PositionImageUpload';
 import PreviewImageUpload from './PreviewImageUpload';
 
-const ActionWrap = ({ title, data, service }) => (
+import { GlobalContext } from '../../context/global.state';
+import Service from '../../utils/util.service';
 
-    <Fragment>
-        <HeadTag title={title} />
-        <ContentHeader title={title} />
-        <DetailWrapLayout gutter={60}>
-            <Col span={14}>
-                <ProductForm
-                    data={data}
-                    service={service}
-                />
-            </Col>
+const ActionWrap = ({ title, data, service }) => {
+
+    // Context
+    const { isShow, deftag } = useContext(GlobalContext);
+
+    return (
+
+        <Fragment>
+            <HeadTag title={title} />
+
+            <ContentHeader title={title}>
+                <ButtonsLang id={data.id} />
+            </ContentHeader>
+
+            <DetailWrapLayout gutter={60}>
+                <Col span={14}>
+                    <ProductForm
+                        data={data}
+                        service={service}
+                    />
+                </Col>
+
+                {
+                    // 需先建立一筆商品後，才能上傳圖片區塊與模型組圖
+                    (service === 'productUpdate') &&
+                        <Col span={10} className="right">
+                            <PositionImageUpload data={data} />
+                        </Col>
+                }
+            </DetailWrapLayout>
 
             {
-                // 需先建立一筆商品後，才能上傳圖片區塊與模型組圖
-                (service === 'productUpdate') &&
-                    <Col span={10} className="right">
-                        <PositionImageUpload data={data} />
-                    </Col>
+                // 需先建立一筆 demo place 後，才能上傳圖片輪播與與文件
+                (service === 'productUpdate') && <PreviewImageUpload data={data} />
             }
-        </DetailWrapLayout>
 
-        {
-            // 需先建立一筆 demo place 後，才能上傳圖片輪播與與文件
-            (service === 'productUpdate') && <PreviewImageUpload data={data} />
-        }
-    </Fragment>
+            {
+                    // 語系表單
+                isShow &&
+                    <DeftagDataForm
+                        handleFetchData={() => Service.productDeftag({ id: deftag.id })}
+                        handleUpdateData={Service.productUpdate}
+                    />
+            }
+        </Fragment>
 
-);
+    );
+
+};
 
 ActionWrap.propTypes = {
     title: PropTypes.string,

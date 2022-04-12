@@ -1,11 +1,13 @@
 import { Fragment, useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import HeadTag from '../../src/containers/HeadTag';
-import ContentHeader from '../../src/containers/ContentHeader';
-import TextEditorForm from '../../src/components/TextEditorForm';
-import { GlobalContext } from '../../src/context/global.state';
-import util from '../../src/utils/util';
+
+import HeadTag from '../../../src/containers/HeadTag';
+import ContentHeader from '../../../src/containers/ContentHeader';
+import TextEditorForm from '../../../src/components/TextEditorForm';
+import ButtonsLang from '../../../src/components/ButtonsLang';
+import { GlobalContext } from '../../../src/context/global.state';
+import util from '../../../src/utils/util';
 
 const { serviceServer, pathnameKey } = util;
 
@@ -32,11 +34,23 @@ const Privacy = ({ pageData }) => {
 
     }, [globalDispatch, router.pathname]);
 
+    //
+    const handleClickLang = (code) => {
+
+        router.push({
+            pathname: `${router.pathname}/${code}`,
+        });
+
+    };
+
     return (
 
         <Fragment>
             <HeadTag title={pageData.title} />
-            <ContentHeader title={pageData.title} />
+            <ContentHeader title={pageData.title}>
+                <ButtonsLang onClick={handleClickLang} />
+            </ContentHeader>
+
             <TextEditorLayout>
                 <TextEditorForm
                     name="detail"
@@ -77,7 +91,7 @@ export async function getServerSideProps ({ req }) {
     return {
         props: {
             pageData: {
-                title: '隱私權政策',
+                title: '隱私權政策 [zh]',
                 data: data.data,
             },
         },

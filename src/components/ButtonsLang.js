@@ -29,7 +29,7 @@ const renderMenu = ({ onClick }) => (
 );
 
 //
-const ButtonsLang = ({ id }) => {
+const ButtonsLang = ({ id, onClick }) => {
 
     // Context
     const { globalDispatch, deftagFormDispatch } = useContext(GlobalContext);
@@ -45,7 +45,7 @@ const ButtonsLang = ({ id }) => {
     return (
 
         <Dropdown
-            overlay={renderMenu({ onClick: btnLang })}
+            overlay={renderMenu({ onClick: onClick ? onClick : btnLang })}
             trigger={['click']}
             arrow={{ pointAtCenter: true }}
         >
@@ -62,6 +62,7 @@ const ButtonsLang = ({ id }) => {
 
 Buttons.propTypes = {
     id: PropTypes.number,
+    onClick: PropTypes.func,
 };
 
 export default ButtonsLang;

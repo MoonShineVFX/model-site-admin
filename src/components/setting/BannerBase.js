@@ -69,9 +69,15 @@ const BannerBase = ({ pageData }) => {
     // 表格欄位
     const columns = [
         {
-            title: 'ID',
+            title: 'ID (商品ID)',
             dataIndex: 'id',
-            render: (id, data) => <Links url="#" onClick={() => btnUpdate(data)}>{id}</Links>,
+            width: 120,
+            render: (id, data) => (
+
+                <Fragment>
+                    <Links url="#" onClick={() => btnUpdate(data)}>{id}</Links> (<Links url={`/product/${data.productId}`} newPage>{data.productId}</Links>)
+                </Fragment>
+            ),
         },
         {
             title: `大圖(${pageData.imageSize})`,
@@ -94,11 +100,6 @@ const BannerBase = ({ pageData }) => {
             title: '簡述',
             dataIndex: 'description',
             render: (description) => renderWithoutValue(description),
-        },
-        {
-            title: '外部連結',
-            dataIndex: 'link',
-            render: (link) => <Links url={link} newPage>{link}</Links>,
         },
         {
             title: '狀態',

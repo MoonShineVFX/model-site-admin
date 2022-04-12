@@ -203,14 +203,14 @@ const BannerForm = () => {
 
             <div className="items">
                 <FormRow
-                    labelTitle="外部連結"
+                    labelTitle="商品ID"
                     required={true}
-                    error={errors.link && true}
+                    error={errors.productId && true}
                 >
                     <input
-                        type="text"
-                        name="link"
-                        {...register('link', { required: true })}
+                        type="number"
+                        name="productId"
+                        {...register('productId', { required: true })}
                     />
                 </FormRow>
 

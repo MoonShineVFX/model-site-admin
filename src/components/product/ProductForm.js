@@ -133,11 +133,15 @@ const ProductForm = ({ data, service }) => {
                 </div>
 
                 <div className="items">
-                    <FormRow labelTitle="檔案大小 (系統自動代入)">
+                    <FormRow
+                        labelTitle="檔案大小"
+                        required={true}
+                        error={errors.fileSize && true}
+                    >
                         <input
                             type="number"
                             name="fileSize"
-                            {...register('fileSize')}
+                            {...register('fileSize', { required: true })}
                         />
                     </FormRow>
 

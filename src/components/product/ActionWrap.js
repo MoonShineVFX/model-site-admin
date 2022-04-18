@@ -26,7 +26,10 @@ const ActionWrap = ({ title, data, service }) => {
             <HeadTag title={title} />
 
             <ContentHeader title={title}>
-                <ButtonsLang id={data.id} />
+                {
+                    (service === 'productUpdate') &&
+                        <ButtonsLang id={data.id} />
+                }
             </ContentHeader>
 
             <DetailWrapLayout gutter={60}>

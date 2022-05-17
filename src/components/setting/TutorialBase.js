@@ -1,6 +1,6 @@
 import { Fragment, useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { Image, Tooltip } from 'antd';
+import { Image, Tooltip, message } from 'antd';
 
 import HeadTag from '../../containers/HeadTag';
 import ContentHeader from '../../containers/ContentHeader';
@@ -24,7 +24,7 @@ const {
     renderDateTime,
 } = util;
 
-const { lightboxTitle } = utilConst;
+const { lightboxTitle, productActiveStatus } = utilConst;
 
 const TutorialBase = ({ pageData }) => {
 
@@ -89,6 +89,54 @@ const TutorialBase = ({ pageData }) => {
             render: (link) => <Links url={link} newPage>{link}</Links>,
         },
         {
+            title: '狀態',
+            dataIndex: 'isActive',
+            render: (isActive, { id }) => (
+
+                <select
+                    name="isActive"
+                    defaultValue={isActive}
+                    onChange={(e) => handleChangeActive(e, id)}
+                >
+                    {
+                        Object.keys(productActiveStatus).map((key) => (
+
+                            <option
+                                key={key}
+                                value={key}
+                            >
+                                {productActiveStatus[key]}
+                            </option>
+
+                        ))
+                    }
+                </select>
+
+            ),
+            filters: [
+                {
+                    text: '上架',
+                    value: true,
+                },
+                {
+                    text: '下架',
+                    value: false,
+                },
+            ],
+            onFilter: (value, { isActive }) => {
+
+                const regex = new RegExp(`^${value}$`);
+                return regex.test(isActive);
+
+            },
+        },
+        {
+            title: '上架時間',
+            dataIndex: 'activeTime',
+            render: (activeTime) => renderDateTime(activeTime),
+            sorter: (a, b) => new Date(a.activeTime) - new Date(b.activeTime),
+        },
+        {
             title: '更新時間',
             dataIndex: 'updateTime',
             render: (updateTime, { updater }) => (
@@ -129,6 +177,18 @@ const TutorialBase = ({ pageData }) => {
 
         lightboxDispatch({ type: 'HIDE' });
         formStorageDispatch({ type: 'CLEAR' });
+
+    };
+
+    // 上下架
+    const handleChangeActive = ({ target }, id) => {
+
+        Service.productActive({ id, isActive: (target.value === 'true') ? true : false })
+            .then(() => {
+
+                message.success(`ID: ${id} 已改為${productActiveStatus[target.value]}`);
+
+            });
 
     };
 

@@ -4,14 +4,14 @@ import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import Buttons from '../Buttons';
 import UploadSingle from '../UploadSingle';
-import { FormRow } from '../LightboxForm';
+import { FormRow, ErrorMesg } from '../LightboxForm';
 import { GlobalContext } from '../../context/global.state';
 import { TutorialContext } from '../../context/setting/tutorial.state';
 import util from '../../utils/util';
 import utilConst from '../../utils/util.const';
 
 const { uploadFileLimit } = util;
-const { limitSizeText } = utilConst;
+const { limitSizeText, productActiveStatus } = utilConst;
 
 //
 const RowUpload = styled.div({
@@ -37,7 +37,10 @@ const TutorialForm = () => {
         register,
         formState: { errors },
     } = useForm({
-        defaultValues: formStorageData,
+        defaultValues: {
+            ...formStorageData,
+            isActive: formStorageData?.isActive ? 'true' : 'false',
+        },
     });
 
     // 隱藏 Modal
@@ -57,6 +60,7 @@ const TutorialForm = () => {
             ...reqData,
             ...formStorageData?.file && { file: formStorageData?.file },
             ...(currEvent === 'updateTutorial') && { id: formStorageData.id },
+            isActive: (reqData.isActive === 'false') ? !reqData.isActive : !!reqData.isActive,
         };
 
         // 檢查: 圖片尺寸
@@ -88,17 +92,45 @@ const TutorialForm = () => {
     return (
 
         <form onSubmit={handleSubmit(handleReqData)}>
-            <FormRow
-                labelTitle="標題"
-                required={true}
-                error={errors.title && true}
-            >
-                <input
-                    type="text"
-                    name="title"
-                    {...register('title', { required: true })}
-                />
-            </FormRow>
+            <div className="items">
+                <FormRow
+                    labelTitle="標題"
+                    required={true}
+                    error={errors.title && true}
+                >
+                    <input
+                        type="text"
+                        name="title"
+                        {...register('title', { required: true })}
+                    />
+                </FormRow>
+
+                <div className={`row ${errors.isActive ? 'hasError' : ''}`}>
+                    <div className="title isRequired">商品狀態 (必填)</div>
+                    <div className="field noBorder">
+                        <select
+                            name="isActive"
+                            {...register('isActive', { required: true })}
+                        >
+                            <option value="">請選擇</option>
+                            {
+                                Object.keys(productActiveStatus).map((key) => (
+
+                                    <option
+                                        key={key}
+                                        value={key}
+                                    >
+                                        {productActiveStatus[key]}
+                                    </option>
+
+                                ))
+                            }
+                        </select>
+                    </div>
+
+                    {errors.priority && <ErrorMesg />}
+                </div>
+            </div>
 
             <FormRow
                 labelTitle="外部連結"

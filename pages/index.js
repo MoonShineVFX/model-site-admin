@@ -21,7 +21,7 @@ const {
     priceWithCommas,
 } = util;
 
-const { productActiveStatus } = utilConst;
+const { activeStatus } = utilConst;
 
 const ProductList = ({ pageData }) => {
 
@@ -88,13 +88,13 @@ const ProductList = ({ pageData }) => {
                     onChange={(e) => handleChangeActive(e, id)}
                 >
                     {
-                        Object.keys(productActiveStatus).map((key) => (
+                        Object.keys(activeStatus).map((key) => (
 
                             <option
                                 key={key}
                                 value={key}
                             >
-                                {productActiveStatus[key]}
+                                {activeStatus[key]}
                             </option>
 
                         ))
@@ -165,7 +165,7 @@ const ProductList = ({ pageData }) => {
         Service.productActive({ id, isActive: (target.value === 'true') ? true : false })
             .then(() => {
 
-                message.success(`ID: ${id} 已改為${productActiveStatus[target.value]}`);
+                message.success(`ID: ${id} 已改為${activeStatus[target.value]}`);
 
             });
 

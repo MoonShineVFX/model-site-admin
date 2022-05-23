@@ -13,7 +13,7 @@ import { GlobalContext } from '../../context/global.state';
 import utilConst from '../../utils/util.const';
 import Service from '../../utils/util.service';
 
-const { productActiveStatus } = utilConst;
+const { activeStatus } = utilConst;
 
 const ProductForm = ({ data, service }) => {
 
@@ -102,13 +102,13 @@ const ProductForm = ({ data, service }) => {
                             >
                                 <option value="">請選擇</option>
                                 {
-                                    Object.keys(productActiveStatus).map((key) => (
+                                    Object.keys(activeStatus).map((key) => (
 
                                         <option
                                             key={key}
                                             value={key}
                                         >
-                                            {productActiveStatus[key]}
+                                            {activeStatus[key]}
                                         </option>
 
                                     ))

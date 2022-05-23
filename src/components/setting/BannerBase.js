@@ -24,7 +24,7 @@ const {
     renderWithoutValue,
 } = util;
 
-const { lightboxTitle, productActiveStatus } = utilConst;
+const { lightboxTitle, activeStatus } = utilConst;
 
 const BannerBase = ({ pageData }) => {
 
@@ -112,13 +112,13 @@ const BannerBase = ({ pageData }) => {
                     onChange={(e) => handleChangeActive(e, id)}
                 >
                     {
-                        Object.keys(productActiveStatus).map((key) => (
+                        Object.keys(activeStatus).map((key) => (
 
                             <option
                                 key={key}
                                 value={key}
                             >
-                                {productActiveStatus[key]}
+                                {activeStatus[key]}
                             </option>
 
                         ))
@@ -222,7 +222,7 @@ const BannerBase = ({ pageData }) => {
         Service.bannerActive({ id, isActive: (target.value === 'true') ? true : false })
             .then(() => {
 
-                message.success(`ID: ${id} 已改為${productActiveStatus[target.value]}`);
+                message.success(`ID: ${id} 已改為${activeStatus[target.value]}`);
 
             });
 

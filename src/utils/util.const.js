@@ -84,7 +84,7 @@ const utilConst = {
         'false': '否',
         'true': '是',
     },
-    productActiveStatus: {
+    activeStatus: {
         true: '上架',
         false: '下架',
     },

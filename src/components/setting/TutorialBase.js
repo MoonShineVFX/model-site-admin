@@ -24,7 +24,7 @@ const {
     renderDateTime,
 } = util;
 
-const { lightboxTitle, productActiveStatus } = utilConst;
+const { lightboxTitle, activeStatus } = utilConst;
 
 const TutorialBase = ({ pageData }) => {
 
@@ -95,17 +95,18 @@ const TutorialBase = ({ pageData }) => {
 
                 <select
                     name="isActive"
-                    defaultValue={isActive}
+                    value={isActive}
                     onChange={(e) => handleChangeActive(e, id)}
+                    data-active={isActive}
                 >
                     {
-                        Object.keys(productActiveStatus).map((key) => (
+                        Object.keys(activeStatus).map((key) => (
 
                             <option
                                 key={key}
                                 value={key}
                             >
-                                {productActiveStatus[key]}
+                                {activeStatus[key]}
                             </option>
 
                         ))
@@ -183,10 +184,14 @@ const TutorialBase = ({ pageData }) => {
     // 上下架
     const handleChangeActive = ({ target }, id) => {
 
-        Service.productActive({ id, isActive: (target.value === 'true') ? true : false })
-            .then(() => {
+        Service.tutorialActive({ id, isActive: (target.value === 'true') ? true : false })
+            .then((resData) => {
 
-                message.success(`ID: ${id} 已改為${productActiveStatus[target.value]}`);
+                message.success(`ID: ${id} 已改為${activeStatus[target.value]}`);
+                tutorialDispatch({
+                    type: 'tutorial_update',
+                    payload: { resData, action: true },
+                });
 
             });
 

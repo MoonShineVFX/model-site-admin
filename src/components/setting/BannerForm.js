@@ -12,7 +12,7 @@ import util from '../../utils/util';
 import utilConst from '../../utils/util.const';
 
 const { uploadFileLimit } = util;
-const { limitSizeText, productActiveStatus } = utilConst;
+const { limitSizeText, activeStatus } = utilConst;
 
 //
 const UploadImageLayout = styled.div(({ theme }) => ({
@@ -223,13 +223,13 @@ const BannerForm = () => {
                         >
                             <option value="">請選擇</option>
                             {
-                                Object.keys(productActiveStatus).map((key) => (
+                                Object.keys(activeStatus).map((key) => (
 
                                     <option
                                         key={key}
                                         value={key}
                                     >
-                                        {productActiveStatus[key]}
+                                        {activeStatus[key]}
                                     </option>
 
                                 ))

@@ -39,6 +39,7 @@ const Service = {
     bannerDeftag: (reqData) => util.serviceProxy('/banner_xltn', reqData),
 
     // 文件導覽
+    tutorialActive: (reqData) => util.serviceProxy('/admin_tutorial_active', reqData),
     tutorialCreate: (reqData) => util.serviceProxy('/admin_tutorial_create', reqData),
     tutorialUpdate: (reqData) => util.serviceProxy('/admin_tutorial_update', reqData),
     tutorialDeftag: (reqData) => util.serviceProxy('/tutorial_xltn', reqData),

@@ -97,7 +97,6 @@ const TutorialBase = ({ pageData }) => {
                     name="isActive"
                     value={isActive}
                     onChange={(e) => handleChangeActive(e, id)}
-                    data-active={isActive}
                 >
                     {
                         Object.keys(activeStatus).map((key) => (

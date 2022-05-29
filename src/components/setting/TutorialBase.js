@@ -186,7 +186,7 @@ const TutorialBase = ({ pageData }) => {
         Service.tutorialActive({ id, isActive: (target.value === 'true') ? true : false })
             .then((resData) => {
 
-                message.success(`ID: ${id} 已改為${activeStatus[target.value]}`);
+                message.success(`ID: ${id} 已改為${activeStatus[resData.isActive]}`);
                 tutorialDispatch({
                     type: 'tutorial_update',
                     payload: { resData, action: true },

@@ -110,7 +110,6 @@ const BannerBase = ({ pageData }) => {
                     name="isActive"
                     value={isActive}
                     onChange={(e) => handleChangeActive(e, id)}
-                    data-active={isActive}
                 >
                     {
                         Object.keys(activeStatus).map((key) => (
@@ -223,7 +222,7 @@ const BannerBase = ({ pageData }) => {
         Service.bannerActive({ id, isActive: (target.value === 'true') ? true : false })
             .then((resData) => {
 
-                message.success(`ID: ${id} 已改為${activeStatus[target.value]}`);
+                message.success(`ID: ${id} 已改為${activeStatus[resData.isActive]}`);
                 bannerDispatch({
                     type: 'banner_update',
                     payload: { resData, action: true },

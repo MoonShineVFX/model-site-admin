@@ -30,8 +30,12 @@ const SearchFormLayout = styled.form(({ theme }) => ({
 
 // 詳細頁 > 兩欄
 const DetailWrapLayout = styled(Row)(({ theme }) => ({
+    marginTop: '40px',
     '.left': {
         borderRight: `1px solid ${theme.palette.border}`,
+    },
+    '.grid-title': {
+        marginBottom: '10px',
     },
 }));
 
@@ -43,14 +47,15 @@ const BackToLayout = styled(Buttons)({
 // 訂單詳細資訊
 const InfoWrapLayout = styled.div(({ theme }) => ({
     maxWidth: '600px',
+    height: 'calc(100% - 40px)', // title + margin space 10px
     border: `1px solid ${theme.palette.border}`,
-    padding: '40px 20px',
+    padding: '20px',
     '.info-row': {
         marginBottom: '10px',
         display: 'flex',
     },
     '.title': {
-        maxWidth: '120px',
+        maxWidth: '160px',
         width: '100%',
         textAlign: 'right',
         marginBottom: '0',

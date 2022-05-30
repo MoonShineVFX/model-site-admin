@@ -23,7 +23,12 @@ const {
     priceWithCommas,
 } = util;
 
-const { orderStatus, payment } = utilConst;
+const {
+    orderStatus,
+    payment,
+    invoiceTypeText,
+    paperInvoiceTypeText,
+} = utilConst;
 
 const OrderDetail = ({ pageData }) => {
 
@@ -46,13 +51,19 @@ const OrderDetail = ({ pageData }) => {
         id,
         orderNumber,
         tradeNumber,
-        account,
         price,
         status,
         paidBy,
         createdAt,
         paidAt,
+        account,
+        realName,
+        address,
+        receiverName,
+        receiverAddress,
         invoice,
+        invoiceType,
+        paperInvoiceType,
         products,
     } = pageData.data;
 
@@ -67,8 +78,9 @@ const OrderDetail = ({ pageData }) => {
                 </BackToLayout>
             </ContentHeader>
 
-            <DetailWrapLayout gutter={60}>
-                <Col span={12}>
+            <DetailWrapLayout gutter={30}>
+                <Col span={8}>
+                    <h3 className="grid-title">訂單資訊</h3>
                     <InfoWrapLayout>
                         <div className="info-row">
                             <h4 className="title">ID:</h4>
@@ -79,12 +91,8 @@ const OrderDetail = ({ pageData }) => {
                             <div>{orderNumber}</div>
                         </div>
                         <div className="info-row">
-                            <h4 className="title">會員帳號:</h4>
-                            <div>{account}</div>
-                        </div>
-                        <div className="info-row">
                             <h4 className="title">商品件數:</h4>
-                            <div className="package">{products.length}件</div>
+                            <div className="package">共{products.length}件</div>
                         </div>
                         <div className="info-row admin-order-price">
                             <h4 className="title">訂單金額:</h4>
@@ -110,15 +118,49 @@ const OrderDetail = ({ pageData }) => {
                             <h4 className="title">交易序號:</h4>
                             <div>{renderWithoutValue(tradeNumber)}</div>
                         </div>
+                    </InfoWrapLayout>
+                </Col>
+
+                <Col span={8}>
+                    <h3 className="grid-title">發票資訊</h3>
+                    <InfoWrapLayout>
+                        <div className="info-row">
+                            <h4 className="title">會員帳號(email):</h4>
+                            <div>{account}</div>
+                        </div>
+                        <div className="info-row">
+                            <h4 className="title">訂購人:</h4>
+                            <div>{realName}</div>
+                        </div>
+                        <div className="info-row">
+                            <h4 className="title">訂購人地址:</h4>
+                            <div>{address}</div>
+                        </div>
+                        <div className="info-row">
+                            <h4 className="title">收件人:</h4>
+                            <div>{receiverName}</div>
+                        </div>
+                        <div className="info-row">
+                            <h4 className="title">收件地址:</h4>
+                            <div>{receiverAddress}</div>
+                        </div>
                         <div className="info-row">
                             <h4 className="title">發票號碼:</h4>
                             <div>{renderWithoutValue(invoice)}</div>
                         </div>
+                        <div className="info-row">
+                            <h4 className="title">發票類型:</h4>
+                            <div>{renderWithoutValue(invoiceTypeText[invoiceType])}</div>
+                        </div>
+                        <div className="info-row">
+                            <h4 className="title">紙本發票類型:</h4>
+                            <div>{renderWithoutValue(paperInvoiceTypeText[paperInvoiceType])}</div>
+                        </div>
                     </InfoWrapLayout>
                 </Col>
 
-                <Col span={12}>
-                    <h3>商品內容</h3>
+                <Col span={8}>
+                    <h3 className="grid-title">商品內容</h3>
                     <ProductItemLayout>
                         {
                             products.map(({ id, title, price, imgUrl }) => (

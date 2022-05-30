@@ -104,6 +104,14 @@ const utilConst = {
         // 'cn': '简体中文',
         // 'jp': '日文',
     },
+    invoiceTypeText: {
+        paper: '紙本',
+        electronic: '電子發票',
+    },
+    paperInvoiceTypeText: {
+        duplicate: '二聯式',
+        triplicate: '三聯式',
+    },
 };
 
 export default utilConst;

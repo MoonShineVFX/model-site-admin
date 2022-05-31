@@ -29,7 +29,7 @@ const Privacy = ({ pageData }) => {
 
         globalDispatch({
             type: 'page',
-            payload: pathnameKey(router.pathname, true),
+            payload: pathnameKey(router.pathname),
         });
 
     }, [globalDispatch, router.pathname]);

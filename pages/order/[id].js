@@ -42,7 +42,7 @@ const OrderDetail = ({ pageData }) => {
 
         globalDispatch({
             type: 'page',
-            payload: pathnameKey(pathname),
+            payload: pathnameKey(pathname, true),
         });
 
     }, []);
@@ -130,19 +130,19 @@ const OrderDetail = ({ pageData }) => {
                         </div>
                         <div className="info-row">
                             <h4 className="title">訂購人:</h4>
-                            <div>{realName}</div>
+                            <div>{renderWithoutValue(realName)}</div>
                         </div>
                         <div className="info-row">
                             <h4 className="title">訂購人地址:</h4>
-                            <div>{address}</div>
+                            <div>{renderWithoutValue(address)}</div>
                         </div>
                         <div className="info-row">
                             <h4 className="title">收件人:</h4>
-                            <div>{receiverName}</div>
+                            <div>{renderWithoutValue(receiverName)}</div>
                         </div>
                         <div className="info-row">
                             <h4 className="title">收件地址:</h4>
-                            <div>{receiverAddress}</div>
+                            <div>{renderWithoutValue(receiverAddress)}</div>
                         </div>
                         <div className="info-row">
                             <h4 className="title">發票號碼:</h4>

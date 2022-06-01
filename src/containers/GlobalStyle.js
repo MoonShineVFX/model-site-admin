@@ -70,6 +70,9 @@ const GlobalStyle = createGlobalStyle`
     .admin-order-status-success {
         color: green;
     }
+    .error {
+        color: red;
+    }
 `;
 
 export default GlobalStyle;

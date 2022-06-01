@@ -167,7 +167,6 @@ const BannerForm = () => {
 
         }
 
-        // return;
         if (currEvent === 'updateBanner') bannerUpdate(formData);
         else bannerCreate(formData);
 

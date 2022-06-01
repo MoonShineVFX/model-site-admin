@@ -32,6 +32,9 @@ const Service = {
     // 訂單
     orderSearch: (reqData) => util.serviceProxy('/admin_order_search', reqData),
 
+    // 發票
+    paperInvoiceUpdate: (reqData) => util.serviceProxy('/admin_order_paper_invoice_update', reqData),
+
     // Banner
     bannerActive: (reqData) => util.serviceProxy('/admin_banner_active', reqData),
     bannerCreate: (reqData) => util.serviceProxy('/admin_banner_create', reqData),

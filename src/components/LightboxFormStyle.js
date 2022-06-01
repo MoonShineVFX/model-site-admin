@@ -27,7 +27,7 @@ const LightboxFormStyle = createGlobalStyle`
             background-color: ${white};
             border: 1px solid ${({ theme }) => theme.palette.border};
             border-radius: 2px;
-            padding: 4px 12px;
+            padding: 4px 8px;
             transition: all .3s ease-in-out;
             outline: 0;
             &:hover,
@@ -40,6 +40,7 @@ const LightboxFormStyle = createGlobalStyle`
             > * {
                 &:not(.ant-switch) {
                     width: 100%;
+                    height: 100%;
                 }
             }
         }

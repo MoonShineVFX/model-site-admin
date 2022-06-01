@@ -7,6 +7,7 @@ import Tables from '../../src/components/Tables';
 import Links from '../../src/components/Links';
 import Buttons from '../../src/components/Buttons';
 import SearchForm from '../../src/components/order/SearchForm';
+import InvoiceForm from '../../src/components/order/InvoiceForm';
 
 import { GlobalContext } from '../../src/context/global.state';
 import util from '../../src/utils/util';
@@ -115,7 +116,14 @@ const OrderList = ({ pageData }) => {
         {
             title: '發票號碼',
             dataIndex: 'invoice',
-            render: (invoice) => renderWithoutValue(invoice),
+            width: 240,
+            render: (invoice, { id, status, invoiceType }) => (
+
+                (status === 'success' && invoiceType === 'paper')
+                    ? <InvoiceForm data={{ id, invoice }} />
+                    : renderWithoutValue(invoice)
+
+            ),
         },
         {
             title: '操作',

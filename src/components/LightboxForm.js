@@ -1,12 +1,18 @@
 import { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Modal } from 'antd';
+import { ErrorMessage } from '@hookform/error-message';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import LightboxFormStyle from './LightboxFormStyle';
 import utilConst from '../utils/util.const';
 
 const { errorText } = utilConst;
+
+const errMesg = {
+    err_required: '此欄位為必填',
+    err_pattern: '格式有誤',
+};
 
 // 錯誤訊息
 const ErrorMesg = ({ error }) => <p className="error">{error || errorText}</p>;
@@ -38,7 +44,6 @@ const LightboxFormLayout = styled(Modal)(({ theme }) => ({
         fontSize: '15px',
         fontWeight: 'normal',
         color: theme.palette.font,
-        marginBottom: '4px',
     },
     '.items': {
         display: 'flex',
@@ -50,44 +55,6 @@ const LightboxFormLayout = styled(Modal)(({ theme }) => ({
         },
     },
 }));
-
-// Form 欄位
-const FormRow = ({
-    labelTitle,
-    required,
-    children,
-    error,
-    errorMesg,
-    className,
-    notes,
-    noBorder,
-    readonly,
-}) => (
-
-    <label className={`row ${error ? 'hasError' : ''} ${className && className}`}>
-        <Fragment>
-            <div className={`title ${required ? 'isRequired' : ''}`}>
-                {
-                    (typeof labelTitle === 'string') ? `${labelTitle}${required ? ' (必填)' : ''}` : labelTitle
-                }
-            </div>
-
-            <div className={`field ${noBorder ? 'noBorder' : ''} ${readonly ? 'readonly' : ''}`}>{children}</div>
-
-            {
-                notes &&
-                    <div className="notes">
-                        <ExclamationCircleOutlined />{notes}
-                    </div>
-            }
-        </Fragment>
-
-        {
-            error && <ErrorMesg {...errorMesg ? { error: errorMesg } : null} />
-        }
-    </label>
-
-);
 
 // Lightbox Form
 const LightboxForm = ({
@@ -118,30 +85,55 @@ const LightboxForm = ({
 
 );
 
-// FormRow
-FormRow.defaultProps = {
-    required: false,
-    noBorder: false,
-    error: false,
-    errorMesg: errorText,
-    className: '',
-    readonly: false,
-};
+// Form 欄位
+const FormRow = ({
+    className,
+    labelTitle,
+    name,
+    required,
+    noBorder,
+    readonly,
+    errors,
+    children,
+}) => (
 
-FormRow.propTypes = {
-    className: PropTypes.string,
-    labelTitle: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.element,
-    ]),
-    required: PropTypes.bool,
-    noBorder: PropTypes.bool,
-    error: PropTypes.bool,
-    errorMesg: PropTypes.string,
-    readonly: PropTypes.bool,
-    children: PropTypes.any.isRequired,
-    notes: PropTypes.string,
-};
+    <label className={`row ${errors?.[name]?.type ? 'hasError' : ''} ${className && className}`}>
+        {
+            labelTitle &&
+                <div className={`title ${required ? 'isRequired' : ''}`}>
+                    {
+                        (typeof labelTitle === 'string') ? `${labelTitle}${required ? ' (必填)' : ''}` : labelTitle
+                    }
+                </div>
+        }
+
+        <div className={`field ${noBorder ? 'noBorder' : ''} ${readonly ? 'readonly' : ''}`}>{children}</div>
+
+        {
+            errors?.[name] &&
+                <FormErrorMesg
+                    name={name}
+                    errors={errors}
+                />
+        }
+    </label>
+
+);
+
+// 錯誤訊息
+const FormErrorMesg = ({ name, errors }) => (
+
+    <ErrorMessage
+        name={name}
+        errors={errors}
+        message={errMesg[`err_${errors[name]?.type}`]}
+        render={({ message }) => <p className="error-mesg">{message}</p>}
+    />
+
+);
+
+// 成功訊息
+const FormSuccessMesg = ({ mesg }) => <p className="success-mesg">{mesg}</p>;
 
 // LightboxForm
 LightboxForm.defaultProps = {
@@ -168,9 +160,44 @@ LightboxForm.propTypes = {
     children: PropTypes.any.isRequired,
 };
 
+// FormRow
+FormRow.defaultProps = {
+    className: '',
+    required: false,
+    noBorder: false,
+    readonly: false,
+};
+
+FormRow.propTypes = {
+    className: PropTypes.string,
+    labelTitle: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.element,
+    ]),
+    name: PropTypes.string,
+    required: PropTypes.bool,
+    noBorder: PropTypes.bool,
+    readonly: PropTypes.bool,
+    errors: PropTypes.object,
+    children: PropTypes.any.isRequired,
+};
+
+// FormSuccessMesg
+FormSuccessMesg.propTypes = {
+    mesg: PropTypes.string,
+};
+
+// FormErrorMesg
+FormErrorMesg.propTypes = {
+    name: PropTypes.string.isRequired,
+    errors: PropTypes.object.isRequired,
+};
+
 export {
     LightboxForm as default,
     FormRow,
+    FormErrorMesg,
+    FormSuccessMesg,
     ErrorMesg,
     OtherErrorMesg,
 };

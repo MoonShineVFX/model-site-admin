@@ -136,7 +136,13 @@ const AdminAccountBase = ({ pageData }) => {
     // 編輯按鈕
     const btnUpdate = (data) => {
 
-        const { createTime, updateTime, ...rest } = data;
+        const {
+            creator,
+            updater,
+            createTime,
+            updateTime,
+            ...rest
+        } = data;
 
         lightboxDispatch({ type: 'SHOW', currEvent: 'updateAdAccount' });
         formStorageDispatch({

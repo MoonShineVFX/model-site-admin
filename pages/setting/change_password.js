@@ -86,8 +86,9 @@ const ResetPassword = ({ pageData }) => {
 
                 <FormRow
                     labelTitle="密碼"
-                    required={true}
-                    error={errors.password && true}
+                    name="password"
+                    required
+                    errors={errors}
                 >
                     <input
                         type="password"
@@ -98,9 +99,9 @@ const ResetPassword = ({ pageData }) => {
 
                 <FormRow
                     labelTitle="再次輸入密碼"
-                    required={true}
-                    error={errors.confirm_password && true}
-                    errorMesg={errors?.confirm_password?.message}
+                    name="confirm_password"
+                    required
+                    errors={errors}
                 >
                     <input
                         type="password"

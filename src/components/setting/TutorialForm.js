@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import Buttons from '../Buttons';
 import UploadSingle from '../UploadSingle';
-import { FormRow, ErrorMesg } from '../LightboxForm';
+import { FormRow } from '../LightboxForm';
 import { GlobalContext } from '../../context/global.state';
 import { TutorialContext } from '../../context/setting/tutorial.state';
 import util from '../../utils/util';
@@ -95,8 +95,9 @@ const TutorialForm = () => {
             <div className="items">
                 <FormRow
                     labelTitle="標題"
-                    required={true}
-                    error={errors.title && true}
+                    name="title"
+                    required
+                    errors={errors}
                 >
                     <input
                         type="text"
@@ -105,37 +106,38 @@ const TutorialForm = () => {
                     />
                 </FormRow>
 
-                <div className={`row ${errors.isActive ? 'hasError' : ''}`}>
-                    <div className="title isRequired">商品狀態 (必填)</div>
-                    <div className="field noBorder">
-                        <select
-                            name="isActive"
-                            {...register('isActive', { required: true })}
-                        >
-                            <option value="">請選擇</option>
-                            {
-                                Object.keys(activeStatus).map((key) => (
+                <FormRow
+                    labelTitle="商品狀態"
+                    name="isActive"
+                    noBorder
+                    required
+                    errors={errors}
+                >
+                    <select
+                        name="isActive"
+                        {...register('isActive', { required: true })}
+                    >
+                        {
+                            Object.keys(activeStatus).map((key) => (
 
-                                    <option
-                                        key={key}
-                                        value={key}
-                                    >
-                                        {activeStatus[key]}
-                                    </option>
+                                <option
+                                    key={key}
+                                    value={key}
+                                >
+                                    {activeStatus[key]}
+                                </option>
 
-                                ))
-                            }
-                        </select>
-                    </div>
-
-                    {errors.priority && <ErrorMesg />}
-                </div>
+                            ))
+                        }
+                    </select>
+                </FormRow>
             </div>
 
             <FormRow
                 labelTitle="外部連結"
-                required={true}
-                error={errors.link && true}
+                name="link"
+                required
+                errors={errors}
             >
                 <input
                     type="text"

@@ -64,6 +64,8 @@ const OrderDetail = ({ pageData }) => {
         invoice,
         invoiceType,
         paperInvoiceType,
+        companyName,
+        taxNumber,
         products,
     } = pageData.data;
 
@@ -155,6 +157,14 @@ const OrderDetail = ({ pageData }) => {
                         <div className="info-row">
                             <h4 className="title">紙本發票類型:</h4>
                             <div>{renderWithoutValue(paperInvoiceTypeText[paperInvoiceType])}</div>
+                        </div>
+                        <div className="info-row">
+                            <h4 className="title">公司名稱:</h4>
+                            <div>{renderWithoutValue(companyName)}</div>
+                        </div>
+                        <div className="info-row">
+                            <h4 className="title">統一編號:</h4>
+                            <div>{renderWithoutValue(taxNumber)}</div>
                         </div>
                     </InfoWrapLayout>
                 </Col>

@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 
 import Buttons from '../Buttons';
-import { ErrorMesg } from '../LightboxForm';
+import { FormRow } from '../LightboxForm';
 import UploadFiles from '../UploadFiles';
 import { GlobalContext } from '../../context/global.state';
 import util from '../../utils/util';
@@ -95,7 +95,6 @@ const PositionImageUpload = ({ data }) => {
 
         }
 
-        // Service
         Service.imageUpload(formData)
             .then((resData) => setImageLists([{ ...resData }, ...imageLists]));
 
@@ -131,7 +130,13 @@ const PositionImageUpload = ({ data }) => {
                     fileData={imageLists}
                     handleDelete={handleDelete}
                 >
-                    <span className={`img-position ${errors.positionId ? 'hasError' : ''}`}>
+                    <FormRow
+                        className="img-position"
+                        name="positionId"
+                        noBorder
+                        required
+                        errors={errors}
+                    >
                         <select
                             name="positionId"
                             {...register('positionId', { required: true })}
@@ -152,9 +157,7 @@ const PositionImageUpload = ({ data }) => {
                                 ))
                             }
                         </select>
-
-                        {errors.positionId && <ErrorMesg />}
-                    </span>
+                    </FormRow>
 
                     <Buttons
                         text="送出"

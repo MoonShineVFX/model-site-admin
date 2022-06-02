@@ -47,7 +47,7 @@ const UploadSingleLayout = styled.div.attrs(() => ({
         marginTop: '4px',
     },
     '.warning-text': {
-        color: red.primary,
+        color: red[4],
     },
 }));
 

@@ -9,7 +9,7 @@ import HeadTag from '../../src/containers/HeadTag';
 import ContentHeader from '../../src/containers/ContentHeader';
 
 import Buttons from '../../src/components/Buttons';
-import { FormRow, ErrorMesg } from '../../src/components/LightboxForm';
+import { FormRow } from '../../src/components/LightboxForm';
 import UploadSingle from '../../src/components/UploadSingle';
 import ButtonsLang from '../../src/components/ButtonsLang';
 import DeftagDataForm from '../../src/components/DeftagDataForm';
@@ -167,8 +167,9 @@ const AboutUs = ({ pageData }) => {
 
                 <FormRow
                     labelTitle="標題"
-                    required={true}
-                    error={errors.title && true}
+                    name="title"
+                    required
+                    errors={errors}
                 >
                     <input
                         type="text"
@@ -178,11 +179,11 @@ const AboutUs = ({ pageData }) => {
                 </FormRow>
 
                 <FormRow
-                    labelTitle="描述"
                     className="textarea"
-                    noBorder={true}
-                    required={true}
-                    error={errors.description && true}
+                    labelTitle="描述"
+                    name="description"
+                    required
+                    errors={errors}
                 >
                     <textarea
                         name="description"
@@ -190,35 +191,50 @@ const AboutUs = ({ pageData }) => {
                     />
                 </FormRow>
 
-                <div className={`row item-row ${errors.supportModels ? 'hasError' : ''}`}>
+                <FormRow
+                    className="item-row"
+                    name="supportModels"
+                    noBorder
+                    required
+                    errors={errors}
+                >
                     <input
                         type="number"
                         name="supportModels"
                         {...register('supportModels', { required: true })}
                     />
                     套模型
-                    {errors.supportModels && <ErrorMesg />}
-                </div>
+                </FormRow>
 
-                <div className={`row item-row ${errors.supportFormats ? 'hasError' : ''}`}>
+                <FormRow
+                    className="item-row"
+                    name="supportFormats"
+                    noBorder
+                    required
+                    errors={errors}
+                >
                     <input
                         type="number"
                         name="supportFormats"
                         {...register('supportFormats', { required: true })}
                     />
                     種3D軟體格式
-                    {errors.supportFormats && <ErrorMesg />}
-                </div>
+                </FormRow>
 
-                <div className={`row item-row ${errors.supportRenders ? 'hasError' : ''}`}>
+                <FormRow
+                    className="item-row"
+                    name="supportRenders"
+                    noBorder
+                    required
+                    errors={errors}
+                >
                     <input
                         type="number"
                         name="supportRenders"
                         {...register('supportRenders', { required: true })}
                     />
                     個以上算圖引擎支援
-                    {errors.supportRenders && <ErrorMesg />}
-                </div>
+                </FormRow>
 
                 <RowUpload>
                     <UploadSingle size="1200x396" />

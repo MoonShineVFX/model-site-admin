@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 
 import Buttons from '../Buttons';
-import { FormRow, ErrorMesg } from '../LightboxForm';
+import { FormRow } from '../LightboxForm';
 
 import { GlobalContext } from '../../context/global.state';
 import { BannerContext } from '../../context/setting/banner.state';
@@ -177,8 +177,9 @@ const BannerForm = () => {
         <form onSubmit={handleSubmit(handleReqData)}>
             <FormRow
                 labelTitle="標題 (給圖片用)"
-                required={true}
-                error={errors.title && true}
+                name="title"
+                required
+                errors={errors}
             >
                 <input
                     type="text"
@@ -188,11 +189,11 @@ const BannerForm = () => {
             </FormRow>
 
             <FormRow
+                className="textarea"
                 labelTitle="簡述"
-                className="textarea place-textarea"
-                noBorder={true}
-                required={true}
-                error={errors.description && true}
+                name="description"
+                required
+                errors={errors}
             >
                 <textarea
                     name="description"
@@ -203,8 +204,9 @@ const BannerForm = () => {
             <div className="items">
                 <FormRow
                     labelTitle="商品ID"
-                    required={true}
-                    error={errors.productId && true}
+                    name="productId"
+                    required
+                    errors={errors}
                 >
                     <input
                         type="number"
@@ -213,31 +215,31 @@ const BannerForm = () => {
                     />
                 </FormRow>
 
-                <div className={`row ${errors.isActive ? 'hasError' : ''}`}>
-                    <div className="title isRequired">商品狀態 (必填)</div>
-                    <div className="field noBorder">
-                        <select
-                            name="isActive"
-                            {...register('isActive', { required: true })}
-                        >
-                            <option value="">請選擇</option>
-                            {
-                                Object.keys(activeStatus).map((key) => (
+                <FormRow
+                    labelTitle="商品狀態"
+                    name="isActive"
+                    noBorder
+                    required
+                    errors={errors}
+                >
+                    <select
+                        name="isActive"
+                        {...register('isActive', { required: true })}
+                    >
+                        {
+                            Object.keys(activeStatus).map((key) => (
 
-                                    <option
-                                        key={key}
-                                        value={key}
-                                    >
-                                        {activeStatus[key]}
-                                    </option>
+                                <option
+                                    key={key}
+                                    value={key}
+                                >
+                                    {activeStatus[key]}
+                                </option>
 
-                                ))
-                            }
-                        </select>
-                    </div>
-
-                    {errors.priority && <ErrorMesg />}
-                </div>
+                            ))
+                        }
+                    </select>
+                </FormRow>
             </div>
 
             <UploadImage

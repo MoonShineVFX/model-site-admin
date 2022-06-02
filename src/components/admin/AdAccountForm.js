@@ -78,13 +78,8 @@ const AdAccountForm = () => {
     // 送資料
     const handleReqData = (reqData) => {
 
-        reqData = {
-            ...reqData,
-            ...selected,
-            ...(currEvent === 'updateAdAccount') && { id: formStorageData.id },
-        };
+        reqData = { ...reqData, ...selected };
 
-        // Service
         if (currEvent === 'updateAdAccount') {
 
             // 編輯部允許更改帳號
@@ -99,12 +94,22 @@ const AdAccountForm = () => {
     return (
 
         <form onSubmit={handleSubmit(handleReqData)}>
+            {
+                formStorageData.id &&
+                    <input
+                        type="hidden"
+                        name="id"
+                        {...register('id')}
+                    />
+            }
+
             <FormRow
                 labelTitle="帳號"
+                name="account"
                 {
                     ...(currEvent === 'createAdAccount') ? {
                         required: true,
-                        error: errors.account && true,
+                        errors,
                     } : { readonly: true }
                 }
             >
@@ -120,8 +125,9 @@ const AdAccountForm = () => {
 
                     <FormRow
                         labelTitle="密碼"
-                        required={true}
-                        error={errors.password && true}
+                        name="password"
+                        required
+                        errors={errors}
                     >
                         <input
                             type="password"
@@ -132,18 +138,19 @@ const AdAccountForm = () => {
 
                 ) : (
 
-                    <div className="row">
-                        <div className="title">密碼</div>
-                        <div className="field noBorder">
-                            <span>
-                                <Buttons
-                                    className="third"
-                                    text="重設密碼"
-                                    onClick={handleResetPassword}
-                                />
-                            </span>
-                        </div>
-                    </div>
+                    <FormRow
+                        labelTitle="密碼"
+                        name="password"
+                        noBorder
+                    >
+                        <span>
+                            <Buttons
+                                className="third"
+                                text="重設密碼"
+                                onClick={handleResetPassword}
+                            />
+                        </span>
+                    </FormRow>
 
                 )
             }

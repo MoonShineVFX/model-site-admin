@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import LightboxFormStyle from '../LightboxFormStyle';
 import Buttons from '../Buttons';
 import Prompt from '../Prompt';
-import { FormRow, ErrorMesg } from '../LightboxForm';
+import { FormRow } from '../LightboxForm';
 import Checkbox from '../Checkbox';
 import { FormWrap } from './ProductLayout';
 
@@ -83,8 +83,9 @@ const ProductForm = ({ data, service }) => {
                 <div className="items">
                     <FormRow
                         labelTitle="商品名稱"
-                        required={true}
-                        error={errors.title && true}
+                        name="title"
+                        required
+                        errors={errors}
                     >
                         <input
                             type="text"
@@ -93,36 +94,37 @@ const ProductForm = ({ data, service }) => {
                         />
                     </FormRow>
 
-                    <div className={`row ${errors.isActive ? 'hasError' : ''}`}>
-                        <div className="title isRequired">商品狀態 (必填)</div>
-                        <div className="field noBorder">
-                            <select
-                                name="isActive"
-                                {...register('isActive', { required: true })}
-                            >
-                                <option value="">請選擇</option>
-                                {
-                                    Object.keys(activeStatus).map((key) => (
+                    <FormRow
+                        labelTitle="商品狀態"
+                        name="isActive"
+                        noBorder
+                        required
+                        errors={errors}
+                    >
+                        <select
+                            name="isActive"
+                            {...register('isActive', { required: true })}
+                        >
+                            {
+                                Object.keys(activeStatus).map((key) => (
 
-                                        <option
-                                            key={key}
-                                            value={key}
-                                        >
-                                            {activeStatus[key]}
-                                        </option>
+                                    <option
+                                        key={key}
+                                        value={key}
+                                    >
+                                        {activeStatus[key]}
+                                    </option>
 
-                                    ))
-                                }
-                            </select>
-                        </div>
-
-                        {errors.priority && <ErrorMesg />}
-                    </div>
+                                ))
+                            }
+                        </select>
+                    </FormRow>
 
                     <FormRow
                         labelTitle="價格"
-                        required={true}
-                        error={errors.price && true}
+                        name="price"
+                        required
+                        errors={errors}
                     >
                         <input
                             type="number"
@@ -135,8 +137,9 @@ const ProductForm = ({ data, service }) => {
                 <div className="items">
                     <FormRow
                         labelTitle="檔案大小"
-                        required={true}
-                        error={errors.fileSize && true}
+                        name="fileSize"
+                        required
+                        errors={errors}
                     >
                         <input
                             type="number"
@@ -147,8 +150,9 @@ const ProductForm = ({ data, service }) => {
 
                     <FormRow
                         labelTitle="模型數量"
-                        required={true}
-                        error={errors.modelSum && true}
+                        name="modelSum"
+                        required
+                        errors={errors}
                     >
                         <input
                             type="number"
@@ -160,8 +164,9 @@ const ProductForm = ({ data, service }) => {
 
                     <FormRow
                         labelTitle="貼圖尺寸"
-                        required={true}
-                        error={errors.perImgSize && true}
+                        name="perImgSize"
+                        required
+                        errors={errors}
                     >
                         <input
                             type="text"
@@ -173,11 +178,11 @@ const ProductForm = ({ data, service }) => {
                 </div>
 
                 <FormRow
+                    className="textarea"
                     labelTitle="商品介紹"
-                    className="textarea place-textarea"
-                    noBorder={true}
-                    required={true}
-                    error={errors.description && true}
+                    name="description"
+                    required
+                    errors={errors}
                 >
                     <textarea
                         name="description"
@@ -185,9 +190,13 @@ const ProductForm = ({ data, service }) => {
                     />
                 </FormRow>
 
-                <div className="row">
-                    <div className="title">標籤</div>
-                    <div className="checkboxes">
+                <FormRow
+                    className="checkboxes"
+                    labelTitle="標籤"
+                    name="tags"
+                    noBorder
+                >
+                    <div className="checkboxesWrap">
                         {
                             tagsOpt.map(({ id, name }, idx) => (
 
@@ -208,7 +217,7 @@ const ProductForm = ({ data, service }) => {
                             ))
                         }
                     </div>
-                </div>
+                </FormRow>
 
                 <div className="row-btns">
                     <Buttons

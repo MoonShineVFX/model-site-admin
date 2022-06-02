@@ -13,13 +13,6 @@ import Service from '../src/utils/util.service';
 const { redirectTo } = util;
 
 //
-const errConfig = {
-    pattern: '格式錯誤',
-    minLength: '少於8碼',
-    maxLength: '超過20碼',
-};
-
-//
 const LoginStyle = createGlobalStyle`
     .appContainer {
         justify-content: center;
@@ -86,8 +79,8 @@ const Login = ({ pageData }) => {
             <form onSubmit={handleSubmit(handleReqData)}>
                 <FormRow
                     labelTitle="帳號"
-                    error={errors.account && true}
-                    {...(errors.account?.type === 'pattern') && { errorMesg: '格式錯誤' }}
+                    name="account"
+                    errors={errors}
                 >
                     <input
                         type="text"
@@ -98,8 +91,8 @@ const Login = ({ pageData }) => {
 
                 <FormRow
                     labelTitle="密碼"
-                    error={errors.password && true}
-                    errorMesg={errConfig[errors.password?.type]}
+                    name="password"
+                    errors={errors}
                 >
                     <input
                         type="password"

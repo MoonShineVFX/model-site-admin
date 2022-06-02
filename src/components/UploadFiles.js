@@ -38,7 +38,7 @@ const UploadFilesNoticeLayout = styled.ul.attrs(() => ({
 }))(({
     marginTop: '10px',
     '.warning-text': {
-        color: red.primary,
+        color: red[4],
     },
 }));
 

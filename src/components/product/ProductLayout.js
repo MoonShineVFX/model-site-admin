@@ -50,7 +50,7 @@ const FormWrap = styled.form({
     'h3': {
         fontWeight: 'bold',
     },
-    '.checkboxes': {
+    '.checkboxesWrap': {
         display: 'flex',
         flexWrap: 'wrap',
         '> *': {

@@ -3,7 +3,7 @@ import { createGlobalStyle } from 'styled-components';
 
 const LightboxFormStyle = createGlobalStyle`
     .lightbox-wrap {
-        p {
+        .small-text {
             color: ${grey[2]};
         }
     }
@@ -18,7 +18,7 @@ const LightboxFormStyle = createGlobalStyle`
         display: block;
         margin-bottom: 20px;
         .title {
-            margin-bottom: 4px;
+            margin-bottom: 2px;
             cursor: default;
         }
         .field {
@@ -112,21 +112,17 @@ const LightboxFormStyle = createGlobalStyle`
             line-height: 1.4;
             font-size: 15px;
             color: ${({ theme }) => theme.palette.font};
-            border: 1px solid ${({ theme }) => theme.palette.border};
-            border-radius: 2px;
-            padding: 8px 12px;
             resize: none;
             outline: 0;
-            transition: all .3s ease-in-out;
-            &:hover {
-                border-color: ${blue.primary};
-            }
         }
         &.textarea {
             .field {
                 min-height: 100px;
             }
         }
+    }
+    .checkboxes .field {
+        height: auto;
     }
     .row-btns {
         text-align: center;
@@ -155,19 +151,28 @@ const LightboxFormStyle = createGlobalStyle`
     }
     .hasError {
         .field {
-            border-color: ${red.primary};
+            border-color: ${red[4]};
             &:hover {
-                border-color: ${red.primary};
+                border-color: ${red[4]};
             }
         }
         .error {
             font-size: 15px;
-            color: ${red.primary};
+            color: ${red[4]};
             margin: 2px 0;
         }
         .noBorder select {
-            border-color: ${red.primary};
+            border-color: ${red[4]};
         }
+    }
+    .error-mesg {
+        font-size: 15px;
+        color: ${red[4]};
+        margin-top: 2px;
+        margin-bottom: 0;
+    }
+    .success-mesg {
+        text-align: center;
     }
 
     // 語系

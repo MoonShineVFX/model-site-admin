@@ -1,17 +1,18 @@
-import { Fragment } from 'react';
 import { message } from 'antd';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 
 import Buttons from '../Buttons';
-import { ErrorMesg } from '../LightboxForm';
+import { FormRow } from '../LightboxForm';
 import Service from '../../utils/util.service';
 
 const FormLayout = styled.form({
     display: 'flex',
+    alignItems: 'flex-start',
     '.row': {
         marginBottom: '0',
         '.field': {
+            minWidth: '160px',
             height: '30px',
             padding: '0 4px',
         },
@@ -21,6 +22,7 @@ const FormLayout = styled.form({
     },
     '.ant-btn.admin-btn': {
         width: 'auto',
+        height: '30px',
         fontSize: '14px',
         marginLeft: '8px',
         marginRight: '0',
@@ -49,31 +51,38 @@ const InvoiceForm = ({ data }) => {
 
     return (
 
-        <Fragment>
-            <FormLayout onSubmit={handleSubmit(handleReqData)}>
-                <input
-                    type="hidden"
-                    name="id"
-                    {...register('id')}
-                />
-                <div className="row">
-                    <div className="field">
-                        <input
-                            type="text"
-                            name="invoice"
-                            placeholder="請輸入發票號碼"
-                            {...register('invoice', { required: true })}
-                        />
-                    </div>
-                </div>
-                <Buttons
-                    text="送出"
-                    htmlType="submit"
-                />
-            </FormLayout>
+        <FormLayout onSubmit={handleSubmit(handleReqData)}>
+            <input
+                type="hidden"
+                name="id"
+                {...register('id')}
+            />
 
-            {errors.invoice && <ErrorMesg />}
-        </Fragment>
+            <FormRow
+                name="invoice"
+                required
+                errors={errors}
+            >
+                <input
+                    type="text"
+                    name="invoice"
+                    placeholder="請輸入發票號碼"
+                    maxLength="10"
+                    {...register('invoice', {
+                        required: true,
+                        maxLength: {
+                            value: 10,
+                            message: '最多10碼',
+                        },
+                    })}
+                />
+            </FormRow>
+
+            <Buttons
+                text="送出"
+                htmlType="submit"
+            />
+        </FormLayout>
 
     );
 

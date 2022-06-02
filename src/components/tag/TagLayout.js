@@ -79,9 +79,11 @@ const CreateFieldLayout = styled.div.attrs(() => ({
     fontSize: '14px',
     color: blue.primary,
     textDecoration: 'underline',
-    cursor: 'pointer',
     '& + p': {
         display: 'none',
+    },
+    'span': {
+        cursor: 'pointer',
     },
 });
 

@@ -4,9 +4,12 @@ import LightboxFormStyle from '../LightboxFormStyle';
 import { DeftagFormLayout } from './DeftagLayout';
 import Buttons from '../Buttons';
 import Prompt from '../Prompt';
-import { ErrorMesg } from '../LightboxForm';
+import { FormRow } from '../LightboxForm';
 import { GlobalContext } from '../../context/global.state';
+import utilConst from '../../utils/util.const';
 import Service from '../../utils/util.service';
+
+const { errorMesg } = utilConst;
 
 // 整理資料結構
 const tidyData = (data) => Object.keys(data).reduce((acc, code) => {
@@ -82,28 +85,36 @@ const DeftagForm = ({ data }) => {
                                     <span>{index}</span>
                                 </div>
 
-                                <div className={`column row ${errors?.zh?.[index] ? 'hasError' : ''}`}>
-                                    <div className="field">
-                                        <input
-                                            type="text"
-                                            name={`zh.${index}`}
-                                            defaultValue={list[index]['zh']}
-                                            {...register(`zh.${index}`, { required: true })}
-                                        />
-                                    </div>
-                                    {errors?.zh?.[index] && <ErrorMesg />}
-                                </div>
+                                <FormRow
+                                    className={`column ${errors?.zh?.[index] ? 'hasError' : ''}`}
+                                    name={`zh.${index}`}
+                                    required
+                                    errors={errors}
+                                >
+                                    <input
+                                        type="text"
+                                        name={`zh.${index}`}
+                                        defaultValue={list[index]['zh']}
+                                        {...register(`zh.${index}`, {
+                                            required: {
+                                                value: true,
+                                                message: errorMesg.error_required,
+                                            },
+                                        })}
+                                    />
+                                </FormRow>
 
-                                <div className="column row">
-                                    <div className="field">
-                                        <input
-                                            type="text"
-                                            name={`en.${index}`}
-                                            defaultValue={list[index]['en']}
-                                            {...register(`en.${index}`)}
-                                        />
-                                    </div>
-                                </div>
+                                <FormRow
+                                    className="column"
+                                    name={`en.${index}`}
+                                >
+                                    <input
+                                        type="text"
+                                        name={`en.${index}`}
+                                        defaultValue={list[index]['en']}
+                                        {...register(`en.${index}`)}
+                                    />
+                                </FormRow>
                             </div>
 
                         ))

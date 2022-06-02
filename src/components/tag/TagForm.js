@@ -7,6 +7,9 @@ import { FormRow } from '../LightboxForm';
 import { ActionLayout, CreateFieldLayout } from './TagLayout';
 import { GlobalContext } from '../../context/global.state';
 import { TagContext } from '../../context/tag/tag.state';
+import utilConst from '../../utils/util.const';
+
+const { errorMesg } = utilConst;
 
 const TagForm = () => {
 
@@ -64,11 +67,13 @@ const TagForm = () => {
     // 送資料
     const handleReqData = (reqData) => {
 
-        // 結構
-        if (currEvent === 'updateTag') reqData = [...reqData.tags][0];
+        if (currEvent === 'updateTag') {
 
-        // Service
-        if (currEvent === 'updateTag') tagUpdate(reqData);
+            // 結構
+            reqData = [...reqData.tags][0];
+            tagUpdate(reqData);
+
+        }
         else tagCreate(reqData);
         targetReset();
 
@@ -77,8 +82,8 @@ const TagForm = () => {
     return (
 
         <form onSubmit={handleSubmit(handleReqData)}>
-            <CreateFieldLayout onClick={targetAppend}>
-                增加欄位
+            <CreateFieldLayout>
+                <span onClick={targetAppend}>增加欄位</span>
             </CreateFieldLayout>
 
             {(currEvent === 'updateTag') && <p>id: {formStorageData.id}</p>}
@@ -89,16 +94,22 @@ const TagForm = () => {
                     <Fragment key={item.id}>
                         <div className="items">
                             <FormRow
+                                className={errors?.tags?.[idx]?.name ? 'hasError' : ''}
                                 labelTitle="標籤名稱"
-                                required={true}
-                                error={(errors?.tags?.length && errors.tags[idx]?.name) && true}
+                                name={`tags.${idx}.name`}
+                                required
+                                errors={errors}
                             >
                                 <input
                                     type="text"
-                                    name="name"
-                                    control={control}
+                                    name={`tags.${idx}.name`}
                                     defaultValue={item.name}
-                                    {...register(`tags.${idx}.name`, { required: true })}
+                                    {...register(`tags.${idx}.name`, {
+                                        required: {
+                                            value: true,
+                                            message: errorMesg.error_required,
+                                        },
+                                    })}
                                 />
                             </FormRow>
 

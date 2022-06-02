@@ -2,30 +2,11 @@ import { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Modal } from 'antd';
 import { ErrorMessage } from '@hookform/error-message';
-import { ExclamationCircleOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import LightboxFormStyle from './LightboxFormStyle';
 import utilConst from '../utils/util.const';
 
-const { errorText } = utilConst;
-
-const errMesg = {
-    err_required: '此欄位為必填',
-    err_pattern: '格式有誤',
-};
-
-// 錯誤訊息
-const ErrorMesg = ({ error }) => <p className="error">{error || errorText}</p>;
-
-// 錯誤訊息: 客製化欄位
-const OtherErrorMesg = () => (
-
-    <div className="other-error-mesg">
-        <ExclamationCircleOutlined />
-        <span className="mesg">請將資料填寫完畢!!!</span>
-    </div>
-
-);
+const { errorMesg } = utilConst;
 
 const LightboxFormLayout = styled(Modal)(({ theme }) => ({
     '.ant-modal-header': {
@@ -110,7 +91,7 @@ const FormRow = ({
         <div className={`field ${noBorder ? 'noBorder' : ''} ${readonly ? 'readonly' : ''}`}>{children}</div>
 
         {
-            errors?.[name] &&
+            !!Object.entries(errors).length &&
                 <FormErrorMesg
                     name={name}
                     errors={errors}
@@ -126,8 +107,12 @@ const FormErrorMesg = ({ name, errors }) => (
     <ErrorMessage
         name={name}
         errors={errors}
-        message={errMesg[`err_${errors[name]?.type}`]}
         render={({ message }) => <p className="error-mesg">{message}</p>}
+        {
+            ...(errors?.[name]?.message === '') && {
+                message: errorMesg[`error_${errors[name]?.type}`],
+            }
+        }
     />
 
 );
@@ -166,6 +151,7 @@ FormRow.defaultProps = {
     required: false,
     noBorder: false,
     readonly: false,
+    errors: {},
 };
 
 FormRow.propTypes = {
@@ -198,6 +184,4 @@ export {
     FormRow,
     FormErrorMesg,
     FormSuccessMesg,
-    ErrorMesg,
-    OtherErrorMesg,
 };

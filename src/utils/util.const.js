@@ -4,7 +4,6 @@ const utilConst = {
     today: dayjs().format('YYYY-MM-DD'),
     sendSuccessText: '資料已成功送出。',
     emptyText: '目前沒有資料...',
-    errorText: '此欄位為必填!',
     limitSizeText: '檔案不得超過 1MB，請重新選擇!!!',
     supportFormat: '.jpg,.jpeg,.png',
     // 側邊攔
@@ -71,6 +70,11 @@ const utilConst = {
         createBanner: '新增 Banner',
         updateBanner: '編輯 Banner',
         updateLang: '更新語言',
+    },
+    // Error mesg
+    errorMesg: {
+        error_required: '此欄位為必填',
+        error_pattern: '格式有誤',
     },
     // Prompt type
     prompts: {

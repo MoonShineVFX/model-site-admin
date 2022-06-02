@@ -201,6 +201,8 @@ const BannerBase = ({ pageData }) => {
     const btnUpdate = (data) => {
 
         const {
+            activeTime,
+            inactiveTime,
             createTime,
             updateTime,
             creator,

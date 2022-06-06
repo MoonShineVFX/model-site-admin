@@ -2,7 +2,7 @@ import { Fragment, useState, useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import LightboxFormStyle from '../LightboxFormStyle';
 import Buttons from '../Buttons';
-import Rangepicker from '../Rangepicker';
+import { RangePickers } from '../DatePickers';
 import { SearchFormLayout } from './OrderLayout';
 import { GlobalContext } from '../../context/global.state';
 import utilConst from '../../utils/util.const';
@@ -22,7 +22,7 @@ const SearchForm = () => {
     const [selectedDate, setSelectedDate] = useState([today, today]); // 預設代今日
 
     // 選日期
-    const handleChangeDate = (date, dateString) => setSelectedDate(dateString);
+    const handleSelectDate = (date, dateString) => setSelectedDate(dateString);
 
     // reset
     const targetReset = () => {
@@ -103,7 +103,7 @@ const SearchForm = () => {
                 </span>
 
                 <span>
-                    <Rangepicker onChange={handleChangeDate} />
+                    <RangePickers onChange={handleSelectDate} />
                 </span>
 
                 <Buttons

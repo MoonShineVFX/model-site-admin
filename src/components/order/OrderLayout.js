@@ -4,7 +4,7 @@ import Buttons from '../../components/Buttons';
 
 // 列表搜尋
 const SearchFormLayout = styled.form(({ theme }) => ({
-    marginBottom: '30px',
+    marginBottom: '20px',
     '.input': {
         height: '34px',
         fontSize: '0.9em',
@@ -25,6 +25,15 @@ const SearchFormLayout = styled.form(({ theme }) => ({
     },
     '.admin-btn': {
         marginRight: '10px',
+    },
+}));
+
+// 匯出按鈕
+const OrderExportLayout = styled.div(({
+    marginBottom: '30px',
+    '.ant-btn.admin-btn': {
+        marginLeft: '10px',
+        marginRight: '0',
     },
 }));
 
@@ -95,6 +104,7 @@ const ProductItemLayout = styled.div(({ theme }) => ({
 
 export {
     SearchFormLayout,
+    OrderExportLayout,
     DetailWrapLayout,
     BackToLayout,
     InfoWrapLayout,

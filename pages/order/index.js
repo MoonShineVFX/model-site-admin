@@ -7,6 +7,7 @@ import Tables from '../../src/components/Tables';
 import Links from '../../src/components/Links';
 import Buttons from '../../src/components/Buttons';
 import SearchForm from '../../src/components/order/SearchForm';
+import OrderExportForm from '../../src/components/order/OrderExportForm';
 import InvoiceForm from '../../src/components/order/InvoiceForm';
 
 import { GlobalContext } from '../../src/context/global.state';
@@ -147,6 +148,7 @@ const OrderList = ({ pageData }) => {
             <HeadTag title={pageData.title} />
             <ContentHeader title={pageData.title} />
             <SearchForm />
+            <OrderExportForm />
             <Tables
                 rowKey="id"
                 columns={columns}

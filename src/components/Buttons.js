@@ -9,7 +9,7 @@ const ButtonLayout = styled(Button).attrs(() => ({
     fontSize: '15px',
     padding: '4px 24px',
     'span': {
-        letterSpacing: '-2px',
+        letterSpacing: '-1px',
     },
     '&.third': {
         backgroundColor: '#FF9900',

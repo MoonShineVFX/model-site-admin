@@ -1,5 +1,9 @@
 import util from './util';
 
+const apiHost = (process.env.NODE_ENV === 'development')
+    ? `https://${process.env.HOST}/api`
+    : `/api`;
+
 const Service = {
     // 登入
     login: ({ reqData, headers }) => util.serviceProxy('/admin_login', reqData, {
@@ -31,6 +35,7 @@ const Service = {
 
     // 訂單
     orderSearch: (reqData) => util.serviceProxy('/admin_order_search', reqData),
+    orderExport: (reqData) => `${apiHost}/xxx?${reqData}`,
 
     // 發票
     paperInvoiceUpdate: (reqData) => util.serviceProxy('/admin_order_paper_invoice_update', reqData),

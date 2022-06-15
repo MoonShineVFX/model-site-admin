@@ -62,30 +62,87 @@ const util = {
                 },
             };
 
-            axios[CONFIG().method](CONFIG().url, reqData, {
-                ...option,
-                ...(Cookies.get()?.admin_token) && { ...authHeader },
-            })
-            .then(
-                // result: 1
-                ({ data }) => {
+            // axios({
+            //     method: CONFIG().method,
+            //     url: CONFIG().url,
+            //     data: reqData,
+            //     ...option,
+            //     ...(Cookies.get()?.admin_token) && { ...authHeader },
+            // })
+            // .then(
+            //     // result: 1
+            //     ({ data }) => {
 
-                    resolve(data.data);
+            //         resolve(data.data);
 
-                },
-                // result: 0
-                ({ response }) => {
+            //     },
+            //     // result: 0
+            //     ({ response }) => {
 
-                    const {
-                        data: { errors },
-                    } = response;
+            //         const {
+            //             data: { errors },
+            //         } = response;
 
-                    reject(showErrorMesg(
-                        Object.keys(errors).map((key) => `${key}: ${errors[key]}`)
-                    ));
+            //         reject(showErrorMesg(
+            //             Object.keys(errors).map((key) => `${key}: ${errors[key]}`)
+            //         ));
 
-                },
-            )
+            //     },
+            // );
+
+            if (service.method === 'get') {
+
+                axios[service.method](CONFIG().url, { ...authHeader, responseType: 'blob' })
+                    .then(
+                        // result: 1
+                        ({ data }) => {
+
+                            resolve(data);
+
+                        },
+                        // result: 0
+                        ({ response }) => {
+
+                            const {
+                                data: { errors },
+                            } = response;
+
+                            reject(showErrorMesg(
+                                Object.keys(errors).map((key) => `${key}: ${errors[key]}`)
+                            ));
+
+                        },
+                    );
+
+            }
+            else {
+
+                axios[CONFIG().method](CONFIG().url, reqData, {
+                    ...option,
+                    ...(Cookies.get()?.admin_token) && { ...authHeader },
+                })
+                .then(
+                    // result: 1
+                    ({ data }) => {
+
+                        resolve(data.data);
+
+                    },
+                    // result: 0
+                    ({ response }) => {
+
+                        const {
+                            data: { errors },
+                        } = response;
+
+                        reject(showErrorMesg(
+                            Object.keys(errors).map((key) => `${key}: ${errors[key]}`)
+                        ));
+
+                    },
+                );
+
+            }
 
         });
 

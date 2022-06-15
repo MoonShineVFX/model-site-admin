@@ -35,7 +35,7 @@ const Service = {
 
     // 訂單
     orderSearch: (reqData) => util.serviceProxy('/admin_order_search', reqData),
-    orderExport: (reqData) => `${apiHost}/xxx?${reqData}`,
+    orderExport: (reqData) => `${apiHost}/admin_order_export?${reqData}`,
 
     // 發票
     paperInvoiceUpdate: (reqData) => util.serviceProxy('/admin_order_paper_invoice_update', reqData),

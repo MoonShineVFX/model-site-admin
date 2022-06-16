@@ -1,9 +1,4 @@
 import util from './util';
-import Cookies from 'js-cookie';
-
-const apiHost = (process.env.NODE_ENV === 'development')
-    ? `https://${process.env.HOST}/api`
-    : `/api`;
 
 const Service = {
     // 登入
@@ -36,13 +31,10 @@ const Service = {
 
     // 訂單
     orderSearch: (reqData) => util.serviceProxy('/admin_order_search', reqData),
-    // orderExport: (reqData) => util.serviceProxy('/admin_order_export', reqData, {
-    //     method: 'get',
-    //     responseType: 'blob',
-    // }),
     orderExport: (reqData) => util.serviceProxy({
         method: 'get',
         url: `/admin_order_export?${reqData}`,
+        responseType: 'blob',
     }),
 
     // 發票

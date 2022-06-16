@@ -17,41 +17,25 @@ const util = {
      */
     serviceProxy: (service, reqData = {}, option) => {
 
+        // 檢查物件或字串
+        const condi = (typeof service === 'string');
+
         // method, url 與環境設定
-        const CONFIG = () => {
+        const showErrorMesg = (message, callback) => {
 
-                let url = '';
-                let method = 'post';
+            Modal.error({
+                title: '發生錯誤',
+                content: message || '出了些狀況，請找後台管理員',
+                ...callback && {
+                    onOk: () => {
 
-                if (typeof service === 'string') url = service;
-                else {
+                        if (callback) callback();
 
-                    url = service.url;
-                    method = service.method;
-
-                }
-
-                return {
-                    url: (process.env.NODE_ENV === 'development') ? `https://${process.env.HOST}/api${url}` : `/api${url}`,
-                    method,
-                };
-
-            },
-            showErrorMesg = (message, callback) => {
-
-                Modal.error({
-                    title: '發生錯誤',
-                    content: message || '出了些狀況，請找後台管理員',
-                    ...callback && {
-                        onOk: () => {
-
-                            if (callback) callback();
-
-                        },
                     },
-                });
+                },
+            });
 
-            };
+        };
 
         // 回傳 promise
         return new Promise((resolve, reject) => {
@@ -62,87 +46,35 @@ const util = {
                 },
             };
 
-            // axios({
-            //     method: CONFIG().method,
-            //     url: CONFIG().url,
-            //     data: reqData,
-            //     ...option,
-            //     ...(Cookies.get()?.admin_token) && { ...authHeader },
-            // })
-            // .then(
-            //     // result: 1
-            //     ({ data }) => {
+            axios({
+                baseURL: (process.env.NODE_ENV === 'development') ? `https://${process.env.HOST}/api` : '/api',
+                url: service,
+                method: 'post',
+                ...condi && { data: reqData },
+                ...service,
+                ...option,
+                ...(Cookies.get()?.admin_token) && { ...authHeader },
+            })
+            .then(
+                // result: 1
+                ({ data }) => {
 
-            //         resolve(data.data);
+                    resolve(condi ? data.data : data);
 
-            //     },
-            //     // result: 0
-            //     ({ response }) => {
+                },
+                // result: 0
+                ({ response }) => {
 
-            //         const {
-            //             data: { errors },
-            //         } = response;
+                    const {
+                        data: { errors },
+                    } = response;
 
-            //         reject(showErrorMesg(
-            //             Object.keys(errors).map((key) => `${key}: ${errors[key]}`)
-            //         ));
+                    reject(showErrorMesg(
+                        Object.keys(errors).map((key) => `${key}: ${errors[key]}`)
+                    ));
 
-            //     },
-            // );
-
-            if (service.method === 'get') {
-
-                axios[service.method](CONFIG().url, { ...authHeader, responseType: 'blob' })
-                    .then(
-                        // result: 1
-                        ({ data }) => {
-
-                            resolve(data);
-
-                        },
-                        // result: 0
-                        ({ response }) => {
-
-                            const {
-                                data: { errors },
-                            } = response;
-
-                            reject(showErrorMesg(
-                                Object.keys(errors).map((key) => `${key}: ${errors[key]}`)
-                            ));
-
-                        },
-                    );
-
-            }
-            else {
-
-                axios[CONFIG().method](CONFIG().url, reqData, {
-                    ...option,
-                    ...(Cookies.get()?.admin_token) && { ...authHeader },
-                })
-                .then(
-                    // result: 1
-                    ({ data }) => {
-
-                        resolve(data.data);
-
-                    },
-                    // result: 0
-                    ({ response }) => {
-
-                        const {
-                            data: { errors },
-                        } = response;
-
-                        reject(showErrorMesg(
-                            Object.keys(errors).map((key) => `${key}: ${errors[key]}`)
-                        ));
-
-                    },
-                );
-
-            }
+                },
+            );
 
         });
 
@@ -151,7 +83,8 @@ const util = {
     serviceServer: ({ method = 'post', url, cookie }) => {
 
         return axios({
-            url: `https://${process.env.HOST}/api${url}`,
+            baseURL: `https://${process.env.HOST}/api`,
+            url,
             method,
             headers: {
                 Authorization: `Bearer ${cookie}`,

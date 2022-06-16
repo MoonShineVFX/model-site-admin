@@ -59,6 +59,9 @@ const LightboxFormStyle = createGlobalStyle`
                     border-color: ${({ theme }) => theme.palette.border};
                 }
             }
+            [readonly] {
+                cursor: not-allowed;
+            }
         }
         .ant-picker {
             width: 100%;

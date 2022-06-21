@@ -19,6 +19,11 @@ const utilConst = {
             subItems: [],
         },
         {
+            name: '會員列表',
+            pageKey: 'member',
+            subItems: [],
+        },
+        {
             name: '前台設定',
             pageKey: 'web',
             subItems: [

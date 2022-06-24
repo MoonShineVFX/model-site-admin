@@ -117,6 +117,7 @@ const AdAccountForm = () => {
                     type="text"
                     name="account"
                     {...register('account', { required: !!(currEvent === 'createAdAccount') })}
+                    {...(currEvent === 'updateAdAccount') && { readOnly: true }}
                 />
             </FormRow>
 

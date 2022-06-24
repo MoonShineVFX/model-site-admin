@@ -10,18 +10,20 @@ const OrderExportForm = () => {
     const [selectedMonth, setSelectedMonth] = useState('');
 
     // 選日期
-    const handleSelectMonth = (date, dateString) => {
-
-        console.log('dateString:', dateString);
-        setSelectedMonth(dateString);
-
-    };
+    const handleSelectMonth = (date, dateString) => setSelectedMonth(dateString);
 
     // 匯出檔案
     const handleExport = () => {
 
         const [start, end] = selectedMonth;
-        window.open(Service.orderExport(`start=${start}&end=${end}`));
+        Service.orderExport(`start=${start}&end=${end}`)
+            .then((resData) => {
+
+                const blobUrl = URL.createObjectURL(resData);
+                window.location = blobUrl;
+                URL.revokeObjectURL(blobUrl);
+
+            });
 
     };
 

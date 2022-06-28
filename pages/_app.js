@@ -1,7 +1,9 @@
 import { Fragment } from 'react';
 import { Layout } from 'antd';
-import 'antd/dist/antd.css';
 import styled, { ThemeProvider } from 'styled-components';
+import { config } from '@fortawesome/fontawesome-svg-core';
+import 'antd/dist/antd.css';
+import '@fortawesome/fontawesome-svg-core/styles.css';
 
 import HeadTag from '../src/containers/HeadTag';
 import GlobalStyle from '../src/containers/GlobalStyle';
@@ -13,6 +15,7 @@ import MainContent from '../src/containers/MainContent';
 // Context
 import { GlobalProvider } from '../src/context/global.state';
 
+config.autoAddCss = false;
 const { Content, Footer } = Layout;
 const navbarWidth = 240;
 

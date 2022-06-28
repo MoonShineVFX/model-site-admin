@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const FontIcon = ({ icon }) => (
+const FontIcon = ({ icon, ...rest }) => (
 
     <FontAwesomeIcon
         fixedWidth
         icon={icon}
+        {...rest}
     />
 
 );

@@ -49,7 +49,7 @@ const ProductForm = ({ data, service }) => {
             isActive: (reqData.isActive === 'false') ? !reqData.isActive : !!reqData.isActive,
             price: +reqData.price,
             modelSum: +reqData.modelSum,
-            tags: reqData.tags.filter((id) => id).map((id) => +id),
+            // tags: reqData.tags.filter((id) => id).map((id) => +id), // Betty: 暫時不顯示 tag
         };
 
         Service[service](reqData)

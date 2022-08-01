@@ -28,6 +28,10 @@ const PreviewImageUpload = ({ data }) => {
 
     // State
     const [imageLists, setImageLists] = useState(data?.previews || []);
+    const [fileList, setFileList] = useState([]);
+
+    // change 事件
+    const handleChange = ({ fileList }) => setFileList(fileList);
 
     // 上傳圖片
     const handleUploadData = ({ file }) => {
@@ -44,10 +48,10 @@ const PreviewImageUpload = ({ data }) => {
 
         formData.append('productId', data.id);
         formData.append('positionId', imagePosition.filter(({ key }) => key === 'preview')[0].id);
-        formData.append('file', file);
+        formData.append('packages', fileList);
 
         Service.imageUpload(formData)
-            .then((resData) => setImageLists([{ ...resData }, ...imageLists]));
+            .then(({ list }) => setImageLists(list));
 
     };
 
@@ -68,8 +72,10 @@ const PreviewImageUpload = ({ data }) => {
             <UploadFiles
                 listType="picture-card"
                 fileData={imageLists}
+                handleChange={handleChange}
                 handleUploadData={handleUploadData}
                 handleDelete={handleDelete}
+                multiple
             />
         </RowWrapLayout>
 

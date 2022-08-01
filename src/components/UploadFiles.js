@@ -143,8 +143,10 @@ const UploadFiles = ({
     listType,
     fileData,
     showPreview,
+    handleChange,
     handleUploadData,
     handleDelete,
+    multiple,
     children,
 }) => {
 
@@ -186,6 +188,8 @@ const UploadFiles = ({
                 customRequest={handleUploadData}
                 onPreview={handlePreview}
                 onRemove={handleDelete}
+                onChange={handleChange}
+                {...multiple && { multiple }}
                 {...(listType === 'picture') && {
                     itemRender: (originNode, file, currFileList, actions) => (
 
@@ -237,13 +241,14 @@ const UploadFiles = ({
 UploadFiles.defaultProps = {
     listType: 'picture',
     showPreview: false,
-    handleUploadData: () => { return; },
 };
 
 UploadFiles.propTypes = {
     listType: PropTypes.oneOf(['text', 'picture', 'picture-card']),
     fileData: PropTypes.array.isRequired,
     showPreview: PropTypes.bool,
+    multiple: PropTypes.bool,
+    handleChange: PropTypes.func,
     handleUploadData: PropTypes.func,
     handleDelete: PropTypes.func,
     children: PropTypes.any,

@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+      - release
       - dev
 
 env:
@@ -17,11 +18,11 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
-      - name: Change SERVICE_NAME if dev
-        if: github.ref == 'refs/heads/dev'
+      - name: Change SERVICE_NAME if not main
+        if: github.ref != 'refs/heads/main'
         run: |
-          echo "SERVICE_NAME=$SERVICE_NAME-dev" >> $GITHUB_ENV
-          echo "HOST=market-dev.moonshine.tw" >> $GITHUB_ENV
+          echo "SERVICE_NAME=$SERVICE_NAME-$GITHUB_REF_NAME" >> $GITHUB_ENV
+          echo "HOST=market-$GITHUB_REF_NAME.moonshine.tw" >> $GITHUB_ENV
       - name: Override next.js env
         run: |
           echo "NEXT_PUBLIC_HOST=$HOST" >> .env.local

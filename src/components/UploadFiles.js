@@ -140,10 +140,11 @@ const ListWrap = ({ file, handleClickEnlarge, handleDelete }) => (
 
 //
 const UploadFiles = ({
+    text,
     listType,
     fileData,
     showPreview,
-    handleChange,
+    beforeUpload,
     handleUploadData,
     handleDelete,
     multiple,
@@ -184,11 +185,10 @@ const UploadFiles = ({
                 listType={listType}
                 accept={supportFormat} // 限制檔案格式
                 fileList={handleFileList(fileData, imagePosition)}
-                beforeUpload={handleBeforeUpload}
+                beforeUpload={multiple ? beforeUpload : handleBeforeUpload}
                 customRequest={handleUploadData}
                 onPreview={handlePreview}
                 onRemove={handleDelete}
-                onChange={handleChange}
                 {...multiple && { multiple }}
                 {...(listType === 'picture') && {
                     itemRender: (originNode, file, currFileList, actions) => (
@@ -207,14 +207,14 @@ const UploadFiles = ({
 
                         <ButtonsLayout
                             type="default"
-                            text="選擇圖片"
+                            text={text}
                             icon={<UploadOutlined />}
                         />
 
                     ) : (
 
                         <Fragment>
-                            <PlusOutlined /> 上傳圖片
+                            <PlusOutlined /> {text}
                         </Fragment>
 
                     )
@@ -239,16 +239,17 @@ const UploadFiles = ({
 };
 
 UploadFiles.defaultProps = {
+    text: '選擇圖片',
     listType: 'picture',
     showPreview: false,
 };
 
 UploadFiles.propTypes = {
+    text: PropTypes.string,
     listType: PropTypes.oneOf(['text', 'picture', 'picture-card']),
     fileData: PropTypes.array.isRequired,
     showPreview: PropTypes.bool,
     multiple: PropTypes.bool,
-    handleChange: PropTypes.func,
     handleUploadData: PropTypes.func,
     handleDelete: PropTypes.func,
     children: PropTypes.any,

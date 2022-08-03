@@ -158,12 +158,12 @@ const util = {
      * @author Betty
      * @param {number} bytes
      * @param {number} limit
-     * @return {number}
+     * @return {boolean}
      */
     uploadFileLimit: (bytes, limit = 1) => {
 
         const k = 1024;
-        const limitSize = bytes / k / k < limit;
+        const limitSize = (bytes / k / k) < limit;
         return limitSize;
 
     },

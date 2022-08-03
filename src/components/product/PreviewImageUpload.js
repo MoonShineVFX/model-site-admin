@@ -1,10 +1,12 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { message } from 'antd';
 import { blue } from '@ant-design/colors';
 import styled from 'styled-components';
+
+import Buttons from '../Buttons';
 import UploadFiles from '../UploadFiles';
-import { GlobalContext } from '../../context/global.state';
+
 import util from '../../utils/util';
 import utilConst from '../../utils/util.const';
 import Service from '../../utils/util.service';
@@ -23,17 +25,17 @@ const RowWrapLayout = styled.div(({ theme }) => ({
 
 const PreviewImageUpload = ({ data }) => {
 
-    // Context
-    const { imagePosition } = useContext(GlobalContext);
-
     // State
+    const [loading, setLoading] = useState(false);
+    const [disabled, setDisabled] = useState(true);
     const [imageLists, setImageLists] = useState(data?.previews || []);
+    const [fileList, setFileList] = useState([]);
 
-    // 上傳圖片
-    const handleUploadData = ({ file }) => {
+    // 上傳前置
+    const handleBeforeUpload = (file, fileList) => {
 
+        let newFileList = [...fileList];
         const limitSize = uploadFileLimit(file.size);
-        const formData = new FormData();
 
         if (!limitSize) {
 
@@ -42,12 +44,38 @@ const PreviewImageUpload = ({ data }) => {
 
         }
 
-        formData.append('productId', data.id);
-        formData.append('positionId', imagePosition.filter(({ key }) => key === 'preview')[0].id);
-        formData.append('file', file);
+        // 濾掉 size 超過 1MB
+        newFileList = newFileList.filter(({ size }) => uploadFileLimit(size));
 
-        Service.imageUpload(formData)
-            .then((resData) => setImageLists([{ ...resData }, ...imageLists]));
+        setDisabled(false);
+        setFileList(newFileList);
+
+        return false;
+
+    };
+
+    // 上傳圖片
+    const handleUploadData = () => {
+
+        const formData = new FormData();
+        formData.append('productId', data.id);
+
+        for (let i = 0; i < fileList.length; i++) {
+
+            formData.append('files', fileList[i]);
+
+        }
+
+        setLoading(true);
+
+        Service.imagePreviewUpload(formData)
+            .then(({ list }) => setImageLists(list))
+            .finally(() => {
+
+                setDisabled(true);
+                setLoading(false);
+
+            });
 
     };
 
@@ -68,8 +96,16 @@ const PreviewImageUpload = ({ data }) => {
             <UploadFiles
                 listType="picture-card"
                 fileData={imageLists}
-                handleUploadData={handleUploadData}
+                beforeUpload={handleBeforeUpload}
                 handleDelete={handleDelete}
+                multiple
+            />
+
+            <Buttons
+                text={loading ? '上傳中' : '上傳'}
+                loading={loading}
+                disabled={disabled}
+                onClick={handleUploadData}
             />
         </RowWrapLayout>
 

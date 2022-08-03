@@ -32,8 +32,9 @@ const PreviewImageUpload = ({ data }) => {
     const [fileList, setFileList] = useState([]);
 
     // 上傳前置
-    const handleBeforeUpload = (file, fileList ) => {
+    const handleBeforeUpload = (file, fileList) => {
 
+        let newFileList = [...fileList];
         const limitSize = uploadFileLimit(file.size);
 
         if (!limitSize) {
@@ -43,14 +44,17 @@ const PreviewImageUpload = ({ data }) => {
 
         }
 
+        // 濾掉 size 超過 1MB
+        newFileList = newFileList.filter(({ size }) => uploadFileLimit(size));
+
         setDisabled(false);
-        setFileList(fileList);
+        setFileList(newFileList);
 
         return false;
 
     };
 
-    // 上傳圖片: 多張
+    // 上傳圖片
     const handleUploadData = () => {
 
         const formData = new FormData();
@@ -98,7 +102,7 @@ const PreviewImageUpload = ({ data }) => {
             />
 
             <Buttons
-                text={loading ? '上傳中...' : '上傳'}
+                text={loading ? '上傳中' : '上傳'}
                 loading={loading}
                 disabled={disabled}
                 onClick={handleUploadData}

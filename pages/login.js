@@ -65,7 +65,8 @@ const Login = ({ pageData }) => {
         let auth = btoa(`${reqData.account}:${reqData.password}`);
 
         Service.login({ headers: { Authorization: `Basic ${auth}`} })
-            .then(redirectTo);
+            .then(redirectTo)
+            .finally(() => setLoading(false));
 
     };
 

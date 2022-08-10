@@ -17,8 +17,14 @@ const Service = {
     productUpdate: (reqData) => util.serviceProxy('/admin_product_update', reqData),
     productDeftag: (reqData) => util.serviceProxy('/product_xltn', reqData),
 
-    // 上傳檔案 (圖片 > 編輯器用)
+    // 上傳檔案 (單張圖片)
     imageUpload: (reqData) => util.serviceProxy('/admin_image_upload', reqData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    }),
+    // 上傳檔案 (多張圖片)
+    imagePreviewUpload: (reqData) => util.serviceProxy('/admin_preview_images_upload', reqData, {
         headers: {
             'Content-Type': 'multipart/form-data',
         },

@@ -126,9 +126,10 @@ const PositionImageUpload = ({ data }) => {
 
             <form onSubmit={handleSubmit(handleReqData)}>
                 <UploadFiles
-                    showPreview
                     fileData={imageLists}
                     handleDelete={handleDelete}
+                    showPreview
+                    showWarning
                 >
                     <FormRow
                         className="img-position"

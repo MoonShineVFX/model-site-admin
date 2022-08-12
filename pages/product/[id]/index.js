@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react';
-import ActionWrap from '../../src/components/product/ActionWrap';
-import { GlobalContext } from '../../src/context/global.state';
-import util from '../../src/utils/util';
+import ActionWrap from '../../../src/components/product/ActionWrap';
+import { GlobalContext } from '../../../src/context/global.state';
+import util from '../../../src/utils/util';
 
 const ProductDetail = ({ pageData }) => {
 
@@ -53,7 +53,7 @@ export async function getServerSideProps ({ params, req }) {
     return {
         props: {
             pageData: {
-                title: '編輯商品',
+                title: data.data.title,
                 data: data.data,
             },
         },

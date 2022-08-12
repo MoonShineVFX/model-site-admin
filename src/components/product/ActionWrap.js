@@ -25,7 +25,7 @@ const ActionWrap = ({ title, data, service }) => {
         <Fragment>
             <HeadTag title={title} />
 
-            <ContentHeader title={title}>
+            <ContentHeader title="編輯商品">
                 {
                     (service === 'productUpdate') &&
                         <ButtonsLang id={data.id} />

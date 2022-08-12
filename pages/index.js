@@ -61,16 +61,16 @@ const ProductList = ({ pageData }) => {
             dataIndex: 'title',
             render: (title) => renderWithoutValue(title),
         },
-        {
-            title: '標籤',
-            dataIndex: 'tags',
-            className: 'col-tags',
-            render: (tags) => (
+        // {
+        //     title: '標籤',
+        //     dataIndex: 'tags',
+        //     className: 'col-tags',
+        //     render: (tags) => (
 
-                tags.length ? tags.map(({ id, name }) => <Tag key={id}>{name}</Tag>) : '--'
+        //         tags.length ? tags.map(({ id, name }) => <Tag key={id}>{name}</Tag>) : '--'
 
-            ),
-        },
+        //     ),
+        // },
         {
             title: '價格',
             dataIndex: 'price',
@@ -150,10 +150,17 @@ const ProductList = ({ pageData }) => {
             width: 120,
             render: ({ id }) => (
 
-                <Buttons
-                    text="編輯"
-                    onClick={() => router.push(`/product/${id}`)}
-                />
+                <Fragment>
+                    <Buttons
+                        text="編輯"
+                        onClick={() => router.push(`/product/${id}`)}
+                    />
+                    <Buttons
+                        text="模型上傳"
+                        type="default"
+                        onClick={() => router.push(`/product/${id}/model_upload`)}
+                    />
+                </Fragment>
 
             ),
         },

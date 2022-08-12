@@ -140,6 +140,7 @@ const ListWrap = ({ file, handleClickEnlarge, handleDelete }) => (
 
 //
 const UploadFiles = ({
+    showWarning,
     text,
     listType,
     fileData,
@@ -174,12 +175,15 @@ const UploadFiles = ({
     return (
 
         <Fragment>
-            <UploadFilesNoticeLayout>
-                <li className="warning-text">圖片經上傳後將取代原圖，請小心使用</li>
-                <li className="warning-text">檔名請勿重複，以免被覆寫</li>
-                <li>僅支援以下格式: {supportFormat}</li>
-                <li>檔案大小不得超過 1MB</li>
-            </UploadFilesNoticeLayout>
+            {
+                showWarning &&
+                    <UploadFilesNoticeLayout>
+                        <li className="warning-text">圖片經上傳後將取代原圖，請小心使用</li>
+                        <li className="warning-text">檔名請勿重複，以免被覆寫</li>
+                        <li>僅支援以下格式: {supportFormat}</li>
+                        <li>檔案大小不得超過 1MB</li>
+                    </UploadFilesNoticeLayout>
+            }
 
             <Upload
                 listType={listType}
@@ -239,12 +243,14 @@ const UploadFiles = ({
 };
 
 UploadFiles.defaultProps = {
+    showWarning: false,
     text: '選擇圖片',
     listType: 'picture',
     showPreview: false,
 };
 
 UploadFiles.propTypes = {
+    showWarning: PropTypes.bool,
     text: PropTypes.string,
     listType: PropTypes.oneOf(['text', 'picture', 'picture-card']),
     fileData: PropTypes.array.isRequired,

@@ -21,7 +21,7 @@ const ModelUpload = ({ pageData }) => {
 
         <Fragment>
             <HeadTag title={pageData.title} />
-            <ContentHeader title={pageData.data.productName} />
+            <ContentHeader title="模型上傳" />
 
             <ModelUploadForm data={pageData.data} />
         </Fragment>
@@ -46,43 +46,21 @@ export async function getServerSideProps ({ params, req }) {
 
     }
 
-    // 取得商品名稱
-    const product = await util.serviceServer({
+    // 取得軟體格式與算圖引擎
+    const resData = await util.serviceServer({
         method: 'get',
-        url: `/admin_products/${params.id}`,
+        url: `/admin_products/${params.id}/models`,
         cookie: req.cookies.admin_token,
     });
 
-    // 取得軟體格式與算圖引擎
-    // const resData = await util.serviceServer({
-    //     url: `/admin_products/${params.id}`,
-    //     cookie: req.cookies.admin_token,
-    // });
-
-    const fake = {
-        "format": [
-            {
-                "id": 111,
-                "name": "FBX"
-            }
-        ],
-        "renderer": [
-            {
-                "id": 22,
-                "name": "Vray"
-            }
-        ]
-    }
+    const { data } = resData;
+    const { title, ...rest } = data.data;
 
     return {
         props: {
             pageData: {
-                title: '模型上傳',
-                data: {
-                    productName: product.data.data.title,
-                    ...fake,
-                    // ...resData.data,
-                },
+                title: `[上傳]${title}`,
+                data: rest,
             },
         },
     };

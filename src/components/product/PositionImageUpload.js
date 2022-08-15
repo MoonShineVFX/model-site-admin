@@ -130,6 +130,7 @@ const PositionImageUpload = ({ data }) => {
                     handleDelete={handleDelete}
                     showPreview
                     showWarning
+                    showPosition
                 >
                     <FormRow
                         className="img-position"

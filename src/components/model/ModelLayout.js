@@ -16,6 +16,9 @@ const RowWrapLayout = styled.div({
             margin: '0 5px',
         },
     },
+    '.ant-upload-list': {
+        marginTop: '40px',
+    },
 });
 
 /** Warning Mesg */

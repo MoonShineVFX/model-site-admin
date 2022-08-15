@@ -13,7 +13,13 @@ import { GlobalContext } from '../../context/global.state';
 import utilConst from '../../utils/util.const';
 import Service from '../../utils/util.service';
 
-const ModelUploadForm = ({ data }) => {
+const ModelUploadForm = ({
+    data: {
+        formats,
+        renderers,
+        models,
+    },
+}) => {
 
     // Router
     const router = useRouter();
@@ -22,7 +28,7 @@ const ModelUploadForm = ({ data }) => {
     // const { currEvent } = useContext(GlobalContext);
 
     // State
-    const [list, setList] = useState(data?.list || []);
+    const [list, setList] = useState(models || []);
 
     // React Hook Form
     const {
@@ -82,6 +88,7 @@ const ModelUploadForm = ({ data }) => {
                 <form onSubmit={handleSubmit(handleReqData)}>
                     <UploadFiles
                         text="選擇檔案"
+                        listType="text"
                         fileData={list}
                         handleDelete={handleDelete}
                     >
@@ -99,17 +106,16 @@ const ModelUploadForm = ({ data }) => {
                             >
                                 <option value="">請選擇</option>
                                 {
-                                    // imagePosition.map(({ id, key, name }) => (
+                                    formats.map(({ id, name }) => (
 
-                                    //     (key !== 'preview') &&
-                                    //         <option
-                                    //             key={id}
-                                    //             value={id}
-                                    //         >
-                                    //             {`${name} (${mappingSize[key]})`}
-                                    //         </option>
+                                        <option
+                                            key={id}
+                                            value={id}
+                                        >
+                                            [{id}] {name}
+                                        </option>
 
-                                    // ))
+                                    ))
                                 }
                             </select>
                         </FormRow>
@@ -128,17 +134,16 @@ const ModelUploadForm = ({ data }) => {
                             >
                                 <option value="">請選擇</option>
                                 {
-                                    // imagePosition.map(({ id, key, name }) => (
+                                    renderers.map(({ id, name }) => (
 
-                                    //     (key !== 'preview') &&
-                                    //         <option
-                                    //             key={id}
-                                    //             value={id}
-                                    //         >
-                                    //             {`${name} (${mappingSize[key]})`}
-                                    //         </option>
+                                        <option
+                                            key={id}
+                                            value={id}
+                                        >
+                                            [{id}] {name}
+                                        </option>
 
-                                    // ))
+                                    ))
                                 }
                             </select>
                         </FormRow>

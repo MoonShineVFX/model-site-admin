@@ -105,7 +105,12 @@ const ListWrapLayout = styled.div(({ theme }) => ({
 }));
 
 //
-const ListWrap = ({ file, handleClickEnlarge, handleDelete }) => (
+const ListWrap = ({
+    showPosition,
+    file,
+    handleClickEnlarge,
+    handleDelete,
+}) => (
 
     <ListWrapLayout>
         <div className="btnDelete">
@@ -130,10 +135,13 @@ const ListWrap = ({ file, handleClickEnlarge, handleDelete }) => (
                 <div className="size">檔案大小: {renderBytesConvert(file.size)}</div>
             </span>
         </div>
-        <div>
-            前台顯示位置:
-            <p>{file.position}</p>
-        </div>
+        {
+            showPosition &&
+                <div>
+                    前台顯示位置:
+                    <p>{file.position}</p>
+                </div>
+        }
     </ListWrapLayout>
 
 );
@@ -149,6 +157,7 @@ const UploadFiles = ({
     handleUploadData,
     handleDelete,
     multiple,
+    showPosition,
     children,
 }) => {
 
@@ -201,6 +210,7 @@ const UploadFiles = ({
                             file={file}
                             handleClickEnlarge={() => actions.preview()}
                             handleDelete={() => handleDelete(file)}
+                            showPosition={showPosition}
                         />
 
                     )
@@ -247,6 +257,7 @@ UploadFiles.defaultProps = {
     text: '選擇圖片',
     listType: 'picture',
     showPreview: false,
+    showPosition: false,
 };
 
 UploadFiles.propTypes = {
@@ -255,6 +266,7 @@ UploadFiles.propTypes = {
     listType: PropTypes.oneOf(['text', 'picture', 'picture-card']),
     fileData: PropTypes.array.isRequired,
     showPreview: PropTypes.bool,
+    showPosition: PropTypes.bool,
     multiple: PropTypes.bool,
     handleUploadData: PropTypes.func,
     handleDelete: PropTypes.func,

@@ -30,7 +30,57 @@ const WarningLayout = styled(Alert)({
     },
 });
 
+// 上傳檔案列表
+const ItemWrapLayout = styled.div(({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: '12px',
+    '> *': {
+        flex: '1',
+    },
+    '.fileWrap': {
+        maxWidth: '460px',
+        fontSize: '16px',
+        border: '1px solid #d9d9d9',
+        display: 'flex',
+        alignItems: 'center',
+        padding: '8px',
+        transition: 'all 0.5s ease',
+        '&:hover': {
+            backgroundColor: '#F0F2F5',
+            cursor: 'default',
+        },
+    },
+    '.fileAttach': {
+        fontSize: '14px',
+    },
+    '.fileInfo': {
+        lineHeight: '1.4',
+        flex: '1',
+        padding: '0 8px',
+    },
+    '.small-info': {
+        fontSize: '13px',
+        color: 'grey',
+    },
+    '.btn-delete': {
+        fontSize: '18px',
+        color: 'grey',
+        padding: '8px 4px',
+        cursor: 'pointer',
+    },
+    '.fileLogs': {
+        color: 'grey',
+        marginLeft: '20px',
+    },
+    '.creator': {
+        fontStyle: 'italic',
+        textDecoration: 'underline',
+    },
+}));
+
 export {
     RowWrapLayout,
     WarningLayout,
+    ItemWrapLayout,
 };

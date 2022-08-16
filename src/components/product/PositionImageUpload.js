@@ -131,6 +131,7 @@ const PositionImageUpload = ({ data }) => {
                     showPreview
                     showWarning
                     showPosition
+                    isImage
                 >
                     <FormRow
                         className="img-position"

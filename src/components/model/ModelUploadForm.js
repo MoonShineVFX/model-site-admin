@@ -1,17 +1,81 @@
-import { Fragment, useContext, useState } from 'react';
+import { Fragment, useState } from 'react';
 import { useRouter } from 'next/router';
-import { Alert } from 'antd';
 import { useForm } from 'react-hook-form';
+import { faPaperclip } from '@fortawesome/free-solid-svg-icons';
+import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
 
 import LightboxFormStyle from '../LightboxFormStyle';
-import { RowWrapLayout, WarningLayout } from './ModelLayout';
+import { RowWrapLayout, WarningLayout, ItemWrapLayout } from './ModelLayout';
 import Buttons from '../Buttons';
+import FontIcon from '../FontIcon';
 import { FormRow } from '../LightboxForm';
 import UploadFiles from '../UploadFiles';
 
-import { GlobalContext } from '../../context/global.state';
+import util from '../../utils/util';
 import utilConst from '../../utils/util.const';
 import Service from '../../utils/util.service';
+
+const { renderBytesConvert, renderDateTime } = util;
+
+// 整理成 antd 格式
+const arrangeFileList = (data) => data.reduce((acc, {
+    id,
+    size,
+    filename,
+    ...rest
+}) => {
+
+    const obj = {
+        uid: id,
+        size,
+        name: filename,
+        ...rest,
+    };
+
+    acc.push(obj);
+    return acc;
+
+}, []);
+
+const ItemWrap = ({
+    file: {
+        uid,
+        name,
+        size,
+        creator,
+        createTime,
+        canDelete,
+    },
+    handleDelete,
+}) => (
+
+    <ItemWrapLayout>
+        <div className="fileWrap">
+            <div className="row-file fileAttach">
+                <FontIcon icon={faPaperclip} />
+            </div>
+            <div className="row-file fileInfo">
+                <div className="name">{name}</div>
+                <div className="small-info">檔案大小: {renderBytesConvert(size)}</div>
+            </div>
+            <div className="row-file">
+                {
+                    canDelete &&
+                        <span
+                            className="btn-delete"
+                            onClick={() => handleDelete(uid)}
+                        >
+                            <FontIcon icon={faTrashCan}/>
+                        </span>
+                }
+            </div>
+        </div>
+        <div className="fileLogs">
+            由 <span className="creator">{creator}</span> 於 {renderDateTime(createTime)} 上傳
+        </div>
+    </ItemWrapLayout>
+
+);
 
 const ModelUploadForm = ({
     data: {
@@ -23,9 +87,6 @@ const ModelUploadForm = ({
 
     // Router
     const router = useRouter();
-
-    // Context
-    // const { currEvent } = useContext(GlobalContext);
 
     // State
     const [list, setList] = useState(models || []);
@@ -63,9 +124,9 @@ const ModelUploadForm = ({
     };
 
     // 刪除檔案
-    const handleDelete = () => {
+    const handleDelete = (id) => {
 
-        console.log('delete');
+        console.log('delete', id);
 
     };
 
@@ -88,9 +149,15 @@ const ModelUploadForm = ({
                 <form onSubmit={handleSubmit(handleReqData)}>
                     <UploadFiles
                         text="選擇檔案"
-                        listType="text"
-                        fileData={list}
-                        handleDelete={handleDelete}
+                        fileList={arrangeFileList(list)}
+                        itemRender={(originNode, file) => (
+
+                            <ItemWrap
+                                file={file}
+                                handleDelete={handleDelete}
+                            />
+
+                        )}
                     >
                         <FormRow
                             className="row-format"

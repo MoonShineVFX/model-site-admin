@@ -3,11 +3,11 @@ import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 
 import LightboxFormStyle from '../LightboxFormStyle';
+import { FormWrapLayout } from './ProductLayout';
 import Buttons from '../Buttons';
 import Prompt from '../Prompt';
 import { FormRow } from '../LightboxForm';
 import Checkbox from '../Checkbox';
-import { FormWrap } from './ProductLayout';
 
 import { GlobalContext } from '../../context/global.state';
 import utilConst from '../../utils/util.const';
@@ -77,7 +77,7 @@ const ProductForm = ({ data, service }) => {
         <Fragment>
             <LightboxFormStyle />
 
-            <FormWrap onSubmit={handleSubmit(handleReqData)}>
+            <FormWrapLayout onSubmit={handleSubmit(handleReqData)}>
                 {(currEvent === 'updateProduct') && <p>id: {data.id}</p>}
 
                 <div className="items">
@@ -225,7 +225,7 @@ const ProductForm = ({ data, service }) => {
                         htmlType="submit"
                     />
                 </div>
-            </FormWrap>
+            </FormWrapLayout>
         </Fragment>
 
     );

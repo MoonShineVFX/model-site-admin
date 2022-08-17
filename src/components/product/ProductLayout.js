@@ -12,7 +12,7 @@ const DetailWrapLayout = styled(Row)(({ theme }) => ({
 }));
 
 /** Product Form */
-const FormWrap = styled.form({
+const FormWrapLayout = styled.form({
     '.items': {
         display: 'flex',
         '.row': {
@@ -90,7 +90,7 @@ const ImagesWrapLayout = styled.div({
 
 export {
     DetailWrapLayout,
-    FormWrap,
+    FormWrapLayout,
     PlaceOtherFormWrapLayout,
     ImagesWrapLayout,
 };

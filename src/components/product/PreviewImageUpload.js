@@ -99,6 +99,8 @@ const PreviewImageUpload = ({ data }) => {
                 beforeUpload={handleBeforeUpload}
                 handleDelete={handleDelete}
                 multiple
+                showWarning
+                isImage
             />
 
             <Buttons

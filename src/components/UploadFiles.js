@@ -2,7 +2,7 @@ import React, { Fragment, useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Upload } from 'antd';
 import { UploadOutlined, PlusOutlined } from '@ant-design/icons';
-import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import { red } from '@ant-design/colors';
 import styled from 'styled-components';
 
@@ -16,7 +16,7 @@ const { renderBytesConvert } = util;
 const { supportFormat } = utilConst;
 
 // 整理成 Ant Design 的格式
-const handleFileList = (files, array) => files.reduce((arr, { id, url, name, size, positionId }) => {
+const arrangeFileList = (files, array) => files.reduce((arr, { id, url, name, size, positionId }) => {
 
     let config = array.filter(({ id }) => id === positionId)[0];
     const obj = {
@@ -105,11 +105,16 @@ const ListWrapLayout = styled.div(({ theme }) => ({
 }));
 
 //
-const ListWrap = ({ file, handleClickEnlarge, handleDelete }) => (
+const ListWrap = ({
+    showPosition,
+    file,
+    handleClickEnlarge,
+    handleDelete,
+}) => (
 
     <ListWrapLayout>
         <div className="btnDelete">
-            <span onClick={handleDelete}><FontIcon icon={faTrashAlt} /></span>
+            <span onClick={handleDelete}><FontIcon icon={faTrashCan} /></span>
         </div>
         <div
             className="imgWrap"
@@ -130,25 +135,34 @@ const ListWrap = ({ file, handleClickEnlarge, handleDelete }) => (
                 <div className="size">檔案大小: {renderBytesConvert(file.size)}</div>
             </span>
         </div>
-        <div>
-            前台顯示位置:
-            <p>{file.position}</p>
-        </div>
+        {
+            showPosition &&
+                <div>
+                    前台顯示位置:
+                    <p>{file.position}</p>
+                </div>
+        }
     </ListWrapLayout>
 
 );
 
 //
 const UploadFiles = ({
+    showWarning,
     text,
     listType,
+    fileList, // Betty: 之後需要調整
     fileData,
+    isImage,
     showPreview,
     beforeUpload,
     handleUploadData,
     handleDelete,
+    itemRender,
     multiple,
+    showPosition,
     children,
+    ...rest
 }) => {
 
     // Context
@@ -174,33 +188,38 @@ const UploadFiles = ({
     return (
 
         <Fragment>
-            <UploadFilesNoticeLayout>
-                <li className="warning-text">圖片經上傳後將取代原圖，請小心使用</li>
-                <li className="warning-text">檔名請勿重複，以免被覆寫</li>
-                <li>僅支援以下格式: {supportFormat}</li>
-                <li>檔案大小不得超過 1MB</li>
-            </UploadFilesNoticeLayout>
+            {
+                showWarning &&
+                    <UploadFilesNoticeLayout>
+                        <li className="warning-text">圖片經上傳後將取代原圖，請小心使用</li>
+                        <li className="warning-text">檔名請勿重複，以免被覆寫</li>
+                        <li>僅支援以下格式: {supportFormat}</li>
+                        <li>檔案大小不得超過 1MB</li>
+                    </UploadFilesNoticeLayout>
+            }
 
             <Upload
                 listType={listType}
-                accept={supportFormat} // 限制檔案格式
-                fileList={handleFileList(fileData, imagePosition)}
+                accept={isImage ? supportFormat : ''} // 圖片限制檔案格式
+                fileList={fileList ? fileList : arrangeFileList(fileData, imagePosition)}
                 beforeUpload={multiple ? beforeUpload : handleBeforeUpload}
                 customRequest={handleUploadData}
                 onPreview={handlePreview}
                 onRemove={handleDelete}
                 {...multiple && { multiple }}
                 {...(listType === 'picture') && {
-                    itemRender: (originNode, file, currFileList, actions) => (
+                    itemRender: itemRender ? itemRender : (originNode, file, currFileList, actions) => (
 
                         <ListWrap
                             file={file}
                             handleClickEnlarge={() => actions.preview()}
                             handleDelete={() => handleDelete(file)}
+                            showPosition={showPosition}
                         />
 
                     )
                 }}
+                {...rest}
             >
                 {
                     (listType === 'picture') ? (
@@ -239,16 +258,23 @@ const UploadFiles = ({
 };
 
 UploadFiles.defaultProps = {
+    showWarning: false,
     text: '選擇圖片',
     listType: 'picture',
     showPreview: false,
+    showPosition: false,
+    isImage: false,
 };
 
 UploadFiles.propTypes = {
+    showWarning: PropTypes.bool,
     text: PropTypes.string,
     listType: PropTypes.oneOf(['text', 'picture', 'picture-card']),
-    fileData: PropTypes.array.isRequired,
+    fileList: PropTypes.array,
+    fileData: PropTypes.array,
     showPreview: PropTypes.bool,
+    showPosition: PropTypes.bool,
+    isImage: PropTypes.bool,
     multiple: PropTypes.bool,
     handleUploadData: PropTypes.func,
     handleDelete: PropTypes.func,

@@ -1,8 +1,10 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useContext, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
+import { message } from 'antd';
 import { faPaperclip } from '@fortawesome/free-solid-svg-icons';
 import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
+import axios from 'axios';
 
 import LightboxFormStyle from '../LightboxFormStyle';
 import { RowWrapLayout, WarningLayout, ItemWrapLayout } from './ModelLayout';
@@ -11,8 +13,8 @@ import FontIcon from '../FontIcon';
 import { FormRow } from '../LightboxForm';
 import UploadFiles from '../UploadFiles';
 
+import { GlobalContext } from '../../context/global.state';
 import util from '../../utils/util';
-import utilConst from '../../utils/util.const';
 import Service from '../../utils/util.service';
 
 const { renderBytesConvert, renderDateTime } = util;
@@ -88,6 +90,9 @@ const ModelUploadForm = ({
     // Router
     const router = useRouter();
 
+    // Context
+    const { formStorageData, formStorageDispatch } = useContext(GlobalContext);
+
     // State
     const [list, setList] = useState(models || []);
 
@@ -96,37 +101,59 @@ const ModelUploadForm = ({
         handleSubmit,
         register,
         formState: { errors },
+        reset,
     } = useForm();
-
-    // 送資料
-    const handleReqData = (reqData) => {
-
-        console.log('reqData:', reqData)
-
-        // Service[service](reqData)
-        //     .then(() => {
-
-        //         Prompt('success', {
-        //             callback: () => {
-
-        //                 if (service === 'productCreate') router.push('/');
-        //                 else {
-
-        //                     if (window.confirm('編輯成功，是否導回列表頁?!')) router.push('/');
-
-        //                 }
-
-        //             },
-        //         });
-
-        //     });
-
-    };
 
     // 刪除檔案
     const handleDelete = (id) => {
 
         console.log('delete', id);
+
+    };
+
+    // 清除與還原
+    const resetForm = () => {
+
+        reset({
+            formatId: '',
+            rendererId: '',
+        });
+        formStorageDispatch({ type: 'CLEAR' });
+
+    };
+
+    // 送資料
+    const handleReqData = (reqData) => {
+
+        reqData = {
+            ...reqData,
+            productId: +router.query.id,
+            formatId: +reqData.formatId,
+            rendererId: +reqData.rendererId,
+            size: formStorageData.selectedFile.size,
+            filename: formStorageData.selectedFile.name,
+        };
+
+        Service.modelUploadUri(reqData)
+            .then(async ({ sessionUri }) => {
+
+                // 向 google cloud storage 上傳檔案
+                await axios({
+                    method: 'put',
+                    url: sessionUri,
+                    data: formStorageData.selectedFile,
+                })
+                .finally(() => message.success('上傳成功'));
+
+                await Service.modelList(+router.query.id)
+                        .then(({ models }) => {
+
+                            setList(models);
+                            resetForm();
+
+                        });
+
+            });
 
     };
 
@@ -140,9 +167,10 @@ const ModelUploadForm = ({
                     className="notice"
                     type="warning"
                     message={
-                        <Fragment>
-                            根據 Google Storage 機制，每個檔案至少有<span className="warning-text"> "兩天" 的保護期</span> ，期間內無法刪除。
-                        </Fragment>
+                        <ul>
+                            <li>根據 Google Storage 機制，每個檔案至少有<span className="warning-text"> "兩天" 的保護期</span> ，期間內無法刪除。</li>
+                            <li>檔名請勿使用特殊符號，僅允許底線 "_"。</li>
+                        </ul>
                     }
                 />
 

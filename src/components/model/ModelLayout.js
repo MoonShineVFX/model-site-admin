@@ -25,6 +25,9 @@ const RowWrapLayout = styled.div({
 const WarningLayout = styled(Alert)({
     fontSize: '16px',
     margin: '20px 0',
+    'ul': {
+        marginBottom: '0',
+    },
     '.warning-text': {
         fontWeight: 'bold',
     },

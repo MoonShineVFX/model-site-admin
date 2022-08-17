@@ -31,6 +31,13 @@ const Service = {
     }),
     imageDelete: (reqData) => util.serviceProxy('/admin_image_delete', reqData),
 
+    // 上傳模型
+    modelList: (reqData) => util.serviceProxy({
+        method: 'get',
+        url: `/admin_products/${reqData}/models`,
+    }),
+    modelUploadUri: (reqData) => util.serviceProxy('/admin_model_upload_uri', reqData),
+
     // 標籤管理
     tagCreate: (reqData) => util.serviceProxy('/admin_tag_create', reqData),
     tagUpdate: (reqData) => util.serviceProxy('/admin_tag_update', reqData),

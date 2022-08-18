@@ -19,6 +19,15 @@ const RowWrapLayout = styled.div({
     '.ant-upload-list': {
         marginTop: '40px',
     },
+    '.count': {
+        fontSize: '15px',
+        marginBottom: '10px',
+    },
+    '.ant-upload-list-picture-container:not(:first-child)': {
+        '.count': {
+            display: 'none',
+        },
+    },
 });
 
 /** Warning Mesg */

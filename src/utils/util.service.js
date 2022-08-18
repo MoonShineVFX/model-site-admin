@@ -37,6 +37,7 @@ const Service = {
         url: `/admin_products/${reqData}/models`,
     }),
     modelUploadUri: (reqData) => util.serviceProxy('/admin_model_upload_uri', reqData),
+    modelDelete: (reqData) => util.serviceProxy('/admin_model_delete', reqData),
 
     // 標籤管理
     tagCreate: (reqData) => util.serviceProxy('/admin_tag_create', reqData),

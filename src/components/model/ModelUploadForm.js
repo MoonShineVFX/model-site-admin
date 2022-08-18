@@ -107,7 +107,13 @@ const ModelUploadForm = ({
     // 刪除檔案
     const handleDelete = (id) => {
 
-        console.log('delete', id);
+        Service.modelDelete({ id })
+            .then(() => {
+
+                setList(list.filter((obj) => obj.id !== id));
+                message.success('已刪除');
+
+            });
 
     };
 
@@ -168,8 +174,9 @@ const ModelUploadForm = ({
                     type="warning"
                     message={
                         <ul>
-                            <li>根據 Google Storage 機制，每個檔案至少有<span className="warning-text"> "兩天" 的保護期</span> ，期間內無法刪除。</li>
-                            <li>檔名請勿使用特殊符號，僅允許底線 "_"。</li>
+                            <li>根據 Google Storage 機制，每個檔案至少有<span className="warning-text"> "兩天" 的保護期</span> ，期間內無法刪除</li>
+                            <li>檔名請勿使用特殊符號，僅允許底線 "_"</li>
+                            <li>因上傳大檔案需花費較久時間，上傳期間請勿離開此頁面或重整頁面，以免造成上傳失敗</li>
                         </ul>
                     }
                 />
@@ -180,10 +187,14 @@ const ModelUploadForm = ({
                         fileList={arrangeFileList(list)}
                         itemRender={(originNode, file) => (
 
-                            <ItemWrap
-                                file={file}
-                                handleDelete={handleDelete}
-                            />
+                            <Fragment>
+                                <div className="count">共 {list.length} 包模型</div>
+
+                                <ItemWrap
+                                    file={file}
+                                    handleDelete={handleDelete}
+                                />
+                            </Fragment>
 
                         )}
                     >

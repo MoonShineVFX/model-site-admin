@@ -152,7 +152,7 @@ const ModelUploadForm = ({
                 .finally(() => message.success('上傳成功'));
 
                 await Service.modelList(+router.query.id)
-                        .then(({ models }) => {
+                        .then(({ data: { models } }) => {
 
                             setList(models);
                             resetForm();

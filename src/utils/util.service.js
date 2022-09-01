@@ -5,6 +5,7 @@ const Service = {
     login: ({ reqData, headers }) => util.serviceProxy('/admin_login', reqData, {
         headers: { ...headers },
     }),
+    logout: (reqData) => util.serviceProxy('/admin_logout', reqData),
 
     // common
     common: (reqData) => util.serviceProxy('/admin_common', reqData),

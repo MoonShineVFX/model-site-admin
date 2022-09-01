@@ -1,11 +1,11 @@
 import { useContext } from 'react';
 import { Layout } from 'antd';
-import Cookies from 'js-cookie';
 import styled from 'styled-components';
 import { faUserShield, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import FontIcon from '../components/FontIcon';
 import { GlobalContext } from '../context/global.state';
 import util from '../utils/util';
+import Service from '../utils/util.service';
 
 const { Header } = Layout;
 const { redirectTo } = util;
@@ -39,8 +39,13 @@ const MainHeader = () => {
 
     const handleLogout = () => {
 
-        Cookies.remove('admin_token');
-        redirectTo();
+        Service.logout()
+            .then(() => {
+
+                alert('你將被登出');
+                redirectTo();
+
+            });
 
     };
 

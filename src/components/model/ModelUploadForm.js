@@ -116,7 +116,7 @@ const ModelUploadForm = ({
             .then(() => {
 
                 setList(list.filter((obj) => obj.id !== id));
-                message.success('已刪除');
+                alert('已刪除');
 
             });
 

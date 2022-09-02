@@ -1,7 +1,7 @@
 import { Fragment, useContext, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
-import { message } from 'antd';
+import { Tooltip } from 'antd';
 import { faPaperclip } from '@fortawesome/free-solid-svg-icons';
 import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import axios from 'axios';
@@ -44,6 +44,8 @@ const ItemWrap = ({
         uid,
         name,
         size,
+        formatName,
+        rendererName,
         creator,
         createTime,
         canDelete,
@@ -73,6 +75,9 @@ const ItemWrap = ({
             </div>
         </div>
         <div className="fileLogs">
+            <div className="opts">
+                <Tooltip title="軟體格式">{formatName}</Tooltip> / <Tooltip title="算圖引擎">{rendererName}</Tooltip>
+            </div>
             由 <span className="creator">{creator}</span> 於 {renderDateTime(createTime)} 上傳
         </div>
     </ItemWrapLayout>
@@ -149,7 +154,7 @@ const ModelUploadForm = ({
                     url: sessionUri,
                     data: formStorageData.selectedFile,
                 })
-                .finally(() => message.success('上傳成功'));
+                .finally(() => alert('上傳成功'));
 
                 await Service.modelList(+router.query.id)
                         .then(({ data: { models } }) => {
